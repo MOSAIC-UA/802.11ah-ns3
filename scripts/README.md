@@ -35,11 +35,13 @@ The parameters include:
   --UdpInterval:        Traffic mode, station send one packet every UdpInterval seconds.  
   --Nsta:               Number of total stations.  
   --rho:                Maximal distance between AP and stations.   
+  --file:               Path of files containing reslut information.        
+  --pcapfile:           Pcap file path.     
 
   
 3) Example of use
 
-./waf --run "scratch/s1g-mac-test --NRawSta=60 --NGroup=1 --SlotFormat=1 --NRawSlotCount=412 --NRawSlotNum=2 --DataMode="OfdmRate650KbpsBW2MHz" --datarate=0.65 --bandWidth=2 --rho="100" --simulationTime=60 --UdpInterval=0.1 --Nsta=60 --rho="50" "
+./waf --run "scratch/s1g-mac-test --NRawSta=60 --NGroup=1 --SlotFormat=1 --NRawSlotCount=412 --NRawSlotNum=2 --DataMode="OfdmRate650KbpsBW2MHz" --datarate=0.65 --bandWidth=2 --rho="100" --simulationTime=60 --UdpInterval=0.1 --Nsta=60 --rho="50" --file="./TestMac/mac-sta.txt"  --pcapfile="./TestMac/mac-sta" "
 
   
 
