@@ -28,6 +28,7 @@ The parameters include:
   --DataMode:           Data mode.  
   --datarate:           Data rate of data mode.  
   --bandWidth:          BandWidth of data mode.  
+    Note: Relation between above 3 parameters and MCS is described in file MCStoWifiMode.               
   Other parameters:  
   --SimulationTime:     Simulatiom time in seconds after all stations get associated with AP.  
   --BeaconInterval:     Beacon interval time in us.    
