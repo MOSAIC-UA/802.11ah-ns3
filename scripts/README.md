@@ -9,24 +9,30 @@ Users can use file "s1g-mac-test.cc" to simulate RAW feature of 802.11ah with di
 The parameters include:
   RAW related parameters:
   --NRawSta:            Number of stations supporting RAW.
-  --SlotFormat:         Format of RAW slot count, details is on file ...
-  --NRawSlotCount:      Used to calculate number of RAW slot duration, details of calculating RAW slot duration is on file ....
+  --NGroup:             Number of RAW groups.
   --NRawSlotNum:        Number of slots per RAW group.
-  --NGruop:             Number of RAW groups.
+  --SlotFormat:         Format of RAW slot count.
+  --NRawSlotCount:      Used to calculate number of RAW slot duration.
+    Note:  
+      1. NGroup, stations are dividen evenly among each RAW groups
+      2. RAW slot duration = 500 us + NRawSlotCount * 120 us, NRawSlotCount is y = 11(8) bits length when SlotFormat is set to
+1(0), and NRawSlotNum is (14 - y) bits length.
+  
   Wifi mode parameters:
   --DataMode:           Data mode. 
   --datarate:           Data rate of data mode.
   --bandWidth:          BandWidth of data mode.
-  Topology paramters:
-  --rho:                Maximal distance between AP and stations.
-  --APpos:              AP node location.
-  --APpositon:          Ap node location.
   Other parameters:
   --SimulationTime:     Simulatiom time in seconds after all stations get associated with AP.
-  --Nsts:               Number of total stations.
   --BeaconInterval:     Beacon interval time in us.
   --UdpInterval:        Traffic mode, station send one packet every UdpInterval seconds. 
+  --Nsta:               Number of total stations.
+  --rho:                Maximal distance between AP and stations.
+
   
+3) Example of use
+
+./waf --run "scratch/s1g-mac-test  --NRawSta=16 --NGruop=1 --SlotFormat=1 --NRawSlotCount=412 --NRawSlotNum=2 --DataMode="OfdmRate650KbpsBW2MHz" --datarate=0.65 --bandWidth=2 --rho="100" --SimulationTime=10 --UdpInterval=0.1 --Nsta=16 --rho="100"
 
   
 
