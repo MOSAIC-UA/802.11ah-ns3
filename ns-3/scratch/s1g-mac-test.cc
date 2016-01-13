@@ -204,7 +204,7 @@ void CheckAssoc (uint32_t Nsta, double simulationTime, NodeContainer wifiApNode,
           }
         AppStartTime=Simulator::Now ().GetSeconds () + 1; //clientApp start time
         Simulator::Schedule(Seconds (simulationTime+1), &GetQueuelen, Nsta); //check before simulation stop
-        //Simulator::Stop (Seconds (31)); //set stop time until no packet in queue
+        //Simulator::Stop (Seconds (simulationTime+1)); //set stop time until no packet in queue
       }
     else
       {
