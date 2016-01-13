@@ -27,28 +27,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctime>
-
 #include <fstream>
 #include <sys/stat.h>
-
-/*
- * station randomly distributed, phy included
- */
-
-
-//This is a simple example of an IEEE 802.11n Wi-Fi network.
-//
-//Network topology:
-//
-//  Wifi 192.168.1.0
-//
-//         AP
-//    *    *
-//    |    |
-//    n1   n2
-//
-//Packets in this simulation aren't marked with a QosTag so they are considered
-//belonging to BestEffort Access Class (AC_BE).
 
 using namespace std;
 using namespace ns3;
