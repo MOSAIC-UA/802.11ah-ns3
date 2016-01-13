@@ -1,1 +1,31 @@
+The MCS of IEEE 802.11ah is defined as WifiMode,the relationship between MCS and WifiMode is defined as follows, same information 
+can also be found in file "ns-3/src/mode/wifi-phy.cc". There are more details about MCS in IEEE 802.11ah draft.
 
+BandWidth = 1 Mhz
+MCS      WifiMode 
+0        OfdmRate300KbpsBW1MHz
+1        OfdmRate600KbpsBW1MHz
+2        OfdmRate900KbpsBW1MHz
+3        OfdmRate1_2MbpsBW1MHz
+4        OfdmRate1_8MbpsBW1MHz
+5        OfdmRate2_4MbpsBW1MHz
+6        OfdmRate2_7MbpsBW1MHz
+7        OfdmRate3MbpsBW1MHz
+8        OfdmRate3_6MbpsBW1MHz
+9        OfdmRate4MbpsBW1MHz
+10       OfdmRate150KbpsBW1MHz
+
+BandWidth = 2 Mhz
+MCS      WifiMode 
+0        OfdmRate650KbpsBW2MHz
+1        OfdmRate1_3MbpsBW2MHz
+2        OfdmRate1_95MbpsBW2MHz
+3        OfdmRate2_6MbpsBW2MHz
+4        OfdmRate3_9MbpsBW2MHz
+5        OfdmRate5_2MbpsBW2MHz
+6        OfdmRate5_85MbpsBW2MHz
+7        OfdmRate6_5MbpsBW2MHz
+8        OfdmRate7_8MbpsBW2MHz
+
+Parameters, including Datamode, datarate and bandwidth, in /scratch/s1g-mav-test.cc are WifiMode, data rate and bandwith of MCS 
+respectively. For example, MCS0 with 1 MHz bandwith, these three parameters are "OfdmRate300KbpsBW1MHz", 0.3 and 1.
