@@ -1,0 +1,4148 @@
+# HG changeset patch
+# Parent  f1837a4f71c04c10ae8ce4d304465a74bf6cf8c3
+
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/interference-helper.cc
+--- a/src/wifi/model/interference-helper.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/interference-helper.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -288,10 +288,31 @@
+   Time previous = (*j).GetTime ();
+   WifiMode payloadMode = event->GetPayloadMode ();
+   WifiPreamble preamble = event->GetPreambleType ();
+-  Time plcpHeaderStart = (*j).GetTime () + WifiPhy::GetPlcpPreambleDuration (payloadMode, preamble); //packet start time + preamble
+-  Time plcpHsigHeaderStart = plcpHeaderStart + WifiPhy::GetPlcpHeaderDuration (payloadMode, preamble); //packet start time + preamble + L-SIG
+-  Time plcpHtTrainingSymbolsStart = plcpHsigHeaderStart + WifiPhy::GetPlcpHtSigHeaderDuration (preamble); //packet start time + preamble + L-SIG + HT-SIG
+-  Time plcpPayloadStart = plcpHtTrainingSymbolsStart + WifiPhy::GetPlcpHtTrainingSymbolDuration (preamble,event->GetTxVector ()); //packet start time + preamble + L-SIG + HT-SIG + HT Training
++  Time plcpHeaderStart;
++  Time plcpHsigHeaderStart;
++  Time plcpHtTrainingSymbolsStart;
++  Time plcpPayloadStart;
++
++  Time plcpTrainingSymbolsStart;
++  Time plcpSigAStart;
++  Time plcpS1gTrainingSymbolsStart;
++  Time plcpSigBStart;
++ if (payloadMode.GetModulationClass () != WIFI_MOD_CLASS_S1G)
++ {
++  plcpHeaderStart = (*j).GetTime () + WifiPhy::GetPlcpPreambleDuration (payloadMode, preamble); //packet start time + preamble
++  plcpHsigHeaderStart = plcpHeaderStart + WifiPhy::GetPlcpHeaderDuration (payloadMode, preamble); //packet start time + preamble + L-SIG
++  plcpHtTrainingSymbolsStart = plcpHsigHeaderStart + WifiPhy::GetPlcpHtSigHeaderDuration (preamble); //packet start time + preamble + L-SIG + HT-SIG
++  plcpPayloadStart = plcpHtTrainingSymbolsStart + WifiPhy::GetPlcpHtTrainingSymbolDuration (preamble,event->GetTxVector ()); //packet start time + preamble + L-SIG + HT-SIG + HT Training
++   }
++ else
++   {
++  plcpHeaderStart = (*j).GetTime () + WifiPhy::GetPlcpPreambleDuration (payloadMode, preamble); //packet start time + preamble
++  plcpTrainingSymbolsStart = plcpHeaderStart + WifiPhy::GetPlcpHeaderDuration (payloadMode, preamble); //packet start time + preamble + L-SIG
++  plcpSigAStart = plcpTrainingSymbolsStart + WifiPhy::GetPlcpTrainingSymbolDuration (preamble,event->GetTxVector()); //packet start time + preamble + L-SIG + LTF
++  plcpS1gTrainingSymbolsStart = plcpSigAStart + WifiPhy::GetPlcpSigADuration (preamble); //packet start time + preamble + L-SIG + LTF + S1G-A
++  plcpSigBStart = plcpS1gTrainingSymbolsStart + WifiPhy::GetPlcpS1gTrainingSymbolDuration (preamble,event->GetTxVector()); //packet start time + preamble + L-SIG + LTF + S1G-A + S1G Training
++  plcpPayloadStart = plcpSigBStart + WifiPhy::GetPlcpSigBDuration (preamble); ////packet start time + preamble + L-SIG + LTF + S1G-A + S1G Training + S1G-B
++   }
+   double noiseInterferenceW = (*j).GetDelta ();
+   double powerW = event->GetRxPowerW ();
+   j++;
+@@ -347,10 +368,31 @@
+       htHeaderMode = WifiPhy::GetHTPlcpHeaderMode (payloadMode, preamble);
+     }
+   WifiMode headerMode = WifiPhy::GetPlcpHeaderMode (payloadMode, preamble);
++  Time plcpHeaderStart;
++  Time plcpHsigHeaderStart;
++  Time plcpHtTrainingSymbolsStart;
++  Time plcpPayloadStart;
++
++  Time plcpTrainingSymbolsStart;
++  Time plcpSigAStart;
++  Time plcpS1gTrainingSymbolsStart;
++  Time plcpSigBStart;
++if (payloadMode.GetModulationClass () != WIFI_MOD_CLASS_S1G)
++ {
+   Time plcpHeaderStart = (*j).GetTime () + WifiPhy::GetPlcpPreambleDuration (payloadMode, preamble); //packet start time + preamble
+   Time plcpHsigHeaderStart = plcpHeaderStart + WifiPhy::GetPlcpHeaderDuration (payloadMode, preamble); //packet start time + preamble + L-SIG
+   Time plcpHtTrainingSymbolsStart = plcpHsigHeaderStart + WifiPhy::GetPlcpHtSigHeaderDuration (preamble); //packet start time + preamble + L-SIG + HT-SIG
+   Time plcpPayloadStart = plcpHtTrainingSymbolsStart + WifiPhy::GetPlcpHtTrainingSymbolDuration (preamble, event->GetTxVector ()); //packet start time + preamble + L-SIG + HT-SIG + HT Training
++ }
++else
++ {
++  Time plcpHeaderStart = (*j).GetTime () + WifiPhy::GetPlcpPreambleDuration (payloadMode, preamble); //packet start time + preamble
++  Time plcpTrainingSymbolsStart = plcpHeaderStart + WifiPhy::GetPlcpHeaderDuration (payloadMode, preamble); //packet start time + preamble + L-SIG
++  Time plcpSigAStart = plcpTrainingSymbolsStart + WifiPhy::GetPlcpTrainingSymbolDuration (preamble,event->GetTxVector()); //packet start time + preamble + L-SIG + LTF
++  Time plcpS1gTrainingSymbolsStart = plcpSigAStart + WifiPhy::GetPlcpSigADuration (preamble); //packet start time + preamble + L-SIG + LTF + S1G-A
++  Time plcpSigBStart = plcpS1gTrainingSymbolsStart + WifiPhy::GetPlcpS1gTrainingSymbolDuration (preamble,event->GetTxVector()); //packet start time + preamble + L-SIG + LTF + S1G-A + S1G Training
++  Time plcpPayloadStart = plcpSigBStart + WifiPhy::GetPlcpSigBDuration (preamble); ////packet start time + preamble + L-SIG + LTF + S1G-A + S1G Training + S1G-B
++ }
+   double noiseInterferenceW = (*j).GetDelta ();
+   double powerW = event->GetRxPowerW ();
+   j++;
+@@ -359,6 +401,8 @@
+       Time current = (*j).GetTime ();
+       NS_LOG_DEBUG ("previous= " << previous << ", current=" << current);
+       NS_ASSERT (current >= previous);
++   if (payloadMode.GetModulationClass () != WIFI_MOD_CLASS_S1G)
++    {
+       //Case 1: previous and current after playload start: nothing to do
+       if (previous >= plcpPayloadStart)
+         {
+@@ -525,6 +569,113 @@
+               NS_LOG_DEBUG ("Case 4c - previous is in the preamble: mode=" << headerMode << ", psr=" << psr);
+             }
+         }
++      }
++    else
++     {
++         //Case 1: previous and current after playload start: nothing to do
++         if (previous >= plcpPayloadStart)
++         {
++             psr *= 1;
++             NS_LOG_DEBUG ("Case 1 - previous and current after playload start: nothing to do");
++         }
++         //Case 2: previous is in S1G-A or in S1G training or in S1G-B. only SIG_LONG enter
++         else if (previous >= plcpSigAStart)
++         {
++             NS_ASSERT ((preamble != WIFI_PREAMBLE_S1G_SHORT) && (preamble != WIFI_PREAMBLE_S1G_1M));
++             //Case 2a: current after payload start
++             if (current >= plcpPayloadStart)
++             {
++                 psr *= CalculateChunkSuccessRate (CalculateSnr (powerW,
++                                                                 noiseInterferenceW,
++                                                                 headerMode),
++                                                   plcpPayloadStart - previous,
++                                                   headerMode);
++                 
++                 NS_LOG_DEBUG ("Case 2a - previous is in S1G-A or in S1G training or in S1G-B and current after payload start: mode=" << htHeaderMode << ", psr=" << psr);
++             }
++             //Case 2b: current is in S1G-A or in S1G training or in S1G-B
++             else
++             {
++                 psr *= CalculateChunkSuccessRate (CalculateSnr (powerW,
++                                                                 noiseInterferenceW,
++                                                                 headerMode),
++                                                   current - previous,
++                                                   headerMode);
++                 
++                 NS_LOG_DEBUG ("Case 2b - previous is in S1G-A or in S1G training or in S1G-B and current is S1G-A or in S1G training or in S1G-B: mode=" << htHeaderMode << ", psr=" << psr);
++             }
++         }
++         //Case 3: previous in LTF or SIG: S1G_LONG will not reach here because it will execute the previous if and exit
++         else if (previous >= plcpHeaderStart)
++         {
++             NS_ASSERT (preamble != WIFI_PREAMBLE_S1G_LONG);
++             //Case 3a: current after payload start
++             if (current >= plcpPayloadStart)
++             {
++
++                     psr *= CalculateChunkSuccessRate (CalculateSnr (powerW,
++                                                                     noiseInterferenceW,
++                                                                     headerMode),
++                                                       plcpPayloadStart - previous,
++                                                       headerMode);
++                     
++                     NS_LOG_DEBUG ("Case 3aii - previous in LTF and current after payload start: HT mode=" << htHeaderMode << ", non-HT mode=" << headerMode << ", psr=" << psr);
++                 
++             }
++             //Case 3b: current with previous in LTF or SIG
++             else
++             {
++                 psr *= CalculateChunkSuccessRate (CalculateSnr (powerW,
++                                                                 noiseInterferenceW,
++                                                                 headerMode),
++                                                   current - previous,
++                                                   headerMode);
++                 
++                 NS_LOG_DEBUG ("Case 3c - current with previous in LTF or SIG: mode=" << headerMode << ", psr=" << psr);
++             }
++         }
++         //Case 4: previous is in the preamble works for all cases
++         else
++         {
++             if (current >= plcpPayloadStart)
++             {
++                     psr *= CalculateChunkSuccessRate (CalculateSnr (powerW,
++                                                                     noiseInterferenceW,
++                                                                     headerMode),
++                                                       plcpPayloadStart - plcpHeaderStart, //For S1G_LONG,  plcpHeaderStart equals plcpSigAStart
++                                                       headerMode);
++                     
++                     NS_LOG_DEBUG ("Case 4a - previous is in the preamble: mode=" << headerMode << ", psr=" << psr);
++                 
++             }
++             //only S1G_LONG come here
++             else if (current >= plcpSigAStart)
++             {
++                 NS_ASSERT ((preamble != WIFI_PREAMBLE_S1G_SHORT) && (preamble != WIFI_PREAMBLE_S1G_1M));
++                 
++                 psr *= CalculateChunkSuccessRate (CalculateSnr (powerW,
++                                                                 noiseInterferenceW,
++                                                                 headerMode),
++                                                   current - plcpSigAStart,
++                                                   headerMode);
++                 
++                 NS_LOG_DEBUG ("Case 4b - previous is in the preamble: mode=" << headerMode << ", psr=" << psr);
++             }
++             //S1G_LONG will not come here
++             else if (current >= plcpHeaderStart)
++             {
++                 NS_ASSERT (preamble != WIFI_PREAMBLE_S1G_LONG);
++                 
++                 psr *= CalculateChunkSuccessRate (CalculateSnr (powerW,
++                                                                 noiseInterferenceW,
++                                                                 headerMode),
++                                                   current - plcpHeaderStart,
++                                                   headerMode);
++                 
++                 NS_LOG_DEBUG ("Case 4c - previous is in the preamble: mode=" << headerMode << ", psr=" << psr);
++             }
++         }
++      }      
+ 
+       noiseInterferenceW += (*j).GetDelta ();
+       previous = (*j).GetTime ();
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/mac-low.cc
+--- a/src/wifi/model/mac-low.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/mac-low.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -1238,7 +1238,7 @@
+ Time
+ MacLow::GetAckDuration (WifiTxVector ackTxVector) const
+ {
+-  NS_ASSERT (ackTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_HT); // ACK should always use non-HT PPDU (HT PPDU cases not supported yet)
++  NS_ASSERT (ackTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_HT || ackTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_S1G); // ACK should always use non-HT PPDU (HT PPDU cases not supported yet)
+   return m_phy->CalculateTxDuration (GetAckSize (), ackTxVector, WIFI_PREAMBLE_LONG, m_phy->GetFrequency (), 0, 0);
+ }
+ 
+@@ -1254,6 +1254,10 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
++  else if (blockAckReqTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G && type == BASIC_BLOCK_ACK)
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;  // need to check for 802.11ah
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -1272,6 +1276,7 @@
+ MacLow::GetCtsDuration (WifiTxVector ctsTxVector) const
+ {
+   NS_ASSERT (ctsTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_HT); // CTS should always use non-HT PPDU (HT PPDU cases not supported yet)
++  NS_ASSERT (ctsTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_S1G); //need to check for 802.11ah
+   return m_phy->CalculateTxDuration (GetCtsSize (), ctsTxVector, WIFI_PREAMBLE_LONG, m_phy->GetFrequency (), 0, 0);
+ }
+ 
+@@ -1385,6 +1390,10 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
++  else if (dataTxVector.GetMode().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;  //need to add support on S1G_LONG and S1G_1M
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -1417,6 +1426,10 @@
+         {
+           preamble = WIFI_PREAMBLE_HT_MF;
+         }
++      else if (dataTxVector.GetMode().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++        {
++          preamble = WIFI_PREAMBLE_S1G_SHORT; //only support S1G_SHORT frame
++        }
+       else
+         {
+           preamble = WIFI_PREAMBLE_LONG;
+@@ -1798,6 +1811,10 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
++  else if (dataTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT; //only support S1G_SHORT
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -1879,6 +1896,10 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
++  else if (dataTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G) //  only support S1G_SHORT
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -1966,6 +1987,10 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
++   else if (ctsTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G) //need to check for 802.11ah
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -2105,6 +2130,10 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
++  else if (dataTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G) // only support S1G_SHORT
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -2516,6 +2545,10 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
++  else if (blockAckReqTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G) //need to check 802.11ah
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -2727,6 +2760,10 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
++  else if (dataTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G) //only support S1G_SHORT
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/nist-error-rate-model.cc
+--- a/src/wifi/model/nist-error-rate-model.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/nist-error-rate-model.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -217,7 +217,8 @@
+ {
+   if (mode.GetModulationClass () == WIFI_MOD_CLASS_ERP_OFDM
+       || mode.GetModulationClass () == WIFI_MOD_CLASS_OFDM
+-      || mode.GetModulationClass () == WIFI_MOD_CLASS_HT)
++      || mode.GetModulationClass () == WIFI_MOD_CLASS_HT
++      || mode.GetModulationClass () == WIFI_MOD_CLASS_S1G) // no support on 256QAM
+     {
+       if (mode.GetConstellationSize () == 2)
+         {
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/regular-wifi-mac.cc
+--- a/src/wifi/model/regular-wifi-mac.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/regular-wifi-mac.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -715,6 +715,7 @@
+     case WIFI_PHY_STANDARD_80211_5MHZ:
+     case WIFI_PHY_STANDARD_80211n_5GHZ:
+     case WIFI_PHY_STANDARD_80211n_2_4GHZ:
++    case WIFI_PHY_STANDARD_80211ah:  // need to check parameter for 802.11ah
+       cwmin = 15;
+       cwmax = 1023;
+       break;
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-mac.cc
+--- a/src/wifi/model/wifi-mac.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-mac.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -314,6 +314,9 @@
+     case WIFI_PHY_STANDARD_80211n_5GHZ:
+       Configure80211n_5Ghz ();
+       break;
++    case WIFI_PHY_STANDARD_80211ah:
++      Configure80211ah ();
++      break;
+     default:
+       NS_ASSERT (false);
+       break;
+@@ -393,6 +396,19 @@
+   SetBasicBlockAckTimeout (GetSifs () + GetSlot () + GetDefaultBasicBlockAckDelay () + GetDefaultMaxPropagationDelay () * 2);
+   SetCompressedBlockAckTimeout (GetSifs () + GetSlot () + GetDefaultCompressedBlockAckDelay () + GetDefaultMaxPropagationDelay () * 2);
+ }
++    
++void
++WifiMac::Configure80211ah (void)   //need to check following parameter for 802.11ah
++{
++  SetSifs (MicroSeconds (160));
++  SetSlot (MicroSeconds (52));
++  SetEifsNoDifs (MicroSeconds (160 + 440));
++  SetPifs (MicroSeconds (160 + 52));
++  SetCtsTimeout (MicroSeconds (160 + 440 + 52 + GetDefaultMaxPropagationDelay ().GetMicroSeconds () * 2));
++  SetAckTimeout (MicroSeconds (160 + 440 + 1000 + GetDefaultMaxPropagationDelay ().GetMicroSeconds () * 2));
++  SetBasicBlockAckTimeout (GetSifs () + GetSlot () + GetDefaultBasicBlockAckDelay () + GetDefaultMaxPropagationDelay () * 2);
++  SetCompressedBlockAckTimeout (GetSifs () + GetSlot () + GetDefaultCompressedBlockAckDelay () + GetDefaultMaxPropagationDelay () * 2);
++}
+ 
+ void
+ WifiMac::ConfigureDcf (Ptr<Dcf> dcf, uint32_t cwmin, uint32_t cwmax, enum AcIndex ac)
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-mac.h
+--- a/src/wifi/model/wifi-mac.h	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-mac.h	Thu Jul 09 15:32:07 2015 +0200
+@@ -290,6 +290,7 @@
+    * \sa WifiMac::Configure80211_5Mhz
+    * \sa WifiMac::Configure80211n_2_4Ghz
+    * \sa WifiMac::Configure80211n_5Ghz
++   * \sa WifiMac::Configure80211ah
+    */
+   void ConfigureStandard (enum WifiPhyStandard standard);
+ 
+@@ -430,6 +431,11 @@
+    * Sifs, Slot, EifsNoDifs, Pifs, CtsTimeout, and AckTimeout.
+    */
+   void Configure80211n_5Ghz (void);
++  /**
++   * This method sets 802.11ah standards-compliant defaults for following attributes:
++   * Sifs, Slot, EifsNoDifs, Pifs, CtsTimeout, and AckTimeout.
++   */
++  void Configure80211ah (void); //some parameter need to be changed
+ 
+   /**
+    * The trace source fired when packets come into the "top" of the device
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-mode.cc
+--- a/src/wifi/model/wifi-mode.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-mode.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -95,7 +95,7 @@
+   return item->codingRate;
+ }
+ 
+-uint8_t
++uint16_t
+ WifiMode::GetConstellationSize (void) const
+ {
+   struct WifiModeFactory::WifiModeItem *item = WifiModeFactory::GetFactory ()->Get (m_uid);
+@@ -157,7 +157,7 @@
+                                  uint32_t bandwidth,
+                                  uint32_t dataRate,
+                                  enum WifiCodeRate codingRate,
+-                                 uint8_t constellationSize)
++                                 uint16_t constellationSize)
+ {
+   WifiModeFactory *factory = GetFactory ();
+   uint32_t uid = factory->AllocateUid (uniqueName);
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-mode.h
+--- a/src/wifi/model/wifi-mode.h	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-mode.h	Thu Jul 09 15:32:07 2015 +0200
+@@ -54,7 +54,9 @@
+   /** OFDM PHY (Clause 17) */
+   WIFI_MOD_CLASS_OFDM,
+   /** HT PHY (Clause 20) */
+-  WIFI_MOD_CLASS_HT
++  WIFI_MOD_CLASS_HT,
++  /** S1G PHY (Clause 24) */
++  WIFI_MOD_CLASS_S1G
+ };
+ 
+ /**
+@@ -115,7 +117,7 @@
+   /**
+    * \returns the size of the modulation constellation.
+    */
+-  uint8_t GetConstellationSize (void) const;
++  uint16_t GetConstellationSize (void) const;
+   /**
+    * \returns a human-readable representation of this WifiMode
+    * instance.
+@@ -229,7 +231,7 @@
+                                   uint32_t bandwidth,
+                                   uint32_t dataRate,
+                                   enum WifiCodeRate codingRate,
+-                                  uint8_t constellationSize);
++                                  uint16_t constellationSize);
+ 
+ 
+ private:
+@@ -256,7 +258,7 @@
+     uint32_t dataRate;
+     uint32_t phyRate;
+     enum WifiModulationClass modClass;
+-    uint8_t constellationSize;
++    uint16_t constellationSize;
+     enum WifiCodeRate codingRate;
+     bool isMandatory;
+   };
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-phy-standard.h
+--- a/src/wifi/model/wifi-phy-standard.h	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-phy-standard.h	Thu Jul 09 15:32:07 2015 +0200
+@@ -48,7 +48,9 @@
+   /** HT OFDM PHY for the 2.4 GHz band (clause 20) */
+   WIFI_PHY_STANDARD_80211n_2_4GHZ,
+   /** HT OFDM PHY for the 5 GHz band (clause 20) */
+-  WIFI_PHY_STANDARD_80211n_5GHZ
++  WIFI_PHY_STANDARD_80211n_5GHZ,
++  /** ah support, Clause 24 */
++  WIFI_PHY_STANDARD_80211ah
+ };
+ 
+ } //namespace ns3
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-phy.cc
+--- a/src/wifi/model/wifi-phy.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-phy.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -166,6 +166,32 @@
+ }
+ 
+ Time
++WifiPhy::GetPlcpS1gTrainingSymbolDuration (WifiPreamble preamble, WifiTxVector txvector)
++{
++  uint8_t Nltf;
++  //We suppose here that STBC = 0
++  //If STBC > 0, we need a different mapping between Nss, Nsts and Nltf, Draft 802.11ah_D4.0, Table 24-1 and Table 24-10, Table 24-11
++  //only support short guard interval
++  if (txvector.GetNss () < 3)
++    {
++      Nltf = txvector.GetNss();
++    }
++  else
++    {
++      Nltf = 4;
++    }
++    
++  if (preamble == WIFI_PREAMBLE_S1G_LONG)
++    {
++      return MicroSeconds(40 + 40 * Nltf);
++    }
++  else
++   {
++      return MicroSeconds(0);
++   }
++}
++
++Time
+ WifiPhy::GetPlcpHtSigHeaderDuration (WifiPreamble preamble)
+ {
+   switch (preamble)
+@@ -202,6 +228,23 @@
+             return WifiPhy::GetOfdmRate6Mbps ();
+           }
+       }
++    case WIFI_MOD_CLASS_S1G:
++      {
++        switch (payloadMode.GetBandwidth ())
++          {
++          case 1000000:
++          default:
++            return WifiPhy::GetOfdmRate300KbpsBW1MHz ();
++          case 2000000:
++            return WifiPhy::GetOfdmRate650KbpsBW2MHz ();
++          case 4000000:
++            return WifiPhy::GetOfdmRate1_35MbpsBW4MHz ();
++          case 8000000:
++            return WifiPhy::GetOfdmRate2_925MbpsBW8MHz ();
++          case 16000000:
++            return WifiPhy::GetOfdmRate5_85MbpsBW16MHz ();
++          }
++      }
+     case WIFI_MOD_CLASS_ERP_OFDM:
+       return WifiPhy::GetErpOfdmRate6Mbps ();
+     case WIFI_MOD_CLASS_DSSS:
+@@ -221,6 +264,63 @@
+     }
+ }
+ 
++
++
++//return SIG-A
++Time
++WifiPhy::GetPlcpSigADuration (WifiPreamble preamble)
++{
++  if (preamble == WIFI_PREAMBLE_S1G_LONG)
++    {
++      return MicroSeconds(40 * 2);
++    }
++  else
++    {
++      return MicroSeconds(0);
++    }
++}
++    
++//return SIG-B
++Time
++WifiPhy::GetPlcpSigBDuration (WifiPreamble preamble)
++{
++  if (preamble == WIFI_PREAMBLE_S1G_LONG)
++    {
++      return MicroSeconds(40 );
++    }
++  else
++    {
++      return MicroSeconds(0);
++    }
++}
++    
++//return PLCP Training
++Time
++WifiPhy::GetPlcpTrainingSymbolDuration (WifiPreamble preamble, WifiTxVector txvector)
++{
++    uint8_t Nltf;
++    //We suppose here that STBC = 0
++    //If STBC > 0, we need a different mapping between Nss, Nsts and Nltf, Draft 802.11ah_D4.0, Table 24-1 and Table 24-10, Table 24-11
++    //only support short guard interval
++    if (txvector.GetNss () < 3)
++      {
++        Nltf = txvector.GetNss();
++      }
++    else
++      {
++        Nltf = 4;
++      }
++    
++    if (preamble == WIFI_PREAMBLE_S1G_SHORT || preamble == WIFI_PREAMBLE_S1G_1M)
++      {
++        return MicroSeconds(40 * (Nltf-1));
++      }
++    else
++      {
++        return MicroSeconds(0);
++      }
++}
++
+ Time
+ WifiPhy::GetPlcpHeaderDuration (WifiMode payloadMode, WifiPreamble preamble)
+ {
+@@ -264,6 +364,21 @@
+             return MicroSeconds (0);
+           }
+       }
++    case WIFI_MOD_CLASS_S1G:
++      {
++      //SIG
++      //IEEE 802.11ah Figure 24.1
++      switch (preamble)
++        {
++        case WIFI_PREAMBLE_S1G_SHORT:
++        default:
++          return MicroSeconds (40 * 2);
++        case WIFI_PREAMBLE_S1G_LONG:
++          return MicroSeconds (0);
++        case WIFI_PREAMBLE_S1G_1M:
++          return MicroSeconds (40 * 6);
++        }
++      }
+     case WIFI_MOD_CLASS_ERP_OFDM:
+       return MicroSeconds (4);
+     case WIFI_MOD_CLASS_DSSS:
+@@ -314,6 +429,18 @@
+     case WIFI_MOD_CLASS_HT:
+       //IEEE 802.11n Figure 20.1 the training symbols before L_SIG or HT_SIG
+       return MicroSeconds (16);
++    case WIFI_MOD_CLASS_S1G:
++      {
++        switch (preamble)
++          {
++          case WIFI_PREAMBLE_S1G_SHORT:
++          case WIFI_PREAMBLE_S1G_LONG:
++          default:
++            return MicroSeconds (40 * 4);
++          case WIFI_PREAMBLE_S1G_1M:
++            return MicroSeconds (40 * 8);
++           }
++      }
+     case WIFI_MOD_CLASS_ERP_OFDM:
+       return MicroSeconds (16);
+     case WIFI_MOD_CLASS_DSSS:
+@@ -524,6 +651,125 @@
+             return Time (numSymbols * symbolDuration);
+           }
+       }
++    case WIFI_MOD_CLASS_S1G:
++      {
++        Time symbolDuration;
++        //
++        if ( payloadMode.GetUniqueName() == "OfdmRate6_5MbpsBW16MHz" || payloadMode.GetUniqueName() == "OfdmRate3MbpsBW4MHz"  ||
++              payloadMode.GetUniqueName() == "OfdmRate13MbpsBW8MHz"   || payloadMode.GetUniqueName() == "OfdmRate26MbpsBW16MHz" ||
++              payloadMode.GetUniqueName() == "OfdmRate19_5MbpsBW8MHz" || payloadMode.GetUniqueName() == "OfdmRate39MbpsBW16MHz" ||
++              payloadMode.GetUniqueName() == "OfdmRate3MbpsBW1MHzShGi" || payloadMode.GetUniqueName() == "OfdmRate6_5MbpsBW2MHzShGi" ||
++              payloadMode.GetUniqueName() == "OfdmRate13_5MbpsBW4MHzShGi" || payloadMode.GetUniqueName() =="OfdmRate29_25MbpsBW8MHzShGi"  ||
++              payloadMode.GetUniqueName() == "OfdmRate58_5MbpsBW16MHzShGi" || payloadMode.GetUniqueName() == "OfdmRate4MbpsBW1MHzShGi" ||
++              payloadMode.GetUniqueName() == "OfdmRate18MbpsBW4MHzShGi" || payloadMode.GetUniqueName() == "OfdmRate39MbpsBW8MHzShGi" ||
++              payloadMode.GetUniqueName() == "OfdmRate78MbpsBW16MHzShGi" )
++          {
++              symbolDuration = MicroSeconds (36);
++          }
++        else if (payloadMode.GetModulationClass() == WIFI_MOD_CLASS_S1G )
++          {
++            switch (payloadMode.GetDataRate ()/ (txvector.GetNss()))
++              {
++                  case 333300:
++                  case 722200:
++                  case 1500000:
++                  case 3250000:
++                  case 666700:
++                  case 1444400:
++                  case 6500000:
++                  case 13000000:
++                  case 1000000:
++                  case 2166700:
++                  case 4500000:
++                  case 9750000:
++                  case 19500000:
++                  case 1333300:
++                  case 2888900:
++                  case 6000000:
++                  case 2000000:
++                  case 4333300:
++                  case 9000000:
++                  case 2666700:
++                  case 5777800:
++                  case 12000000:
++                  case 26000000:
++                  case 52000000:
++                  case 3333300:
++                  case 7222200:
++                  case 15000000:
++                  case 32500000:
++                  case 65000000:
++                  case 8666700:
++                  case 4444400:
++                  case 20000000:
++                  case 43333300:
++                  case 86666700:
++                  case 166700:
++                    symbolDuration = MicroSeconds (36);
++                    break;
++                  default:
++                    symbolDuration = MicroSeconds (40);
++               }
++            }
++        double m_Stbc;
++        if (txvector.IsStbc())
++          {
++            m_Stbc = 2;
++          }
++        else
++          {
++            m_Stbc = 1;
++          }
++        double numDataBitsPerSymbol = payloadMode.GetDataRate () * txvector.GetNss() * symbolDuration.GetNanoSeconds() / 1e9;
++        //Nes always is 1 in 802.11ah_D4.0, Table 24-38
++        double Nes = 1;
++        // IEEE  802.11ah_D4.0, equation (24-76)
++        uint32_t numSymbols;
++        if (packetType == 1 && preamble != WIFI_PREAMBLE_NONE)
++          {
++            //First packet in an A-MPDU
++            numSymbols = ceil(m_Stbc*(16 + size * 8.0 + 6 * Nes) / (m_Stbc * numDataBitsPerSymbol));
++            if (incFlag == 1)
++              {
++                m_totalAmpduSize += size;
++                m_totalAmpduNumSymbols += numSymbols;
++              }
++          }
++        else if (packetType == 1 && preamble == WIFI_PREAMBLE_NONE)
++          {
++            //consecutive packets in an A-MPDU
++            numSymbols = m_Stbc* ((size * 8.0 ) / (m_Stbc* numDataBitsPerSymbol));
++            if (incFlag == 1)
++              {
++                m_totalAmpduSize += size;
++                m_totalAmpduNumSymbols += numSymbols;
++              }
++            }
++          else if (packetType == 2 && preamble == WIFI_PREAMBLE_NONE)
++            {
++              //last packet in an A-MPDU
++              uint32_t totalAmpduSize = m_totalAmpduSize+size;
++              numSymbols = lrint (m_Stbc* ceil((16 + totalAmpduSize * 8.0 + 6 * Nes) / (m_Stbc * numDataBitsPerSymbol)));
++              NS_ASSERT (m_totalAmpduNumSymbols <= numSymbols);
++              numSymbols -= m_totalAmpduNumSymbols;
++              if (incFlag == 1)
++                {
++                 m_totalAmpduSize = 0;
++                 m_totalAmpduNumSymbols = 0;
++                }
++             }
++           else if (packetType == 0 && preamble != WIFI_PREAMBLE_NONE)
++             //Not an A-MPDU
++             {
++               numSymbols = lrint (m_Stbc*ceil ((16 + size * 8.0 + 6.0 * Nes) / (m_Stbc * numDataBitsPerSymbol)));
++             }
++           else
++             {
++               NS_FATAL_ERROR ("Wrong combination of preamble and packet type");
++             }
++            
++            return Time (numSymbols * symbolDuration);
++        }
+     case WIFI_MOD_CLASS_DSSS:
+       //(Section 17.2.3.6 "Long PLCP LENGTH field"; IEEE Std 802.11-2012)
+       NS_LOG_LOGIC (" size=" << size
+@@ -540,10 +786,23 @@
+ WifiPhy::CalculatePlcpPreambleAndHeaderDuration (WifiTxVector txvector, WifiPreamble preamble)
+ {
+   WifiMode payloadMode = txvector.GetMode ();
+-  Time duration = GetPlcpPreambleDuration (payloadMode, preamble)
++  Time duration;
++if (payloadMode.GetModulationClass () != WIFI_MOD_CLASS_S1G)
++ {
++  duration = GetPlcpPreambleDuration (payloadMode, preamble)
+     + GetPlcpHeaderDuration (payloadMode, preamble)
+     + GetPlcpHtSigHeaderDuration (preamble)
+     + GetPlcpHtTrainingSymbolDuration (preamble, txvector);
++ }
++else
++ {
++  duration = GetPlcpPreambleDuration (payloadMode, preamble)
++    + GetPlcpHeaderDuration (payloadMode, preamble)
++    + GetPlcpTrainingSymbolDuration (preamble, txvector)
++    + GetPlcpSigADuration (preamble)
++    + WifiPhy::GetPlcpS1gTrainingSymbolDuration (preamble,txvector)
++    + GetPlcpSigBDuration (preamble);
++ }
+   return duration;
+ }
+ 
+@@ -1507,8 +1766,1308 @@
+                                      64);
+   return mode;
+ }
++   
++WifiMode
++WifiPhy::GetOfdmRate300KbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate300KbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 300000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
+ 
++WifiMode
++WifiPhy::GetOfdmRate333_3KbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate333_3KbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 333300,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
+ 
++WifiMode
++WifiPhy::GetOfdmRate600KbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate600KbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 600000,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate666_7KbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate666_7KbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 666700,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate900KbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate900KbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 900000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 1000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1_2MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1_2MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 1200000,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1_333_3MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1_333_3MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 1333300,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1_8MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1_8MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 1800000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 2000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2_4MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2_4MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 2400000,
++                                     WIFI_CODE_RATE_2_3,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2_666_7MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2_666_7MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 2666700,
++                                     WIFI_CODE_RATE_2_3,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2_7MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2_7MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 2700000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate3MbpsBW1MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate3MbpsBW1MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 3000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate3MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate3MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 3000000,
++                                     WIFI_CODE_RATE_5_6,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate3_333_3MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate3_333_3MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 3333300,
++                                     WIFI_CODE_RATE_5_6,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate3_6MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate3_6MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     1000000, 3600000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate4MbpsBW1MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate4MbpsBW1MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     1000000, 4000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate4MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate4MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     1000000, 4000000,
++                                     WIFI_CODE_RATE_5_6,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate4_444_4MbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate4_444_4MbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     1000000, 4444400,
++                                     WIFI_CODE_RATE_5_6,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate150KbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate150KbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 150000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate166_7KbpsBW1MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate166_7KbpsBW1MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     1000000, 166700,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate650KbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate650KbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 650000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate722_2KbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate722_2KbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 722200,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1_3MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1_3MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 1300000,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1_444_4MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1_444_4MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 1444400,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1_95MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1_95MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 1950000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2_166_7MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2_166_7MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 2166700,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2_6MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2_6MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 2600000,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2_8889MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2_8889MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 2888900,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate3_9MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate3_9MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 3900000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate4_333_3MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate4_333_3MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 4333300,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate5_2MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate5_2MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 5200000,
++                                     WIFI_CODE_RATE_2_3,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate5_777_8MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate5_777_8MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 5777800,
++                                     WIFI_CODE_RATE_2_3,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate5_85MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate5_85MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 5850000,
++                                     WIFI_CODE_RATE_3_4,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate6_5MbpsBW2MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate6_5MbpsBW2MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 6500000,
++                                     WIFI_CODE_RATE_3_4,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate6_5MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate6_5MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 6500000,
++                                     WIFI_CODE_RATE_5_6,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate7_222_2MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate7_222_2MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     true,
++                                     2000000, 7222200,
++                                     WIFI_CODE_RATE_5_6,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate7_8MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate7_8MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     2000000, 7800000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate8_666_7MbpsBW2MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate8_666_7MbpsBW2MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     2000000, 8666700,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1_35MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1_35MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 1350000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate1_5MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate1_5MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 1500000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2_7MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2_7MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 2700000,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate3MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate3MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 3000000,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate4_05MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate4_05MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 4050000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate4_5MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate4_5MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 4500000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate5_4MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate5_4MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 5400000,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate6MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate6MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 6000000,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate8_1MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate8_1MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 8100000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate9MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate9MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 9000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate10_8MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate10_8MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 10800000,
++                                     WIFI_CODE_RATE_2_3,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate12MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("GetOfdmRate12MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 12000000,
++                                     WIFI_CODE_RATE_2_3,
++                                     64);
++    return mode;
++}
++    
++WifiMode
++WifiPhy::GetOfdmRate12_15MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate12_15MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 12150000,
++                                     WIFI_CODE_RATE_3_4,
++                                     64);
++    return mode;
++}
++    
++WifiMode
++WifiPhy::GetOfdmRate13_5MbpsBW4MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate13_5MbpsBW4MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 13500000,
++                                     WIFI_CODE_RATE_3_4,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate13_5MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate13_5MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 13500000,
++                                     WIFI_CODE_RATE_5_6,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate15MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate15MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 15000000,
++                                     WIFI_CODE_RATE_5_6,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate16_2MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate16_2MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 16200000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate18MbpsBW4MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate18MbpsBW4MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 18000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate18MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate18MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 18000000,
++                                     WIFI_CODE_RATE_5_6,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate20MbpsBW4MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate20MbpsBW4MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     4000000, 20000000,
++                                     WIFI_CODE_RATE_5_6,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate2_925MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate2_925MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 2925000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate3_25MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate3_25MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 3250000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate5_85MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate5_85MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 5850000,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate6_5MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("GetOfdmRate6_5MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 6500000,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate8_775MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate8_775MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 8775000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate9_75MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate9_75MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 9750000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate11_7MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate11_7MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 11700000,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate13MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate13MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 13000000,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate17_55MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate17_55MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 17550000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate19_5MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate19_5MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 19500000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate23_4MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate23_4MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 23400000,
++                                     WIFI_CODE_RATE_2_3,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate26MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate26MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 26000000,
++                                     WIFI_CODE_RATE_2_3,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate26_325MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate26_325MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 26325000,
++                                     WIFI_CODE_RATE_3_4,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate29_25MbpsBW8MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate29_25MbpsBW8MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 29250000,
++                                     WIFI_CODE_RATE_3_4,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate29_25MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate29_25MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 29250000,
++                                     WIFI_CODE_RATE_5_6,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate32_5MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate32_5MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 32500000,
++                                     WIFI_CODE_RATE_5_6,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate35_1MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate35_1MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 35100000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate39MbpsBW8MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate39MbpsBW8MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 39000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate39MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate39MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 39000000,
++                                     WIFI_CODE_RATE_5_6,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate43_333_3MbpsBW8MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate43_333_3MbpsBW8MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     8000000, 43333300,
++                                     WIFI_CODE_RATE_5_6,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate5_85MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate5_85MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 5850000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate6_5MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate6_5MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 6500000,
++                                     WIFI_CODE_RATE_1_2,
++                                     2);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate11_7MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate11_7MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 11700000,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate13MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate13MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 13000000,
++                                     WIFI_CODE_RATE_1_2,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate17_55MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate17_55MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 17550000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate19_5MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate19_5MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 19500000,
++                                     WIFI_CODE_RATE_3_4,
++                                     4);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate23_4MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate23_4MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 23400000,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate26MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate26MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 26000000,
++                                     WIFI_CODE_RATE_1_2,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate35_1MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate35_1MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 35100000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate39MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate39MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 39000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     16);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate46_8MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate46_8MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 46800000,
++                                     WIFI_CODE_RATE_2_3,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate52MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate52MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 52000000,
++                                     WIFI_CODE_RATE_2_3,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate52_65MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate52_65MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 52650000,
++                                     WIFI_CODE_RATE_3_4,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate58_5MbpsBW16MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate58_5MbpsBW16MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 58500000,
++                                     WIFI_CODE_RATE_3_4,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate58_5MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate58_5MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 58500000,
++                                     WIFI_CODE_RATE_5_6,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate65MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate65MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 65000000,
++                                     WIFI_CODE_RATE_5_6,
++                                     64);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate70_2MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate70_2MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 70200000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate78MbpsBW16MHzShGi ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate78MbpsBW16MHzShGi",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 78000000,
++                                     WIFI_CODE_RATE_3_4,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate78MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate78MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 78000000,
++                                     WIFI_CODE_RATE_5_6,
++                                     256);
++    return mode;
++}
++
++WifiMode
++WifiPhy::GetOfdmRate86_666_7MbpsBW16MHz ()
++{
++    static WifiMode mode =
++    WifiModeFactory::CreateWifiMode ("OfdmRate86_666_7MbpsBW16MHz",
++                                     WIFI_MOD_CLASS_S1G,
++                                     false,
++                                     16000000, 86666700,
++                                     WIFI_CODE_RATE_5_6,
++                                     256);
++    return mode;
++}
++
++    
+ std::ostream& operator<< (std::ostream& os, enum WifiPhy::State state)
+ {
+   switch (state)
+@@ -1608,6 +3167,107 @@
+     ns3::WifiPhy::GetOfdmRate120MbpsBW40MHz ();
+     ns3::WifiPhy::GetOfdmRate135MbpsBW40MHzShGi ();
+     ns3::WifiPhy::GetOfdmRate150MbpsBW40MHz ();
++    ns3::WifiPhy::GetOfdmRate300KbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate333_3KbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate600KbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate666_7KbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate900KbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate1MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate1_2MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate1_333_3MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate1_8MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate2MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate2_4MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate2_666_7MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate2_7MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate3MbpsBW1MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate3MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate3_333_3MbpsBW1MHz();
++    ns3::WifiPhy::GetOfdmRate3_6MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate4MbpsBW1MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate4MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate4_444_4MbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate150KbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate166_7KbpsBW1MHz ();
++    ns3::WifiPhy::GetOfdmRate650KbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate722_2KbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate1_3MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate1_444_4MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate1_95MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate2_166_7MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate2_6MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate2_8889MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate3_9MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate4_333_3MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate5_2MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate5_777_8MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate5_85MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate6_5MbpsBW2MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate6_5MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate7_222_2MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate7_8MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate8_666_7MbpsBW2MHz ();
++    ns3::WifiPhy::GetOfdmRate1_35MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate1_5MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate2_7MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate3MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate4_05MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate4_5MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate5_4MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate6MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate8_1MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate9MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate10_8MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate12MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate12_15MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate13_5MbpsBW4MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate13_5MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate15MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate16_2MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate18MbpsBW4MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate18MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate20MbpsBW4MHz ();
++    ns3::WifiPhy::GetOfdmRate2_925MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate3_25MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate5_85MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate6_5MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate8_775MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate9_75MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate11_7MbpsBW8MHz();
++    ns3::WifiPhy::GetOfdmRate13MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate17_55MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate19_5MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate23_4MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate26MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate26_325MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate29_25MbpsBW8MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate29_25MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate32_5MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate35_1MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate39MbpsBW8MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate39MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate43_333_3MbpsBW8MHz ();
++    ns3::WifiPhy::GetOfdmRate5_85MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate6_5MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate11_7MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate13MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate17_55MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate19_5MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate23_4MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate26MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate35_1MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate39MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate46_8MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate52MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate52_65MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate58_5MbpsBW16MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate58_5MbpsBW16MHz();
++    ns3::WifiPhy::GetOfdmRate65MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate70_2MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate78MbpsBW16MHzShGi ();
++    ns3::WifiPhy::GetOfdmRate78MbpsBW16MHz ();
++    ns3::WifiPhy::GetOfdmRate86_666_7MbpsBW16MHz ();
++      
+   }
+ } g_constructor;
+ 
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-phy.h
+--- a/src/wifi/model/wifi-phy.h	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-phy.h	Thu Jul 09 15:32:07 2015 +0200
+@@ -346,6 +346,34 @@
+    */
+   static Time GetPlcpPreambleDuration (WifiMode payloadMode, WifiPreamble preamble);
+   /**
++   * \param preamble the type of preamble
++   * \param txvector the transmission parameters used for this packet
++   *
++   * \return S1G training symbol duration
++   */
++  static Time GetPlcpS1gTrainingSymbolDuration (WifiPreamble preamble, WifiTxVector txvector);
++  /**
++   * \param preamble the type of preamble
++   * \param txvector the transmission parameters used for this packet
++   *
++   * \return S1G-A  symbol duration
++   */
++  static Time GetPlcpSigADuration (WifiPreamble preamble);
++  /**
++   * \param preamble the type of preamble
++   * \param txvector the transmission parameters used for this packet
++   *
++   * \return S1G-B  symbol duration
++   */
++  static Time GetPlcpSigBDuration (WifiPreamble preamble);
++  /**
++   * \param preamble the type of preamble
++   * \param txvector the transmission parameters used for this packet
++   *
++   * \return Plcp Training  symbol duration
++   */
++  static Time GetPlcpTrainingSymbolDuration (WifiPreamble preamble, WifiTxVector txvector);
++  /**
+    * \param size the number of bytes in the packet to send
+    * \param txvector the transmission parameters used for this packet
+    * \param preamble the type of preamble to use for this packet
+@@ -938,7 +966,615 @@
+    * \return a WifiMode for OFDM at 150Mbps with 40MHz channel spacing
+    */
+   static WifiMode GetOfdmRate150MbpsBW40MHz ();
+-
++/**
++ * Return a WifiMode for OFDM at 300Kbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 300Kbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate300KbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 333.3Kbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 333.3Kbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate333_3KbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 600Kbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 600Kbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate600KbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 666_7Kbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 666_7Kbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate666_7KbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 900Kbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 900Kbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate900KbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 1Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate1MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 1.2Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1.2Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate1_2MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 1.3333Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1.3333Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate1_333_3MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 1.8Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1.8Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate1_8MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 2Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate2MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 2.4Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2.4Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate2_4MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 2.6667Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2.6667Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate2_666_7MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 2.7Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2.7Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate2_7MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 3Mbps with 1MHz channel spacing.
++ * The rate supports short guard interval.
++ *
++ * \return a WifiMode for OFDM at 3Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate3MbpsBW1MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 3Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 3Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate3MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 3.3333Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 3.3333Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate3_333_3MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 3.6Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 3.6Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate3_6MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 4Mbps with 1MHz channel spacing.
++ * The rate supports short guard interval.
++ *
++ * \return a WifiMode for OFDM at 4Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate4MbpsBW1MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 4Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 4Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate4MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 4.4444Mbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 4.4444Mbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate4_444_4MbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 150Kbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 150Kbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate150KbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 166.7Kbps with 1MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 166.7Kbps with 1MHz channel spacing
++ */
++static WifiMode GetOfdmRate166_7KbpsBW1MHz ();
++/**
++ * Return a WifiMode for OFDM at 650Kbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 650Kbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate650KbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 722.2Kbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 722.2Kbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate722_2KbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 1.3Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1.3Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate1_3MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 1.4444Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1.4444Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate1_444_4MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 1.95Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1.95Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate1_95MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 2.1667Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2.1667Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate2_166_7MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 2.6Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2.6Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate2_6MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 2.8889Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2.8889Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate2_8889MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 3.9Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 3.9Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate3_9MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 4.3333Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 4.3333Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate4_333_3MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 5.2Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 5.2Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate5_2MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 5.7778Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 5.7778Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate5_777_8MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 5.85Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 5.85Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate5_85MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 6.5Mbps with 2MHz channel spacing.
++ * The rate supports short guard interval.
++ *
++ * \return a WifiMode for OFDM at 6.5Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate6_5MbpsBW2MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 6.5Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 6.5Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate6_5MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 7.2222Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 7.2222Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate7_222_2MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 7.8Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 7.8Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate7_8MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 8.6667Mbps with 2MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 8.6667Mbps with 2MHz channel spacing
++ */
++static WifiMode GetOfdmRate8_666_7MbpsBW2MHz ();
++/**
++ * Return a WifiMode for OFDM at 1.35Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1.35Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate1_35MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 1.5Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 1.5Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate1_5MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 2.7Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2.7Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate2_7MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 3Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 3Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate3MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 4.05Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 4.05Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate4_05MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 4.5Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 4.5Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate4_5MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 5.4Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 5.4Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate5_4MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 6Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 6Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate6MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 8.1Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 8.1Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate8_1MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 9Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 9Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate9MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 10.8Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 10.8Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate10_8MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 12Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 12Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate12MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 12.15Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 12.15Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate12_15MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 13.5Mbps with 4MHz channel spacing.
++ * The rate supports short guard interval.
++ *
++ * \return a WifiMode for OFDM at 13.5Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate13_5MbpsBW4MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 13.5Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 13.5Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate13_5MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 15Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 15Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate15MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 16.2Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 16.2Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate16_2MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 18Mbps with 4MHz channel spacing.
++ * The rate supports short guard interval.
++ *
++ * \return a WifiMode for OFDM at 18Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate18MbpsBW4MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 18Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 18Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate18MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 20Mbps with 4MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 20Mbps with 4MHz channel spacing
++ */
++static WifiMode GetOfdmRate20MbpsBW4MHz ();
++/**
++ * Return a WifiMode for OFDM at 2.925Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 2.925Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate2_925MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 3.25Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 3.25Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate3_25MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 5.85Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 5.85Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate5_85MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 6.5Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 6.5Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate6_5MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 8.775Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 8.775Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate8_775MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 9.75Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 9.75Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate9_75MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 11.7Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 11.7Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate11_7MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 13Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 13Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate13MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 17.55Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 17.55Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate17_55MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 19.5Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 19.5Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate19_5MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 23.4Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 23.4Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate23_4MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 26Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 26Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate26MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 26.325Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 26.325Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate26_325MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 29.25Mbps with 8MHz channel spacing.
++ * This rate supporrts short guard interval.
++ *
++ * \return a WifiMode for OFDM at 29.25Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate29_25MbpsBW8MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 29.25Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 29.25Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate29_25MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 32.5Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 32.5Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate32_5MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 35.1Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 35.1Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate35_1MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 39Mbps with 8MHz channel spacing.
++ * This rate supports short guard interval.
++ *
++ * \return a WifiMode for OFDM at 39Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate39MbpsBW8MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 39Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 39Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate39MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 43.3333Mbps with 8MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 43.3333Mbps with 8MHz channel spacing
++ */
++static WifiMode GetOfdmRate43_333_3MbpsBW8MHz ();
++/**
++ * Return a WifiMode for OFDM at 5.85Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 5.85Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate5_85MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 6.5Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 6.5Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate6_5MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 11.7Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 11.7Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate11_7MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 13Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 13Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate13MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 17.55Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 17.55Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate17_55MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 19.5Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 19.5Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate19_5MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 23.4Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 23.4Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate23_4MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 26Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 26Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate26MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 35.1Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 35.1Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate35_1MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 39Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 39Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate39MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 46.8Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 46.8Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate46_8MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 52Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 52Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate52MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 52.65Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 52.65Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate52_65MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 58.5Mbps with 16MHz channel spacing.
++ * This rate supports short guard interval.
++ *
++ * \return a WifiMode for OFDM at 58.5Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate58_5MbpsBW16MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 58.5Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 58.5Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate58_5MbpsBW16MHz();
++/**
++ * Return a WifiMode for OFDM at 65Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 65Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate65MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 70.2Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 70.2Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate70_2MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 78Mbps with 16MHz channel spacing.
++ * This rate supports short guards interval.
++ *
++ * \return a WifiMode for OFDM at 78Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate78MbpsBW16MHzShGi ();
++/**
++ * Return a WifiMode for OFDM at 78Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 78Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate78MbpsBW16MHz ();
++/**
++ * Return a WifiMode for OFDM at 86.6667Mbps with 16MHz channel spacing.
++ *
++ * \return a WifiMode for OFDM at 86.6667Mbps with 16MHz channel spacing
++ */
++static WifiMode GetOfdmRate86_666_7MbpsBW16MHz ();
+   /**
+    * Public method used to fire a PhyTxBegin trace.
+    * Implemented for encapsulation purposes.
+@@ -1132,14 +1768,13 @@
+    */
+   virtual bool GetGreenfield (void) const = 0;
+   /**
+-   * \return true if channel bonding 40 MHz is supported, false otherwise
++   * \return the channel width
+    */
+-  virtual bool GetChannelBonding (void) const = 0;
++  virtual uint32_t GetChannelWidth (void) const = 0;
+   /**
+-   * \param channelbonding Enable or disable channel bonding
++   *  \param channelwidth channel width
+    */
+-  virtual void SetChannelBonding (bool channelbonding) = 0;
+-
++  virtual void SetChannelWidth (uint32_t channelwidth) = 0;
+ 
+ private:
+   /**
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-preamble.h
+--- a/src/wifi/model/wifi-preamble.h	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-preamble.h	Thu Jul 09 15:32:07 2015 +0200
+@@ -33,7 +33,10 @@
+   WIFI_PREAMBLE_SHORT,
+   WIFI_PREAMBLE_HT_MF,
+   WIFI_PREAMBLE_HT_GF,
+-  WIFI_PREAMBLE_NONE
++  WIFI_PREAMBLE_NONE,
++  WIFI_PREAMBLE_S1G_SHORT,
++  WIFI_PREAMBLE_S1G_LONG,
++  WIFI_PREAMBLE_S1G_1M
+ };
+ 
+ } //namespace ns3
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/wifi-remote-station-manager.cc
+--- a/src/wifi/model/wifi-remote-station-manager.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/wifi-remote-station-manager.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -981,7 +981,8 @@
+       if ((!found || i->GetPhyRate () > mode.GetPhyRate ())
+           && (i->GetPhyRate () <= reqMode.GetPhyRate ())
+           && ((i->GetModulationClass () == reqMode.GetModulationClass ())
+-              || (reqMode.GetModulationClass () == WIFI_MOD_CLASS_HT)))
++              || (reqMode.GetModulationClass () == WIFI_MOD_CLASS_HT)
++              || (reqMode.GetModulationClass () == WIFI_MOD_CLASS_S1G)))
+         {
+           mode = *i;
+           //We've found a potentially-suitable transmit rate, but we
+@@ -1055,7 +1056,8 @@
+           && (!found || thismode.GetPhyRate () > mode.GetPhyRate ())
+           && (thismode.GetPhyRate () <= reqMode.GetPhyRate ())
+           && ((thismode.GetModulationClass () == reqMode.GetModulationClass ())
+-              || (reqMode.GetModulationClass () == WIFI_MOD_CLASS_HT)))
++              || (reqMode.GetModulationClass () == WIFI_MOD_CLASS_HT)
++              || (reqMode.GetModulationClass () == WIFI_MOD_CLASS_S1G)))
+         {
+           mode = thismode;
+           //As above; we've found a potentially-suitable transmit
+@@ -1366,9 +1368,9 @@
+ WifiRemoteStationManager::AddBasicMode (WifiMode mode)
+ {
+   NS_LOG_FUNCTION (this << mode);
+-  if (mode.GetModulationClass () == WIFI_MOD_CLASS_HT)
++  if (mode.GetModulationClass () == WIFI_MOD_CLASS_HT || mode.GetModulationClass () == WIFI_MOD_CLASS_S1G) //need to check for 802.11ah
+     {
+-      NS_FATAL_ERROR ("It is not allowed to add a HT rate in the BSSBasicRateSet!");
++      NS_FATAL_ERROR ("It is not allowed to add a HT/S1G rate in the BSSBasicRateSet!");
+     }
+   for (uint32_t i = 0; i < GetNBasicModes (); i++)
+     {
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/yans-error-rate-model.cc
+--- a/src/wifi/model/yans-error-rate-model.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/yans-error-rate-model.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -184,9 +184,10 @@
+ {
+   if (mode.GetModulationClass () == WIFI_MOD_CLASS_ERP_OFDM
+       || mode.GetModulationClass () == WIFI_MOD_CLASS_OFDM
+-      || mode.GetModulationClass () == WIFI_MOD_CLASS_HT)
++      || mode.GetModulationClass () == WIFI_MOD_CLASS_HT
++      || mode.GetModulationClass () == WIFI_MOD_CLASS_S1G)
+     {
+-      if (mode.GetConstellationSize () == 2)
++      if (mode.GetConstellationSize () == 2) //SIG MCS=10 not supported
+         {
+           if (mode.GetCodeRate () == WIFI_CODE_RATE_1_2)
+             {
+@@ -294,6 +295,33 @@
+                                    31); //adFreePlusOne
+             }
+         }
++      else if (mode.GetConstellationSize () == 256)
++        {
++          if (mode.GetCodeRate () == WIFI_CODE_RATE_5_6)
++            {
++              return GetFecQamBer (snr,
++                                   nbits,
++                                   mode.GetBandwidth (), // signal spread
++                                   mode.GetPhyRate (), // phy rate
++                                   256, // m
++                                   4,  // dFree
++                                   14,  // adFree
++                                   69  // adFreePlusOne
++                                   );
++            }
++          else
++            {
++              return GetFecQamBer (snr,
++                                   nbits,
++                                   mode.GetBandwidth (), // signal spread
++                                   mode.GetPhyRate (), // phy rate
++                                   256, // m
++                                   5,  // dFree
++                                   8,  // adFree
++                                   31  // adFreePlusOne
++                                   );
++            }
++        }
+     }
+   else if (mode.GetModulationClass () == WIFI_MOD_CLASS_DSSS)
+     {
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/yans-wifi-phy.cc
+--- a/src/wifi/model/yans-wifi-phy.cc	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/yans-wifi-phy.cc	Thu Jul 09 15:32:07 2015 +0200
+@@ -166,12 +166,11 @@
+                    MakeBooleanAccessor (&YansWifiPhy::GetGreenfield,
+                                         &YansWifiPhy::SetGreenfield),
+                    MakeBooleanChecker ())
+-    .AddAttribute ("ChannelBonding",
+-                   "Whether 20MHz or 40MHz.",
+-                   BooleanValue (false),
+-                   MakeBooleanAccessor (&YansWifiPhy::GetChannelBonding,
+-                                        &YansWifiPhy::SetChannelBonding),
+-                   MakeBooleanChecker ())
++    .AddAttribute ("ChannelWidth", "Whether 1MHz, 2MHz, 4MHz, 8MHz, 16MHz, 20MHz or 40MHz.",
++                   UintegerValue (1),
++                   MakeUintegerAccessor (&YansWifiPhy::GetChannelWidth,
++                                         &YansWifiPhy::SetChannelWidth),
++                   MakeUintegerChecker<uint32_t> ())
+   ;
+   return tid;
+ }
+@@ -246,6 +245,9 @@
+       m_channelStartingFrequency = 5e3;
+       Configure80211n ();
+       break;
++     case WIFI_PHY_STANDARD_80211ah:
++      Configure80211ah ();
++      break;
+     default:
+       NS_ASSERT (false);
+       break;
+@@ -780,7 +782,7 @@
+     }
+   NotifyTxBegin (packet);
+   uint32_t dataRate500KbpsUnits;
+-  if (txVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_HT)
++  if (txVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_HT || txVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G)
+     {
+       dataRate500KbpsUnits = 128 + WifiModeToMcs (txVector.GetMode ());
+     }
+@@ -955,6 +957,24 @@
+       m_deviceMcsSet.push_back (i);
+     }
+ }
++    
++void
++YansWifiPhy::Configure80211ah (void)
++{
++    NS_LOG_FUNCTION (this);
++    m_channelStartingFrequency = 9e2;
++    
++    // need to check for 802.11ah
++    m_deviceRateSet.push_back (WifiPhy::GetOfdmRate6Mbps ());
++    //m_deviceRateSet.push_back (WifiPhy::GetOfdmRate12Mbps ());
++    //m_deviceRateSet.push_back (WifiPhy::GetOfdmRate24Mbps ());
++    m_bssMembershipSelectorSet.push_back(S1G_PHY);
++    for (uint8_t i=0; i <11; i++)
++    {
++        m_deviceMcsSet.push_back(i);
++    }
++}
++
+ 
+ void
+ YansWifiPhy::RegisterListener (WifiPhyListener *listener)
+@@ -1098,7 +1118,7 @@
+         {
+           NotifyRxEnd (packet);
+           uint32_t dataRate500KbpsUnits;
+-          if ((event->GetPayloadMode ().GetModulationClass () == WIFI_MOD_CLASS_HT))
++          if ((event->GetPayloadMode ().GetModulationClass () == WIFI_MOD_CLASS_HT) || (event->GetPayloadMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G))
+             {
+               dataRate500KbpsUnits = 128 + WifiModeToMcs (event->GetPayloadMode ());
+             }
+@@ -1223,16 +1243,17 @@
+   return m_greenfield;
+ }
+ 
+-bool
+-YansWifiPhy::GetChannelBonding (void) const
++void
++YansWifiPhy::SetChannelWidth(uint32_t channelwidth)
+ {
+-  return m_channelBonding;
++    NS_ASSERT_MSG (channelwidth == 1 || channelwidth == 2 || channelwidth == 4| channelwidth == 8| channelwidth ==16|| channelwidth == 20 || channelwidth == 40 || channelwidth == 80 || channelwidth == 160, "wrong channel width value");
++    m_channelWidth = channelwidth;
+ }
+ 
+-void
+-YansWifiPhy::SetChannelBonding (bool channelbonding)
++uint32_t
++YansWifiPhy::GetChannelWidth(void) const
+ {
+-  m_channelBonding = channelbonding;
++    return m_channelWidth;
+ }
+ 
+ uint32_t
+@@ -1264,6 +1285,29 @@
+       supportedmodes.push_back (WifiPhy::GetOfdmRate58_5MbpsBW20MHz ());
+       supportedmodes.push_back (WifiPhy::GetOfdmRate65MbpsBW20MHz ());
+     }
++  if (id == S1G_PHY)
++    {
++      //mandatory MCS 0 to 7, 1Mhz
++      supportedmodes.push_back (WifiPhy::GetOfdmRate300KbpsBW1MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate600KbpsBW1MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate900KbpsBW1MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate1_2MbpsBW1MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate1_8MbpsBW1MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate2_4MbpsBW1MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate2_7MbpsBW1MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate3MbpsBW1MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate150KbpsBW1MHz ());
++    //mandatory MCS 0 to 7, 2Mhz
++      supportedmodes.push_back (WifiPhy::GetOfdmRate650KbpsBW2MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate1_3MbpsBW2MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate1_95MbpsBW2MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate2_6MbpsBW2MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate3_9MbpsBW2MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate5_2MbpsBW2MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate5_85MbpsBW2MHz ());
++      supportedmodes.push_back (WifiPhy::GetOfdmRate6_5MbpsBW2MHz ());
++    }
++
+   return supportedmodes;
+ }
+ 
+@@ -1282,219 +1326,782 @@
+ uint32_t
+ YansWifiPhy::WifiModeToMcs (WifiMode mode)
+ {
+-  uint32_t mcs = 0;
+-  if (mode.GetUniqueName () == "OfdmRate135MbpsBW40MHzShGi" || mode.GetUniqueName () == "OfdmRate65MbpsBW20MHzShGi")
++    uint32_t mcs = 0;
++    if (mode.GetUniqueName() == "OfdmRate5_85MbpsBW16MHz" || mode.GetUniqueName() == "OfdmRate6_5MbpsBW16MHz" )
+     {
+-      mcs = 6;
++        mcs = 0;
+     }
+-  else
++    else if (mode.GetUniqueName() == "OfdmRate3MbpsBW4MHz" || mode.GetUniqueName() == "OfdmRate5_85MbpsBW8MHz" )
+     {
+-      switch (mode.GetDataRate ())
++        mcs = 1;
++    }
++    else if (mode.GetUniqueName() == "OfdmRate17_55MbpsBW16MHz" )
++    {
++        mcs =2;
++    }
++    else if (mode.GetUniqueName() == "OfdmRate11_7MbpsBW8MHz" || mode.GetUniqueName() == "OfdmRate13MbpsBW8MHz"  || mode.GetUniqueName() == "OfdmRate23_4MbpsBW16MHz" || mode.GetUniqueName() == "OfdmRate26MbpsBW16MHz")
++    {
++        mcs = 3;
++    }
++    else if (mode.GetUniqueName() == "OfdmRate19_5MbpsBW8MHz" || mode.GetUniqueName() == "OfdmRate35_1MbpsBW16MHz"  || mode.GetUniqueName() == "OfdmRate39MbpsBW16MHz" )
++    {
++        mcs = 4;
++    }
++    else if (mode.GetUniqueName() == "OfdmRate2_7MbpsBW1MHz" || mode.GetUniqueName() == "OfdmRate3MbpsBW1MHzShGi" || mode.GetUniqueName() == "OfdmRate6_5MbpsBW2MHzShGi" || mode.GetUniqueName() == "OfdmRate13_5MbpsBW4MHzShGi" || mode.GetUniqueName() == "OfdmRate29_25MbpsBW8MHzShGi" ||
++             mode.GetUniqueName() == "OfdmRate58_5MbpsBW16MHzShGi" || mode.GetUniqueName() == "OfdmRate135MbpsBW40MHzShGi" || mode.GetUniqueName() == "OfdmRate65MbpsBW20MHzShGi" )
++    {
++        mcs = 6;
++    }
++    else if (mode.GetUniqueName() == "OfdmRate6_5MbpsBW2MHz" )
++    {
++        mcs = 7;
++    }
++    else if (mode.GetUniqueName() == "OfdmRate4MbpsBW1MHzShGi" || mode.GetUniqueName() == "OfdmRate18MbpsBW4MHzShGi" || mode.GetUniqueName() == "OfdmRate39MbpsBW8MHzShGi" || mode.GetUniqueName() == "OfdmRate78MbpsBW16MHzShGi")
++    {
++        mcs = 8;
++    }
++    else if (mode.GetModulationClass() == WIFI_MOD_CLASS_S1G )
++    {
++        switch (mode.GetDataRate ())
+         {
+-        case 6500000:
+-        case 7200000:
+-        case 13500000:
+-        case 15000000:
+-          mcs = 0;
+-          break;
+-        case 13000000:
+-        case 14400000:
+-        case 27000000:
+-        case 30000000:
+-          mcs = 1;
+-          break;
+-        case 19500000:
+-        case 21700000:
+-        case 40500000:
+-        case 45000000:
+-          mcs = 2;
+-          break;
+-        case 26000000:
+-        case 28900000:
+-        case 54000000:
+-        case 60000000:
+-          mcs = 3;
+-          break;
+-        case 39000000:
+-        case 43300000:
+-        case 81000000:
+-        case 90000000:
+-          mcs = 4;
+-          break;
+-        case 52000000:
+-        case 57800000:
+-        case 108000000:
+-        case 120000000:
+-          mcs = 5;
+-          break;
+-        case 58500000:
+-        case 121500000:
+-          mcs = 6;
+-          break;
+-        case 65000000:
+-        case 72200000:
+-        case 135000000:
+-        case 150000000:
+-          mcs = 7;
+-          break;
++            case 300000:
++            case 333300:
++            case 650000:
++            case 722200:
++            case 1350000:
++            case 1500000:
++            case 2925000:
++            case 3250000:
++                mcs = 0;
++                break;
++            case 600000:
++            case 666700:
++            case 1300000:
++            case 1444400:
++            case 2700000:
++            case 6500000:
++            case 11700000:
++            case 13000000:
++                mcs = 1;
++                break;
++            case 900000:
++            case 1000000:
++            case 1950000:
++            case 2166700:
++            case 4050000:
++            case 4500000:
++            case 8775000:
++            case 9750000:
++            case 19500000:
++                mcs=2;
++                break;
++            case 1200000:
++            case 1333300:
++            case 2600000:
++            case 2888900:
++            case 5400000:
++            case 6000000:
++                mcs=3;
++                break;
++            case 1800000:
++            case 2000000:
++            case 3900000:
++            case 4333300:
++            case 8100000:
++            case 9000000:
++            case 17550000:
++                mcs = 4;
++                break;
++            case 2400000:
++            case 2666700:
++            case 5200000:
++            case 5777800:
++            case 10800000:
++            case 12000000:
++            case 23400000:
++            case 26000000:
++            case 46800000:
++            case 52000000:
++                mcs=5;
++                break;
++            case 5850000:
++            case 12150000:
++            case 26325000:
++            case 52650000:
++                mcs=6;
++                break;
++            case 3000000:
++            case 3333300:
++            case 7222200:
++            case 13500000:
++            case 15000000:
++            case 29250000:
++            case 32500000:
++            case 58500000:
++            case 65000000:
++                mcs=7;
++                break;
++            case 3600000:
++            case 7800000:
++            case 8666700:
++            case 16200000:
++            case 35100000:
++            case 70200000:
++                mcs=8;
++                break;
++            case 4000000:
++            case 4444400:
++            case 18000000:
++            case 20000000:
++            case 39000000:
++            case 43333300:
++            case 78000000:
++            case 86666700:
++                mcs=9;
++                break;
++            case 150000:
++            case 166700:
++                mcs=10;
++                break;
+         }
+     }
+-  return mcs;
++    else
++    {
++        switch (mode.GetDataRate())
++        {
++            case 6500000:
++            case 7200000:
++            case 13500000:
++            case 15000000:
++                mcs=0;
++                break;
++            case 13000000:
++            case 14400000:
++            case 27000000:
++            case 30000000:
++                mcs=1;
++                break;
++            case 19500000:
++            case 21700000:
++            case 40500000:
++            case 45000000:
++                mcs=2;
++                break;
++            case 26000000:
++            case 28900000:
++            case 54000000:
++            case 60000000:
++                mcs=3;
++                break;
++            case 39000000:
++            case 43300000:
++            case 81000000:
++            case 90000000:
++                mcs=4;
++                break;
++            case 52000000:
++            case 57800000:
++            case 108000000:
++            case 120000000:
++                mcs=5;
++                break;
++            case 58500000:
++            case 121500000:
++                mcs=6;
++                break;
++            case 65000000:
++            case 72200000:
++            case 135000000:
++            case 150000000:
++                mcs=7;
++                break;
++        }
++    }
++    return mcs;
+ }
+ 
++
+ WifiMode
+ YansWifiPhy::McsToWifiMode (uint8_t mcs)
+ {
+-  WifiMode mode;
+-  switch (mcs)
++    WifiMode mode;
++    switch (mcs)
+     {
+-    case 7:
+-      if (!GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode =  WifiPhy::GetOfdmRate65MbpsBW20MHz ();
+-        }
+-      else if (GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate72_2MbpsBW20MHz ();
+-        }
+-      else if (!GetGuardInterval () && GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate135MbpsBW40MHz ();
+-        }
+-      else
+-        {
+-          mode = WifiPhy::GetOfdmRate150MbpsBW40MHz ();
+-        }
+-      break;
+-    case 6:
+-      if (!GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate58_5MbpsBW20MHz ();
+-        }
+-      else if (GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate65MbpsBW20MHzShGi ();
+-        }
+-      else if (!GetGuardInterval () && GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate121_5MbpsBW40MHz ();
+-        }
+-      else
+-        {
+-          mode = WifiPhy::GetOfdmRate135MbpsBW40MHzShGi ();
+-        }
+-      break;
+-    case 5:
+-      if (!GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate52MbpsBW20MHz ();
+-        }
+-      else if (GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate57_8MbpsBW20MHz ();
+-        }
+-      else if (!GetGuardInterval () && GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate108MbpsBW40MHz ();
+-        }
+-      else
+-        {
+-          mode = WifiPhy::GetOfdmRate120MbpsBW40MHz ();
+-        }
+-      break;
+-    case 4:
+-      if (!GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate39MbpsBW20MHz ();
+-        }
+-      else if (GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate43_3MbpsBW20MHz ();
+-        }
+-      else if (!GetGuardInterval () && GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate81MbpsBW40MHz ();
+-        }
+-      else
+-        {
+-          mode = WifiPhy::GetOfdmRate90MbpsBW40MHz ();
+-        }
+-      break;
+-    case 3:
+-      if (!GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate26MbpsBW20MHz ();
+-        }
+-      else if (GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate28_9MbpsBW20MHz ();
+-        }
+-      else if (!GetGuardInterval () && GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate54MbpsBW40MHz ();
+-        }
+-      else
+-        {
+-          mode = WifiPhy::GetOfdmRate60MbpsBW40MHz ();
+-        }
+-      break;
+-    case 2:
+-      if (!GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate19_5MbpsBW20MHz ();
+-        }
+-      else if (GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate21_7MbpsBW20MHz ();
+-        }
+-      else if (!GetGuardInterval () && GetChannelBonding ())
+-        {
+-          mode =  WifiPhy::GetOfdmRate40_5MbpsBW40MHz ();
+-        }
+-      else
+-        {
+-          mode = WifiPhy::GetOfdmRate45MbpsBW40MHz ();
+-        }
+-      break;
+-    case 1:
+-      if (!GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate13MbpsBW20MHz ();
+-        }
+-      else if (GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode =  WifiPhy::GetOfdmRate14_4MbpsBW20MHz ();
+-        }
+-      else if (!GetGuardInterval () && GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate27MbpsBW40MHz ();
+-        }
+-      else
+-        {
+-          mode = WifiPhy::GetOfdmRate30MbpsBW40MHz ();
+-        }
+-      break;
+-    case 0:
+-    default:
+-      if (!GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate6_5MbpsBW20MHz ();
+-        }
+-      else if (GetGuardInterval () && !GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate7_2MbpsBW20MHz ();
+-        }
+-      else if (!GetGuardInterval () && GetChannelBonding ())
+-        {
+-          mode = WifiPhy::GetOfdmRate13_5MbpsBW40MHz ();
+-        }
+-      else
+-        {
+-          mode = WifiPhy::GetOfdmRate15MbpsBW40MHz ();
+-        }
+-      break;
++        case 10:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate150KbpsBW1MHz ();
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate166_7KbpsBW1MHz ();
++            }
++            break;
++        case 9:
++            
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate4MbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate4_444_4MbpsBW1MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate18MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate20MbpsBW4MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate39MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate43_333_3MbpsBW8MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate78MbpsBW16MHz ();
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate86_666_7MbpsBW16MHz ();
++            }
++            break;
++        case 8:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate3_6MbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate4MbpsBW1MHzShGi ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate7_8MbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate8_666_7MbpsBW2MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate16_2MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate18MbpsBW4MHzShGi ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate35_1MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate39MbpsBW8MHzShGi ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate70_2MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate78MbpsBW16MHzShGi ();
++            }
++            break;
++        case 7:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate3MbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate3_333_3MbpsBW1MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate6_5MbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate7_222_2MbpsBW2MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate13_5MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate15MbpsBW4MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate29_25MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate32_5MbpsBW8MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate58_5MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate65MbpsBW16MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode =  WifiPhy::GetOfdmRate65MbpsBW20MHz ();
++            }
++            else if(GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate72_2MbpsBW20MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 40)
++            {
++                mode = WifiPhy::GetOfdmRate135MbpsBW40MHz ();
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate150MbpsBW40MHz ();
++            }
++            break;
++        case 6:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate2_7MbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate3MbpsBW1MHzShGi ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate5_85MbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate6_5MbpsBW2MHzShGi ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate12_15MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate13_5MbpsBW4MHzShGi ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate26_325MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate29_25MbpsBW8MHzShGi ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate52_65MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate58_5MbpsBW16MHzShGi ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate58_5MbpsBW20MHz ();
++                
++            }
++            else if(GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode =  WifiPhy::GetOfdmRate65MbpsBW20MHzShGi ();
++                
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 40)
++            {
++                mode = WifiPhy::GetOfdmRate121_5MbpsBW40MHz ();
++                
++            }
++            else
++            {
++                mode= WifiPhy::GetOfdmRate135MbpsBW40MHzShGi ();
++                
++            }
++            break;
++        case 5:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate2_4MbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate2_666_7MbpsBW1MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate5_2MbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate5_777_8MbpsBW2MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate10_8MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate12MbpsBW4MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate23_4MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate26MbpsBW8MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate46_8MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate52MbpsBW16MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate52MbpsBW20MHz ();
++                
++            }
++            else if(GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate57_8MbpsBW20MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 40)
++            {
++                mode = WifiPhy::GetOfdmRate108MbpsBW40MHz ();
++                
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate120MbpsBW40MHz ();
++                
++            }
++            break;
++        case 4:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate1_8MbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate2MbpsBW1MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate3_9MbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate4_333_3MbpsBW2MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate8_1MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate9MbpsBW4MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate17_55MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate19_5MbpsBW8MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate35_1MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate39MbpsBW16MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate39MbpsBW20MHz ();
++            }
++            else if(GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate43_3MbpsBW20MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 40)
++            {
++                mode = WifiPhy::GetOfdmRate81MbpsBW40MHz ();
++                
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate90MbpsBW40MHz ();
++                
++            }
++            break;
++        case 3:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate1_2MbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate1_333_3MbpsBW1MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate2_6MbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate2_8889MbpsBW2MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate5_4MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate6MbpsBW4MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate11_7MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate13MbpsBW8MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate23_4MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate26MbpsBW16MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode =  WifiPhy::GetOfdmRate26MbpsBW20MHz ();
++                
++            }
++            else if(GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate28_9MbpsBW20MHz ();
++                
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 40)
++            {
++                mode = WifiPhy::GetOfdmRate54MbpsBW40MHz ();
++                
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate60MbpsBW40MHz ();
++            }
++            break;
++        case 2:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate900KbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate1MbpsBW1MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate1_95MbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate2_166_7MbpsBW2MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate4_05MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate4_5MbpsBW4MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate8_775MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate9_75MbpsBW8MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate17_55MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate19_5MbpsBW16MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate19_5MbpsBW20MHz ();
++                
++            }
++            else if(GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate21_7MbpsBW20MHz ();
++                
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 40)
++            {
++                mode =  WifiPhy::GetOfdmRate40_5MbpsBW40MHz ();
++                
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate45MbpsBW40MHz ();
++                
++            }
++            break;
++        case 1:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate600KbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate666_7KbpsBW1MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate1_3MbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate1_444_4MbpsBW2MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate2_7MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate3MbpsBW4MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate5_85MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate6_5MbpsBW8MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate11_7MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate13MbpsBW16MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate13MbpsBW20MHz ();
++                
++            }
++            else if(GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode =  WifiPhy::GetOfdmRate14_4MbpsBW20MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 40)
++            {
++                mode = WifiPhy::GetOfdmRate27MbpsBW40MHz ();
++                
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate30MbpsBW40MHz ();
++            }
++            break;
++        case 0:
++        default:
++            if (!GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate300KbpsBW1MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 1)
++            {
++                mode = WifiPhy::GetOfdmRate333_3KbpsBW1MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate650KbpsBW2MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 2)
++            {
++                mode = WifiPhy::GetOfdmRate722_2KbpsBW2MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate1_35MbpsBW4MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 4)
++            {
++                mode = WifiPhy::GetOfdmRate1_5MbpsBW4MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate2_925MbpsBW8MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 8)
++            {
++                mode = WifiPhy::GetOfdmRate3_25MbpsBW8MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate5_85MbpsBW16MHz ();
++            }
++            else if (GetGuardInterval() && GetChannelWidth() == 16)
++            {
++                mode = WifiPhy::GetOfdmRate6_5MbpsBW16MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate6_5MbpsBW20MHz ();
++                
++            }
++            else if(GetGuardInterval() && GetChannelWidth() == 20)
++            {
++                mode = WifiPhy::GetOfdmRate7_2MbpsBW20MHz ();
++            }
++            else if (!GetGuardInterval() && GetChannelWidth() == 40)
++            {
++                mode = WifiPhy::GetOfdmRate13_5MbpsBW40MHz ();
++                
++            }
++            else
++            {
++                mode = WifiPhy::GetOfdmRate15MbpsBW40MHz ();
++            }
++            break;
+     }
+-  return mode;
++    return mode;
+ }
+ 
++
+ } //namespace ns3
+diff -r f1837a4f71c0 -r 4e236bcef96e src/wifi/model/yans-wifi-phy.h
+--- a/src/wifi/model/yans-wifi-phy.h	Tue Jul 07 13:37:52 2015 +0200
++++ b/src/wifi/model/yans-wifi-phy.h	Thu Jul 09 15:32:07 2015 +0200
+@@ -39,7 +39,8 @@
+ #include "interference-helper.h"
+ 
+ namespace ns3 {
+-
++    
++#define S1G_PHY 195
+ #define HT_PHY 127
+ 
+ class YansWifiChannel;
+@@ -383,17 +384,17 @@
+    */
+   virtual bool GetGreenfield (void) const;
+   /**
+-   * Return whether channel bonding is supported.
++   * Return channel width.
+    *
+-   * \return true if channel bonding is supported, false otherwise
++   * \return channel width
+    */
+-  virtual bool GetChannelBonding (void) const;
++  virtual uint32_t GetChannelWidth (void) const ;
+   /**
+-   * Enable or disable channel bonding support.
++   * Set channel width.
+    *
+-   * \param channelbonding Enable or disable channel bonding
++   * \param channel width
+    */
+-  virtual void SetChannelBonding (bool channelbonding);
++virtual void SetChannelWidth (uint32_t channelwidth) ;
+ 
+   virtual uint32_t GetNBssMembershipSelectors (void) const;
+   virtual uint32_t GetBssMembershipSelector (uint32_t selector) const;
+@@ -445,6 +446,11 @@
+    */
+   void Configure80211n (void);
+   /**
++   * Configure YansWifiPhy with appropriate channel frequency and
++   * supported rates for 802.11ah standard.
++   */
++void Configure80211ah (void);
++  /**
+    * Return the energy detection threshold.
+    *
+    * \return the energy detection threshold.
+@@ -522,7 +528,7 @@
+   bool     m_greenfield;            //!< Flag if GreenField format is supported
+   bool     m_guardInterval;         //!< Flag if short guard interval is used
+   bool     m_channelBonding;        //!< Flag if channel bonding is used
+-
++  uint32_t m_channelWidth;          //!< Channel width
+ 
+   /**
+    * This vector holds the set of transmission modes that this

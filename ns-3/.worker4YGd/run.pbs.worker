@@ -1,0 +1,224 @@
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.5 1
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.5 1
+#./Raw-duration.sh 1 1 256 0.5 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.5 2
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.5 2
+#./Raw-duration.sh 1 1 256 0.5 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.5 8
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.5 8
+#./Raw-duration.sh 1 1 256 0.5 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.5 16
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.5 16
+#./Raw-duration.sh 1 1 256 0.5 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.5 64
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.5 64
+#./Raw-duration.sh 1 1 256 0.5 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.5 128
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.5 128
+#./Raw-duration.sh 1 1 256 0.5 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.5 256
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.5 256
+#./Raw-duration.sh 1 1 256 0.5 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.6 1
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.6 1
+#./Raw-duration.sh 1 1 256 0.6 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.6 2
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.6 2
+#./Raw-duration.sh 1 1 256 0.6 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.6 8
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.6 8
+#./Raw-duration.sh 1 1 256 0.6 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.6 16
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.6 16
+#./Raw-duration.sh 1 1 256 0.6 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.6 64
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.6 64
+#./Raw-duration.sh 1 1 256 0.6 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.6 128
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.6 128
+#./Raw-duration.sh 1 1 256 0.6 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.6 256
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.6 256
+#./Raw-duration.sh 1 1 256 0.6 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.8 1
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.8 1
+#./Raw-duration.sh 1 1 256 0.8 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.8 2
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.8 2
+#./Raw-duration.sh 1 1 256 0.8 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.8 8
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.8 8
+#./Raw-duration.sh 1 1 256 0.8 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.8 16
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.8 16
+#./Raw-duration.sh 1 1 256 0.8 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.8 64
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.8 64
+#./Raw-duration.sh 1 1 256 0.8 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.8 128
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.8 128
+#./Raw-duration.sh 1 1 256 0.8 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 0.8 256
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 0.8 256
+#./Raw-duration.sh 1 1 256 0.8 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 1 1
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 1 1
+#./Raw-duration.sh 1 1 256 1 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 1 2
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 1 2
+#./Raw-duration.sh 1 1 256 1 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 1 8
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 1 8
+#./Raw-duration.sh 1 1 256 1 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 1 16
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 1 16
+#./Raw-duration.sh 1 1 256 1 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 1 64
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 1 64
+#./Raw-duration.sh 1 1 256 1 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 1 128
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 1 128
+#./Raw-duration.sh 1 1 256 1 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+#./traffic-pattern-samegroup.sh  1 1 256 1 256
+./Number-of-RAW-groups-allenergy-test.sh 1 1 256 1 256
+#./Raw-duration.sh 1 1 256 1 256 $Duration
+
+#####--END

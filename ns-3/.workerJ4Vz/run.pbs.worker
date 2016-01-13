@@ -1,0 +1,630 @@
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 1 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 4 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 16 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 1 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 4 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 16 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 1 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 4 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 16 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 1 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 4 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 16 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 1 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 4 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 16 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 1 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 4 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 16 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 1 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 4 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 16 1 16 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 1 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 4 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 16 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 32 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 64 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 1 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 4 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 16 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 32 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 64 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 1 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 4 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 16 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 32 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 64 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 1 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 4 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 16 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 32 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 64 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 1 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 4 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 16 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 32 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 64 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 1 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 4 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 16 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 32 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 64 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 1 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 4 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 16 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 32 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 64 1 64 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 1 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 4 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 16 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 32 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 64 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 128 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 256 5000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 1 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 4 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 16 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 32 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 64 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 128 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 256 10000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 1 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 4 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 16 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 32 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 64 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 128 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 256 50000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 1 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 4 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 16 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 32 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 64 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 128 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 256 100000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 1 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 4 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 16 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 32 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 64 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 128 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 256 500000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 1 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 4 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 16 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 32 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 64 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 128 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 256 1000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 1 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 4 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 16 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 32 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 64 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 128 2000000
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./Raw-duration.sh 1 1 256 1 256 2000000
+
+#####--END

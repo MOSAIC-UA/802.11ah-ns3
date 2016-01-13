@@ -1,0 +1,64 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=6:00:00
+#PBS -M Le.Tian@uantwerpen.be
+
+
+# set worker application and options
+WORKER_APPL="/apps/antwerpen/ivybridge/sl6/worker/1.5.1-intel-2015a/bin/../bin/worker"
+
+# get the job ID and to compute appropriate names
+WORKER_JOBID=`echo $PBS_JOBID | sed 's/\([0-9][0-9]*\).*/\1/'`
+
+# change to the working directory
+cd $PBS_O_WORKDIR
+
+# rename artifacts consistently with job name and ID scheme
+mv .worker8j3r/run.pbs.worker ${PBS_JOBNAME}.sh${WORKER_JOBID}
+mv .worker8j3r/run.pbs.run ${PBS_JOBNAME}.run${WORKER_JOBID}
+mv .worker8j3r/worker.pbs ${PBS_JOBNAME}.pbs${WORKER_JOBID}
+
+# compute prolog option
+
+WORKER_PROLOG=""
+
+# compute batch option
+WORKER_BATCH="-b ${PBS_JOBNAME}.sh${WORKER_JOBID}"
+
+# compute epilog option
+
+WORKER_EPILOG=""
+
+rm -rf .worker8j3r/
+
+# determine the number of processes to run, modify later if master
+# or threaded switch is active
+n_proc=$(cat ${PBS_NODEFILE} | wc -l)
+
+# only applicable when the master switch is on
+# create host file to use for this job and compute number of cores
+
+mom=`head -1 $PBS_NODEFILE`
+echo $mom > ${PBS_JOBNAME}.host${WORKER_JOBID}
+cat $PBS_NODEFILE >> ${PBS_JOBNAME}.host${WORKER_JOBID}
+HOST_FILE="-machinefile ${PBS_JOBNAME}.host${WORKER_JOBID}"
+n_proc=$(( ${n_proc} + 1 ))
+
+
+# only applicable when the threaded swith is on
+
+
+# compute log option
+WORKER_LOG_FILE="-l ${PBS_JOBNAME}.log${WORKER_JOBID}"
+
+# compute verbose option
+WORKER_VERBOSE=""
+
+# load appropriate MPI implementation module
+module unload intel
+module load intel/2015a
+
+# start the worker
+mpirun -np ${n_proc} ${HOST_FILE} \
+    "${WORKER_APPL}" ${WORKER_PROLOG} ${WORKER_BATCH} ${WORKER_EPILOG} \
+                   ${WORKER_LOG_FILE} ${WORKER_VERBOSE}

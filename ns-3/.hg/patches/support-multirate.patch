@@ -1,0 +1,560 @@
+# HG changeset patch
+# Parent  4e236bcef96edcf9d79b0b0d2e30deefb8c313e2
+partially-support-multirate
+
+diff -r 4e236bcef96e -r 3cd8e38d3f27 src/wifi/model/mac-low.cc
+--- a/src/wifi/model/mac-low.cc	Thu Jul 09 15:32:07 2015 +0200
++++ b/src/wifi/model/mac-low.cc	Tue Aug 11 13:52:35 2015 +0200
+@@ -1238,8 +1238,17 @@
+ Time
+ MacLow::GetAckDuration (WifiTxVector ackTxVector) const
+ {
+-  NS_ASSERT (ackTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_HT || ackTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_S1G); // ACK should always use non-HT PPDU (HT PPDU cases not supported yet)
+-  return m_phy->CalculateTxDuration (GetAckSize (), ackTxVector, WIFI_PREAMBLE_LONG, m_phy->GetFrequency (), 0, 0);
++  NS_ASSERT (ackTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_HT); // ACK should always use non-HT PPDU (HT PPDU cases not supported yet)
++  WifiPreamble preamble;
++  if (ackTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
++  else
++    {
++      preamble = WIFI_PREAMBLE_LONG;
++    }
++  return m_phy->CalculateTxDuration (GetAckSize (), ackTxVector, preamble, m_phy->GetFrequency (), 0, 0);
+ }
+ 
+ Time
+@@ -1276,8 +1285,19 @@
+ MacLow::GetCtsDuration (WifiTxVector ctsTxVector) const
+ {
+   NS_ASSERT (ctsTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_HT); // CTS should always use non-HT PPDU (HT PPDU cases not supported yet)
+-  NS_ASSERT (ctsTxVector.GetMode ().GetModulationClass () != WIFI_MOD_CLASS_S1G); //need to check for 802.11ah
+-  return m_phy->CalculateTxDuration (GetCtsSize (), ctsTxVector, WIFI_PREAMBLE_LONG, m_phy->GetFrequency (), 0, 0);
++  WifiPreamble preamble;
++  if (ctsTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++    {
++        //to do
++        //implement P802.11AH_D4.0, 9.7.6.6
++        preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
++  else
++    {
++        //CTS should always use non-HT PPDU (HT PPDU cases not supported yet)
++        preamble = WIFI_PREAMBLE_LONG;
++    }
++  return m_phy->CalculateTxDuration (GetCtsSize (), ctsTxVector, preamble, m_phy->GetFrequency (), 0, 0);
+ }
+ 
+ uint32_t
+@@ -1372,6 +1392,19 @@
+         {
+           preamble = WIFI_PREAMBLE_HT_GF;
+         }
++      // P802.11AH_D4.0, 9.7.6.1
++      else if (m_phy->GetS1g1Mfield () && m_stationManager->GetS1g1MfieldSupported (m_currentHdr.GetAddr1 ()))
++        {
++          preamble = WIFI_PREAMBLE_S1G_1M;
++        }
++      else if (m_phy->GetS1gShortfield () && m_stationManager->GetS1gShortfieldSupported (m_currentHdr.GetAddr1 ()))
++        {
++          preamble = WIFI_PREAMBLE_S1G_SHORT;
++        }
++      else if (m_phy->GetS1gLongfield () && m_stationManager->GetS1gLongfieldSupported (m_currentHdr.GetAddr1 ()))
++        {
++          preamble = WIFI_PREAMBLE_S1G_SHORT;
++        }
+       else
+         {
+           //Otherwise, RTS should always use non-HT PPDU (HT PPDU cases not supported yet)
+@@ -1390,9 +1423,17 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
+-  else if (dataTxVector.GetMode().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++  else if (m_phy->GetS1g1Mfield () && m_stationManager->GetS1g1MfieldSupported (m_currentHdr.GetAddr1 ()))
+     {
+-      preamble = WIFI_PREAMBLE_S1G_SHORT;  //need to add support on S1G_LONG and S1G_1M
++      preamble = WIFI_PREAMBLE_S1G_1M;
++    }
++  else if (m_phy->GetS1gShortfield () && m_stationManager->GetS1gShortfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
++  else if (m_phy->GetS1gLongfield () && m_stationManager->GetS1gLongfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_LONG;
+     }
+   else
+     {
+@@ -1426,9 +1467,17 @@
+         {
+           preamble = WIFI_PREAMBLE_HT_MF;
+         }
+-      else if (dataTxVector.GetMode().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++      else if (m_phy->GetS1g1Mfield () && m_stationManager->GetS1g1MfieldSupported (m_currentHdr.GetAddr1 ()))
+         {
+-          preamble = WIFI_PREAMBLE_S1G_SHORT; //only support S1G_SHORT frame
++          preamble = WIFI_PREAMBLE_S1G_1M;
++        }
++      else if (m_phy->GetS1gShortfield () && m_stationManager->GetS1gShortfieldSupported (m_currentHdr.GetAddr1 ()))
++        {
++          preamble = WIFI_PREAMBLE_S1G_SHORT;
++        }
++      else if (m_phy->GetS1gLongfield () && m_stationManager->GetS1gLongfieldSupported (m_currentHdr.GetAddr1 ()))
++        {
++          preamble = WIFI_PREAMBLE_S1G_LONG;
+         }
+       else
+         {
+@@ -1614,7 +1663,7 @@
+             {
+               delay = delay + m_phy->CalculateTxDuration (GetSize (newPacket, &newHdr), txVector, preamble, m_phy->GetFrequency (), packetType, 0);
+             }
+-          preamble = WIFI_PREAMBLE_NONE;
++          preamble = WIFI_PREAMBLE_NONE;  //need to check 802.11ah
+         }
+     }
+ }
+@@ -1737,6 +1786,19 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_GF;
+     }
++  // P802.11AH_D4.0, 9.7.6.1
++  else if (m_phy->GetS1g1Mfield () && m_stationManager->GetS1g1MfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_1M;
++    }
++  else if (m_phy->GetS1gShortfield () && m_stationManager->GetS1gShortfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
++  else if (m_phy->GetS1gLongfield () && m_stationManager->GetS1gLongfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
+   else //Otherwise, RTS should always use non-HT PPDU (HT PPDU cases not supported yet)
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -1811,9 +1873,17 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
+-  else if (dataTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++  else if (m_phy->GetS1g1Mfield () && m_stationManager->GetS1g1MfieldSupported (m_currentHdr.GetAddr1 ()))
+     {
+-      preamble = WIFI_PREAMBLE_S1G_SHORT; //only support S1G_SHORT
++      preamble = WIFI_PREAMBLE_S1G_1M;
++    }
++  else if (m_phy->GetS1gShortfield () && m_stationManager->GetS1gShortfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
++  else if (m_phy->GetS1gLongfield () && m_stationManager->GetS1gLongfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_LONG;
+     }
+   else
+     {
+@@ -1896,10 +1966,18 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
+-  else if (dataTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G) //  only support S1G_SHORT
++  else if (m_phy->GetS1g1Mfield () && m_stationManager->GetS1g1MfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_1M;
++    }
++  else if (m_phy->GetS1gShortfield () && m_stationManager->GetS1gShortfieldSupported (m_currentHdr.GetAddr1 ()))
+     {
+       preamble = WIFI_PREAMBLE_S1G_SHORT;
+     }
++  else if (m_phy->GetS1gLongfield () && m_stationManager->GetS1gLongfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_LONG;
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -2092,9 +2170,20 @@
+   SnrTag tag;
+   tag.Set (rtsSnr);
+   packet->AddPacketTag (tag);
+-
+-  //CTS should always use non-HT PPDU (HT PPDU cases not supported yet)
+-  ForwardDown (packet, &cts, ctsTxVector, WIFI_PREAMBLE_LONG);
++  
++  WifiPreamble preamble;
++  if (ctsTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++    {
++      //to do
++      //implement P802.11AH_D4.0, 9.7.6.6
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
++  else
++    {
++      //CTS should always use non-HT PPDU (HT PPDU cases not supported yet)
++      preamble = WIFI_PREAMBLE_LONG;
++    }
++  ForwardDown (packet, &cts, ctsTxVector, preamble);
+ }
+ 
+ void
+@@ -2130,10 +2219,20 @@
+     {
+       preamble = WIFI_PREAMBLE_HT_MF;
+     }
+-  else if (dataTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G) // only support S1G_SHORT
++  //To do, support non-STBC beacon, 9.7.5.1, P802.11ah D4.0
++  //See 9.7.5.7, P802.11ah D4.0
++  else if (m_phy->GetS1g1Mfield () && m_stationManager->GetS1g1MfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_1M;
++    }
++  else if (m_phy->GetS1gShortfield () && m_stationManager->GetS1gShortfieldSupported (m_currentHdr.GetAddr1 ()))
+     {
+       preamble = WIFI_PREAMBLE_S1G_SHORT;
+     }
++  else if (m_phy->GetS1gLongfield () && m_stationManager->GetS1gLongfieldSupported (m_currentHdr.GetAddr1 ()))
++    {
++      preamble = WIFI_PREAMBLE_S1G_LONG;
++    }
+   else
+     {
+       preamble = WIFI_PREAMBLE_LONG;
+@@ -2246,9 +2345,20 @@
+   SnrTag tag;
+   tag.Set (dataSnr);
+   packet->AddPacketTag (tag);
+-
+-  //ACK should always use non-HT PPDU (HT PPDU cases not supported yet)
+-  ForwardDown (packet, &ack, ackTxVector, WIFI_PREAMBLE_LONG);
++  
++  WifiPreamble preamble;
++  if (ackTxVector.GetMode ().GetModulationClass () == WIFI_MOD_CLASS_S1G)
++    {
++      //to do
++      // implement P802.11AH_D4.0, 9.7.6.6
++      preamble = WIFI_PREAMBLE_S1G_SHORT;
++    }
++  else
++    {
++     //ACK should always use non-HT PPDU (HT PPDU cases not supported yet)
++     preamble = WIFI_PREAMBLE_LONG;
++    }
++  ForwardDown (packet, &ack, ackTxVector, preamble);
+ }
+ 
+ bool
+diff -r 4e236bcef96e -r 3cd8e38d3f27 src/wifi/model/wifi-phy.h
+--- a/src/wifi/model/wifi-phy.h	Thu Jul 09 15:32:07 2015 +0200
++++ b/src/wifi/model/wifi-phy.h	Tue Aug 11 13:52:35 2015 +0200
+@@ -1768,6 +1768,30 @@
+    */
+   virtual bool GetGreenfield (void) const = 0;
+   /**
++   * \param S1g1Mfield Enable or disable GreenField
++   */
++  virtual void SetS1g1Mfield (bool s1g1mfield) = 0;
++  /**
++   * \return true if S1g1Mfield is supported, false otherwise
++   */
++  virtual bool GetS1g1Mfield (void) const = 0;
++  /**
++   * \param S1gShortfield Enable or disable GreenField
++   */
++  virtual void SetS1gShortfield (bool s1gshortfield) = 0;
++  /**
++   * \return true if S1gShortfield is supported, false otherwise
++   */
++  virtual bool GetS1gShortfield (void) const = 0;
++  /**
++   * \param S1gLongfield Enable or disable GreenField
++   */
++  virtual void SetS1gLongfield (bool s1glongfield) = 0;
++  /**
++   * \return true if S1gLongfield is supported, false otherwise
++   */
++  virtual bool GetS1gLongfield (void) const = 0;
++  /**
+    * \return the channel width
+    */
+   virtual uint32_t GetChannelWidth (void) const = 0;
+diff -r 4e236bcef96e -r 3cd8e38d3f27 src/wifi/model/wifi-remote-station-manager.cc
+--- a/src/wifi/model/wifi-remote-station-manager.cc	Thu Jul 09 15:32:07 2015 +0200
++++ b/src/wifi/model/wifi-remote-station-manager.cc	Tue Aug 11 13:52:35 2015 +0200
+@@ -1270,6 +1270,9 @@
+   state->m_operationalMcsSet.push_back (GetDefaultMcs ());
+   state->m_shortGuardInterval = m_wifiPhy->GetGuardInterval ();
+   state->m_greenfield = m_wifiPhy->GetGreenfield ();
++  state->m_s1g1mfield = m_wifiPhy->GetS1g1Mfield ();
++  state->m_s1gshortfield = m_wifiPhy->GetS1gShortfield ();
++  state->m_s1glongfield = m_wifiPhy->GetS1gLongfield ();
+   state->m_rx = 1;
+   state->m_tx = 1;
+   state->m_ness = 0;
+@@ -1327,6 +1330,8 @@
+   state = LookupState (from);
+   state->m_shortGuardInterval = htcapabilities.GetShortGuardInterval20 ();
+   state->m_greenfield = htcapabilities.GetGreenfield ();
++  // to do
++  //state->m_greenfield = s1gcapabilities.GetS1gLongfield ();
+ }
+ 
+ bool
+@@ -1335,6 +1340,27 @@
+   //Used by mac low to choose format used GF, MF or Non HT
+   return LookupState (address)->m_greenfield;
+ }
++    
++bool
++WifiRemoteStationManager::GetS1g1MfieldSupported (Mac48Address address) const
++{
++  //Used by mac low to choose format
++  return LookupState (address)->m_s1g1mfield;
++}
++
++bool
++WifiRemoteStationManager::GetS1gShortfieldSupported (Mac48Address address) const
++{
++    //Used by mac low to choose format
++    return LookupState (address)->m_s1gshortfield;
++}
++
++bool
++WifiRemoteStationManager::GetS1gLongfieldSupported (Mac48Address address) const
++{
++    //Used by mac low to choose format
++    return LookupState (address)->m_s1glongfield;
++}
+ 
+ WifiMode
+ WifiRemoteStationManager::GetDefaultMode (void) const
+@@ -1488,6 +1514,24 @@
+ {
+   return station->m_state->m_greenfield;
+ }
++    
++bool
++WifiRemoteStationManager::GetS1g1Mfield (const WifiRemoteStation *station) const
++{
++  return station->m_state->m_s1g1mfield;
++}
++
++bool
++WifiRemoteStationManager::GetS1gShortfield (const WifiRemoteStation *station) const
++{
++  return station->m_state->m_s1gshortfield;
++}
++
++bool
++WifiRemoteStationManager::GetS1gLongfield (const WifiRemoteStation *station) const
++{
++  return station->m_state->m_s1glongfield;
++}
+ 
+ bool
+ WifiRemoteStationManager::GetStbc (const WifiRemoteStation *station) const
+diff -r 4e236bcef96e -r 3cd8e38d3f27 src/wifi/model/wifi-remote-station-manager.h
+--- a/src/wifi/model/wifi-remote-station-manager.h	Thu Jul 09 15:32:07 2015 +0200
++++ b/src/wifi/model/wifi-remote-station-manager.h	Tue Aug 11 13:52:35 2015 +0200
+@@ -219,6 +219,33 @@
+    */
+   bool GetGreenfieldSupported (Mac48Address address) const;
+   /**
++   * Return whether the station supports S1g1Mfield or not.
++   *
++   * \param address the address of the station
++   *
++   * \return true if S1g1Mfield is supported by the station,
++   *         false otherwise
++   */
++  bool GetS1g1MfieldSupported (Mac48Address address) const;
++  /**
++   * Return whether the station supports S1gShortfield or not.
++   *
++   * \param address the address of the station
++   *
++   * \return true if S1gShortfield is supported by the station,
++   *         false otherwise
++   */
++  bool GetS1gShortfieldSupported (Mac48Address address) const;
++  /**
++   * Return whether the station supports S1gLongfield or not.
++   *
++   * \param address the address of the station
++   *
++   * \return true if S1gLongfield is supported by the station,
++   *         false otherwise
++   */
++  bool GetS1gLongfieldSupported (Mac48Address address) const;
++  /**
+    * Add a given Modulation and Coding Scheme (MCS) index to
+    * the set of basic MCS.
+    *
+@@ -654,6 +681,33 @@
+    */
+   bool GetGreenfield (const WifiRemoteStation *station) const;
+   /**
++   * Return whether the station supports S1g1Mfield or not.
++   *
++   * \param station the station being queried
++   *
++   * \return true if S1g1Mfield is supported by the station,
++   *         false otherwise
++   */
++  bool GetS1g1Mfield (const WifiRemoteStation *station) const;
++  /**
++   * Return whether the station supports S1gShortfield or not.
++   *
++   * \param station the station being queried
++   *
++   * \return true if S1gShortfield is supported by the station,
++   *         false otherwise
++   */
++  bool GetS1gShortfield (const WifiRemoteStation *station) const;
++  /**
++   * Return whether the station supports S1gLongfield or not.
++   *
++   * \param station the station being queried
++   *
++   * \return true if S1gLongfield is supported by the station,
++   *         false otherwise
++   */
++  bool GetS1gLongfield (const WifiRemoteStation *station) const;
++  /**
+    * Return the number of receive antennas the station has.
+    *
+    * \param station the station being queried
+@@ -1050,6 +1104,9 @@
+   uint32_t m_ness;            //!< Number of streams in beamforming of the remote station
+   bool m_stbc;                //!< Flag if STBC is used by the remote station
+   bool m_greenfield;          //!< Flag if green field is used by the remote station
++  bool m_s1g1mfield;          //!< Flag if green field is used by the remote station
++  bool m_s1gshortfield;       //!< Flag if green field is used by the remote station
++  bool m_s1glongfield;        //!< Flag if green field is used by the remote station
+ };
+ 
+ /**
+diff -r 4e236bcef96e -r 3cd8e38d3f27 src/wifi/model/yans-wifi-phy.cc
+--- a/src/wifi/model/yans-wifi-phy.cc	Thu Jul 09 15:32:07 2015 +0200
++++ b/src/wifi/model/yans-wifi-phy.cc	Tue Aug 11 13:52:35 2015 +0200
+@@ -166,6 +166,24 @@
+                    MakeBooleanAccessor (&YansWifiPhy::GetGreenfield,
+                                         &YansWifiPhy::SetGreenfield),
+                    MakeBooleanChecker ())
++    .AddAttribute ("S1g1MfieldEnabled",
++                   "Whether or not STBC is enabled.",
++                   BooleanValue (false),
++                   MakeBooleanAccessor (&YansWifiPhy::GetS1g1Mfield,
++                                        &YansWifiPhy::SetS1g1Mfield),
++                   MakeBooleanChecker ())
++    .AddAttribute ("S1gShortfieldEnabled",
++                   "Whether or not STBC is enabled.",
++                   BooleanValue (true),   // for test, temporarily
++                   MakeBooleanAccessor (&YansWifiPhy::GetS1gShortfield,
++                                        &YansWifiPhy::SetS1gShortfield),
++                   MakeBooleanChecker ())
++    .AddAttribute ("S1gLongfieldEnabled",
++                   "Whether or not STBC is enabled.",
++                   BooleanValue (false),
++                   MakeBooleanAccessor (&YansWifiPhy::GetS1gLongfield,
++                                        &YansWifiPhy::SetS1gLongfield),
++                   MakeBooleanChecker ())
+     .AddAttribute ("ChannelWidth", "Whether 1MHz, 2MHz, 4MHz, 8MHz, 16MHz, 20MHz or 40MHz.",
+                    UintegerValue (1),
+                    MakeUintegerAccessor (&YansWifiPhy::GetChannelWidth,
+@@ -1194,6 +1212,24 @@
+ {
+   m_greenfield = greenfield;
+ }
++    
++void
++YansWifiPhy::SetS1g1Mfield (bool s1g1mfield)
++{
++  m_s1g1mfield = s1g1mfield;
++}
++
++void
++YansWifiPhy::SetS1gShortfield (bool s1gshortfield)
++{
++  m_s1gshortfield = s1gshortfield;
++}
++
++void
++YansWifiPhy::SetS1gLongfield (bool s1glongfield)
++{
++  m_s1glongfield = s1glongfield;
++}
+ 
+ bool
+ YansWifiPhy::GetGuardInterval (void) const
+@@ -1243,6 +1279,24 @@
+   return m_greenfield;
+ }
+ 
++bool
++YansWifiPhy::GetS1g1Mfield (void) const
++{
++    return m_s1g1mfield;
++}
++
++bool
++YansWifiPhy::GetS1gShortfield (void) const
++{
++    return m_s1gshortfield;
++}
++
++bool
++YansWifiPhy::GetS1gLongfield (void) const
++{
++    return m_s1glongfield;
++}
++
+ void
+ YansWifiPhy::SetChannelWidth(uint32_t channelwidth)
+ {
+diff -r 4e236bcef96e -r 3cd8e38d3f27 src/wifi/model/yans-wifi-phy.h
+--- a/src/wifi/model/yans-wifi-phy.h	Thu Jul 09 15:32:07 2015 +0200
++++ b/src/wifi/model/yans-wifi-phy.h	Tue Aug 11 13:52:35 2015 +0200
+@@ -384,6 +384,30 @@
+    */
+   virtual bool GetGreenfield (void) const;
+   /**
++   * \param S1g1Mfield Enable or disable GreenField
++   */
++  virtual void SetS1g1Mfield (bool s1g1mfield);
++  /**
++   * \return true if S1g1Mfield is supported, false otherwise
++   */
++  virtual bool GetS1g1Mfield (void) const;
++  /**
++   * \param S1gShortfield Enable or disable GreenField
++   */
++  virtual void SetS1gShortfield (bool s1gshortfield);
++  /**
++   * \return true if S1gShortfield is supported, false otherwise
++   */
++  virtual bool GetS1gShortfield (void) const;
++  /**
++   * \param S1gLongfield Enable or disable GreenField
++   */
++  virtual void SetS1gLongfield (bool s1glongfield);
++  /**
++   * \return true if S1gLongfield is supported, false otherwise
++   */
++  virtual bool GetS1gLongfield (void) const;
++  /**
+    * Return channel width.
+    *
+    * \return channel width
+@@ -526,6 +550,9 @@
+   bool     m_ldpc;                  //!< Flag if LDPC is used
+   bool     m_stbc;                  //!< Flag if STBC is used
+   bool     m_greenfield;            //!< Flag if GreenField format is supported
++  bool     m_s1g1mfield;            //!< Flag if m_s1g1mfield format is supported
++  bool     m_s1gshortfield;           //!< Flag if s1gshortfield format is supported
++  bool     m_s1glongfield;            //!< Flag if s1glongfield format is supported
+   bool     m_guardInterval;         //!< Flag if short guard interval is used
+   bool     m_channelBonding;        //!< Flag if channel bonding is used
+   uint32_t m_channelWidth;          //!< Channel width

@@ -1,0 +1,720 @@
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 1
+#./Raw-duration.sh 1 1 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 2
+#./Raw-duration.sh 1 1 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 4
+#./Raw-duration.sh 1 1 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 8
+#./Raw-duration.sh 1 1 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 16
+#./Raw-duration.sh 1 1 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 32
+#./Raw-duration.sh 1 1 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 64
+#./Raw-duration.sh 1 1 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 128
+#./Raw-duration.sh 1 1 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  1 1 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 1 1 256 mixed 256
+#./Raw-duration.sh 1 1 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 1
+#./Raw-duration.sh 2 2 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 2
+#./Raw-duration.sh 2 2 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 4
+#./Raw-duration.sh 2 2 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 8
+#./Raw-duration.sh 2 2 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 16
+#./Raw-duration.sh 2 2 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 32
+#./Raw-duration.sh 2 2 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 64
+#./Raw-duration.sh 2 2 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 128
+#./Raw-duration.sh 2 2 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  2 2 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 2 2 256 mixed 256
+#./Raw-duration.sh 2 2 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 1
+#./Raw-duration.sh 3 3 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 2
+#./Raw-duration.sh 3 3 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 4
+#./Raw-duration.sh 3 3 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 8
+#./Raw-duration.sh 3 3 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 16
+#./Raw-duration.sh 3 3 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 32
+#./Raw-duration.sh 3 3 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 64
+#./Raw-duration.sh 3 3 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 128
+#./Raw-duration.sh 3 3 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  3 3 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 3 3 256 mixed 256
+#./Raw-duration.sh 3 3 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 1
+#./Raw-duration.sh 4 4 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 2
+#./Raw-duration.sh 4 4 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 4
+#./Raw-duration.sh 4 4 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 8
+#./Raw-duration.sh 4 4 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 16
+#./Raw-duration.sh 4 4 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 32
+#./Raw-duration.sh 4 4 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 64
+#./Raw-duration.sh 4 4 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 128
+#./Raw-duration.sh 4 4 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  4 4 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 4 4 256 mixed 256
+#./Raw-duration.sh 4 4 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 1
+#./Raw-duration.sh 5 5 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 2
+#./Raw-duration.sh 5 5 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 4
+#./Raw-duration.sh 5 5 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 8
+#./Raw-duration.sh 5 5 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 16
+#./Raw-duration.sh 5 5 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 32
+#./Raw-duration.sh 5 5 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 64
+#./Raw-duration.sh 5 5 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 128
+#./Raw-duration.sh 5 5 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  5 5 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 5 5 256 mixed 256
+#./Raw-duration.sh 5 5 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 1
+#./Raw-duration.sh 6 6 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 2
+#./Raw-duration.sh 6 6 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 4
+#./Raw-duration.sh 6 6 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 8
+#./Raw-duration.sh 6 6 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 16
+#./Raw-duration.sh 6 6 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 32
+#./Raw-duration.sh 6 6 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 64
+#./Raw-duration.sh 6 6 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 128
+#./Raw-duration.sh 6 6 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  6 6 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 6 6 256 mixed 256
+#./Raw-duration.sh 6 6 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 1
+#./Raw-duration.sh 7 7 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 2
+#./Raw-duration.sh 7 7 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 4
+#./Raw-duration.sh 7 7 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 8
+#./Raw-duration.sh 7 7 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 16
+#./Raw-duration.sh 7 7 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 32
+#./Raw-duration.sh 7 7 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 64
+#./Raw-duration.sh 7 7 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 128
+#./Raw-duration.sh 7 7 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  7 7 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 7 7 256 mixed 256
+#./Raw-duration.sh 7 7 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 1
+#./Raw-duration.sh 8 8 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 2
+#./Raw-duration.sh 8 8 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 4
+#./Raw-duration.sh 8 8 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 8
+#./Raw-duration.sh 8 8 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 16
+#./Raw-duration.sh 8 8 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 32
+#./Raw-duration.sh 8 8 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 64
+#./Raw-duration.sh 8 8 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 128
+#./Raw-duration.sh 8 8 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  8 8 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 8 8 256 mixed 256
+#./Raw-duration.sh 8 8 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 1
+#./Raw-duration.sh 9 9 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 2
+#./Raw-duration.sh 9 9 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 4
+#./Raw-duration.sh 9 9 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 8
+#./Raw-duration.sh 9 9 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 16
+#./Raw-duration.sh 9 9 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 32
+#./Raw-duration.sh 9 9 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 64
+#./Raw-duration.sh 9 9 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 128
+#./Raw-duration.sh 9 9 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  9 9 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 9 9 256 mixed 256
+#./Raw-duration.sh 9 9 256 mixed 256 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 1
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 1
+#./Raw-duration.sh 10 10 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 2
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 2
+#./Raw-duration.sh 10 10 256 mixed 2 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 4
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 4
+#./Raw-duration.sh 10 10 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 8
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 8
+#./Raw-duration.sh 10 10 256 mixed 8 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 16
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 16
+#./Raw-duration.sh 10 10 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 32
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 32
+#./Raw-duration.sh 10 10 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 64
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 64
+#./Raw-duration.sh 10 10 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 128
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 128
+#./Raw-duration.sh 10 10 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern-samegroup.sh  10 10 256 mixed 256
+#./Number-of-RAW-groups-allenergy-allstawork.sh 10 10 256 mixed 256
+#./Raw-duration.sh 10 10 256 mixed 256 $Duration
+
+#####--END

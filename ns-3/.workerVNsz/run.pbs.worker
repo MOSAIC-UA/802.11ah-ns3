@@ -1,0 +1,90 @@
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 16 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 16 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 16 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 64 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 64 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 64 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 64 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 64 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 256 mixed 1 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 256 mixed 4 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 256 mixed 16 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 256 mixed 32 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 256 mixed 64 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 256 mixed 128 $Duration
+
+#####--END
+module purge
+module load GCC
+cd $PBS_O_WORKDIR
+./traffic-pattern.sh 1 1 256 mixed 256 $Duration
+
+#####--END
