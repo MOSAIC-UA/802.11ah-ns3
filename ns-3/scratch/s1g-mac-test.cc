@@ -263,6 +263,7 @@ PopulateArpCache ()
 int main (int argc, char *argv[])
 {
   double simulationTime = 10;
+  uint32_t seed = 1;
   uint32_t  payloadSize = 100;
   uint32_t Nsta =1;
   uint32_t NRawSta = 1;
@@ -282,6 +283,7 @@ int main (int argc, char *argv[])
   string pcapfile="./scratch/mac-s1g-slots";
 
   CommandLine cmd;
+  cmd.AddValue ("seed", "random seed", seed);
   cmd.AddValue ("simulationTime", "Simulation time in seconds", simulationTime); 
   cmd.AddValue ("payloadSize", "Size of payload", payloadSize);
   cmd.AddValue ("Nsta", "number of total stations", Nsta);
@@ -300,10 +302,9 @@ int main (int argc, char *argv[])
   cmd.AddValue ("file", "files containing reslut information", file);
   cmd.AddValue ("pcapfile", "files containing reslut information", pcapfile);
   cmd.Parse (argc,argv);
+  
+  RngSeedManager::SetSeed (seed);
 
-  
-  
-    
   NodeContainer wifiStaNode;
   wifiStaNode.Create (Nsta);
   NodeContainer wifiApNode;
