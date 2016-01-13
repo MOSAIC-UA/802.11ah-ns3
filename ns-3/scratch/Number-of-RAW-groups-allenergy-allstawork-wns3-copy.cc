@@ -14,12 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * Authors: Mirko Banchi <mk.banchi@gmail.com>
- *          Sebastien Deronne <sebastien.deronne@gmail.com>
- */
-
-//set traffic interval randomly for each station
+ 
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
 #include "ns3/applications-module.h"
@@ -32,28 +27,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctime>
-
 #include <fstream>
 #include <sys/stat.h>
-
-/*
- * station randomly distributed, phy included
- */
-
-
-//This is a simple example of an IEEE 802.11n Wi-Fi network.
-//
-//Network topology:
-//
-//  Wifi 192.168.1.0
-//
-//         AP
-//    *    *
-//    |    |
-//    n1   n2
-//
-//Packets in this simulation aren't marked with a QosTag so they are considered
-//belonging to BestEffort Access Class (AC_BE).
 
 using namespace std;
 using namespace ns3;
@@ -286,8 +261,6 @@ PopulateArpCache ()
 
 int main (int argc, char *argv[])
 {
-  bool udp = true;
-  uint32_t seed = 1;
   double simulationTime = 10;
   uint32_t Nsta =1;
   uint32_t NRawSta = 1;
@@ -303,18 +276,13 @@ int main (int argc, char *argv[])
   double datarate = 2.4;
   double bandWidth = 1;
   string UdpInterval="0.2";
-  string APpositon="1000.0";
   string rho="250.0";
-  double APpos=1000.0;
-  string folder = "./TestMacresult";
-  string file = "./TestMacresult/mactest.txt";
-  string pcapfile = "./TestMacresult/mactest";
-  string energyfile = "./TestMacresult/power";
+  string folder;
+  string file;
+  string pcapfile;
 
   CommandLine cmd;
-  cmd.AddValue ("seed", "random seed", seed);
   cmd.AddValue ("simulationTime", "Simulation time in seconds", simulationTime);
-  cmd.AddValue ("udp", "UDP if set to 1, TCP otherwise", udp);
   cmd.AddValue ("Nsta", "number of total stations", Nsta);
   cmd.AddValue ("NRawSta", "number of stations supporting RAW", NRawSta);
   cmd.AddValue ("SlotFormat", "format of NRawSlotCount", SlotFormat);
@@ -333,70 +301,54 @@ int main (int argc, char *argv[])
   cmd.AddValue ("folder", "folder where result files are placed", folder);
   cmd.AddValue ("file", "files containing reslut information", file);
   cmd.AddValue ("pcapfile", "files containing reslut information", pcapfile);
-  cmd.AddValue ("energyfile", "files containing reslut energy information", energyfile);
   cmd.Parse (argc,argv);
+
+  NGroupStas = NRawSta/NGroup;
+  uint32_t payloadSize;
+  payloadSize = 256; //bytes
     
-  RngSeedManager::SetSeed (seed);
+  NodeContainer wifiStaNode;
+  wifiStaNode.Create (Nsta);
+  NodeContainer wifiApNode;
+  wifiApNode.Create (1);
 
-    
-      ofstream myfile;
-      myfile.open (energyfile, ios::out | ios::trunc);
-      myfile.close();
-
-      NGroupStas = NRawSta/NGroup;
-      uint32_t payloadSize;
-
-      payloadSize = 256; //bytes
-    
-
-      NodeContainer wifiStaNode;
-      wifiStaNode.Create (Nsta);
-      NodeContainer wifiApNode;
-      wifiApNode.Create (1);
-
-      YansWifiChannelHelper channel = YansWifiChannelHelper ();
-      channel.AddPropagationLoss ("ns3::LogDistancePropagationLossModel","Exponent", DoubleValue(3.76) ,"ReferenceLoss", DoubleValue(8.0), "ReferenceDistance", DoubleValue(1.0));
-      channel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
+  YansWifiChannelHelper channel = YansWifiChannelHelper ();
+  channel.AddPropagationLoss ("ns3::LogDistancePropagationLossModel","Exponent", DoubleValue(3.76) ,"ReferenceLoss", DoubleValue(8.0), "ReferenceDistance", DoubleValue(1.0));
+  channel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
         
-      YansWifiPhyHelper phy = YansWifiPhyHelper::Default ();
-      phy.SetErrorRateModel ("ns3::YansErrorRateModel");
-      phy.SetChannel (channel.Create ());
-      
-      phy.Set ("ShortGuardEnabled", BooleanValue (false));
-      phy.Set ("ChannelWidth", UintegerValue (bandWidth));
-    
-    phy.Set ("EnergyDetectionThreshold", DoubleValue (-116.0));
-    phy.Set ("CcaMode1Threshold", DoubleValue (-119.0));
-    phy.Set ("TxGain", DoubleValue (0.0));
-    phy.Set ("RxGain", DoubleValue (0.0));
-    phy.Set ("TxPowerLevels", UintegerValue (1));
-    phy.Set ("TxPowerEnd", DoubleValue (0.0));
-    phy.Set ("TxPowerStart", DoubleValue (0.0));
-    phy.Set ("RxNoiseFigure", DoubleValue (3.0));
-    phy.Set ("LdpcEnabled", BooleanValue (true));
+  YansWifiPhyHelper phy = YansWifiPhyHelper::Default ();
+  phy.SetErrorRateModel ("ns3::YansErrorRateModel");
+  phy.SetChannel (channel.Create ());
+  phy.Set ("ShortGuardEnabled", BooleanValue (false));
+  phy.Set ("ChannelWidth", UintegerValue (bandWidth));
+  phy.Set ("EnergyDetectionThreshold", DoubleValue (-116.0));
+  phy.Set ("CcaMode1Threshold", DoubleValue (-119.0));
+  phy.Set ("TxGain", DoubleValue (0.0));
+  phy.Set ("RxGain", DoubleValue (0.0));
+  phy.Set ("TxPowerLevels", UintegerValue (1));
+  phy.Set ("TxPowerEnd", DoubleValue (0.0));
+  phy.Set ("TxPowerStart", DoubleValue (0.0));
+  phy.Set ("RxNoiseFigure", DoubleValue (3.0));
+  phy.Set ("LdpcEnabled", BooleanValue (true));
 
-      WifiHelper wifi = WifiHelper::Default ();
-      wifi.SetStandard (WIFI_PHY_STANDARD_80211ah);
-      S1gWifiMacHelper mac = S1gWifiMacHelper::Default ();
+  WifiHelper wifi = WifiHelper::Default ();
+  wifi.SetStandard (WIFI_PHY_STANDARD_80211ah);
+  S1gWifiMacHelper mac = S1gWifiMacHelper::Default ();
 
-      Ssid ssid = Ssid ("ns380211ah");
-      StringValue DataRate;
-      DataRate = StringValue (DataMode);
- 
-
-      wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager","DataMode", DataRate,
+  Ssid ssid = Ssid ("ns380211ah");
+  StringValue DataRate;
+  DataRate = StringValue (DataMode);
+  
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager","DataMode", DataRate,
                                     "ControlMode", DataRate);
-      mac.SetType ("ns3::StaWifiMac",
-                   "Ssid", SsidValue (ssid),
-                   "ActiveProbing", BooleanValue (false),
-                   "RawDuration", TimeValue (MicroSeconds (RawDuration)));
-    
-    
-    
-      NetDeviceContainer staDevice;
-      staDevice = wifi.Install (phy, mac, wifiStaNode);
+  mac.SetType ("ns3::StaWifiMac",
+                "Ssid", SsidValue (ssid),
+                "ActiveProbing", BooleanValue (false));
 
-      mac.SetType ("ns3::ApWifiMac",
+  NetDeviceContainer staDevice;
+  staDevice = wifi.Install (phy, mac, wifiStaNode);
+
+  mac.SetType ("ns3::ApWifiMac",
                  "Ssid", SsidValue (ssid),
                  "BeaconInterval", TimeValue (MicroSeconds(BeaconInterval)),
                  "NRawGroupStas", UintegerValue (NGroupStas),
@@ -406,40 +358,33 @@ int main (int argc, char *argv[])
                  "SlotDurationCount", UintegerValue (NRawSlotCount),
                  "SlotNum", UintegerValue (NRawSlotNum));
     
-    Simulator::ScheduleNow(&UdpTraffic, UdpInterval, Nsta);
+ Simulator::ScheduleNow(&UdpTraffic, UdpInterval, Nsta);
 
+ NetDeviceContainer apDevice;
+ phy.Set ("TxGain", DoubleValue (3.0));
+ phy.Set ("RxGain", DoubleValue (3.0));
+ phy.Set ("TxPowerLevels", UintegerValue (1));
+ phy.Set ("TxPowerEnd", DoubleValue (30.0));
+ phy.Set ("TxPowerStart", DoubleValue (30.0));
+ phy.Set ("RxNoiseFigure", DoubleValue (5));
+ apDevice = wifi.Install (phy, mac, wifiApNode);
 
-    NetDeviceContainer apDevice;
-    phy.Set ("TxGain", DoubleValue (3.0));
-    phy.Set ("RxGain", DoubleValue (3.0));
-    phy.Set ("TxPowerLevels", UintegerValue (1));
-    phy.Set ("TxPowerEnd", DoubleValue (30.0));
-    phy.Set ("TxPowerStart", DoubleValue (30.0));
-    phy.Set ("RxNoiseFigure", DoubleValue (5));
-      apDevice = wifi.Install (phy, mac, wifiApNode);
-
-      // mobility.
-      MobilityHelper mobility;
-      mobility.SetPositionAllocator ("ns3::UniformDiscPositionAllocator",
-                                       "X", StringValue (APpositon),
-                                       "Y", StringValue (APpositon),
+ // mobility.
+ MobilityHelper mobility;
+ mobility.SetPositionAllocator ("ns3::UniformDiscPositionAllocator",
+                                       "X", StringValue ("1000.0"),
+                                       "Y", StringValue ("1000.0"),
                                        "rho", StringValue (rho));
-        
-     mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
-      mobility.Install(wifiStaNode);
+ mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
+ mobility.Install(wifiStaNode);
 
-      MobilityHelper mobilityAp;
-      Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
-        
-      positionAlloc->Add (Vector (APpos, APpos, 0.0));
-      mobilityAp.SetPositionAllocator (positionAlloc);
+ MobilityHelper mobilityAp;
+ Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
+ positionAlloc->Add (Vector (1000.0, 1000.0, 0.0));
+ mobilityAp.SetPositionAllocator (positionAlloc)
+ mobilityAp.SetMobilityModel("ns3::ConstantPositionMobilityModel");
+ mobilityAp.Install(wifiApNode);
 
-      mobilityAp.SetMobilityModel("ns3::ConstantPositionMobilityModel");
-      mobilityAp.Install(wifiApNode);
-    
-      //read attributes
-
-    
    for (uint16_t i = 0; i < Nsta; i++)
     {
       Ptr<NetDevice> netDe;
@@ -518,11 +463,11 @@ int main (int argc, char *argv[])
       throughput = totalPacketsThrough * payloadSize * 8 / ((ApStopTime - AppStartTime) * 1000000.0);
     
 
-      std::cout << "DataRate" << "\t" << "Throughput" << '\n';
-      std::cout << datarate << "\t\t" << throughput << " Mbit/s" << std::endl;
+      std::cout << "DataRate" << "\t" << "NGroup" << "\t" << "NRawSlotNum" << "\t" << "Throughput" << '\n';
+      std::cout << datarate << "\t" << NGroup << "\t" << NRawSlotNum << "\t" << throughput << " Mbit/s" << std::endl;
        
       myfile.open (file, ios::out | ios::app);
-      myfile << NRawSlotNum <<  "\t\t" << throughput <<"\n";
+      myfile << NGroup << "\t" << NRawSlotNum << "\t" << throughput <<"\n";
       myfile.close();
     
 return 0;
