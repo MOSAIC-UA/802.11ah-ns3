@@ -33,7 +33,8 @@ The parameters include:
   --Nsta:               Number of total stations.  
   --rho:                Maximal distance between AP and stations.   
   --file:               Path of files containing reslut information.        
-  --pcapfile:           Pcap file path.     
+  --pcapfile:           Pcap file path.   
+  --seed:               Seed of RandomVariableStream. 
 
   
 3) Usage of script file
