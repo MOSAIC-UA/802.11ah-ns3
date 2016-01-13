@@ -366,6 +366,9 @@ int main (int argc, char *argv[])
   phy.Set ("TxPowerStart", DoubleValue (30.0));
   phy.Set ("RxNoiseFigure", DoubleValue (5));
   apDevice = wifi.Install (phy, mac, wifiApNode);
+  
+  Config::Set ("/NodeList/*/DeviceList/0/$ns3::WifiNetDevice/Mac/$ns3::RegularWifiMac/BE_EdcaTxopN/Queue/MaxPacketNumber", UintegerValue(60000));
+  Config::Set ("/NodeList/*/DeviceList/0/$ns3::WifiNetDevice/Mac/$ns3::RegularWifiMac/BE_EdcaTxopN/Queue/MaxDelay", TimeValue (NanoSeconds (6000000000000)));
 
   // mobility.
   MobilityHelper mobility;
