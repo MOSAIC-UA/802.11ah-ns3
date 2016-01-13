@@ -32,7 +32,7 @@ The parameters include:
   
 3) Example of use
 
-./waf --run "scratch/s1g-mac-test  --NRawSta=16 --NGruop=1 --SlotFormat=1 --NRawSlotCount=412 --NRawSlotNum=2 --DataMode="OfdmRate650KbpsBW2MHz" --datarate=0.65 --bandWidth=2 --rho="100" --SimulationTime=10 --UdpInterval=0.1 --Nsta=16 --rho="100"
+./waf --run "scratch/s1g-mac-test --NRawSta=60 --NGroup=1 --SlotFormat=1 --NRawSlotCount=412 --NRawSlotNum=2 --DataMode="OfdmRate650KbpsBW2MHz" --datarate=0.65 --bandWidth=2 --rho="100" --simulationTime=60 --UdpInterval=0.1 --Nsta=60 --rho="50" "
 
   
 
