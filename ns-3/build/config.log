@@ -1,0 +1,737 @@
+# project ns (3-dev) configured on Tue Jan 12 21:09:22 2016 by
+# waf 1.8.12 (abi 98, python 2070af0 on darwin)
+# using ./waf configure
+#
+----------------------------------------
+Setting top to
+/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup
+----------------------------------------
+Setting out to
+/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build
+----------------------------------------
+Checking for 'clang' (C compiler)
+find program=['clang'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='CC' -> ['/usr/bin/clang']
+find program=['ar'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='AR' -> ['/usr/bin/ar']
+/usr/bin/clang
+----------------------------------------
+Checking for cc version
+6.0.0
+----------------------------------------
+Checking for 'clang++' (C++ compiler)
+find program=['clang++'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='CXX' -> ['/usr/bin/clang++']
+(tool ar is already loaded, skipping)
+/usr/bin/clang++
+----------------------------------------
+Checking for program 'python'
+/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python
+find program=['python'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='PYTHON' -> ['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python']
+['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python', '-c', 'import imp;print(imp.get_tag())']
+err: Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+AttributeError: 'module' object has no attribute 'get_tag'
+
+['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python', '-c', 'import sys\nfor x in sys.version_info: print(str(x))']
+out: 2
+7
+10
+final
+0
+
+['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python', '-c', "from distutils.sysconfig import get_config_var, get_python_lib\n\nprint(repr(get_python_lib(standard_lib=0, prefix='/usr/local') or ''))"]
+out: '/usr/local/lib/python2.7/site-packages'
+
+'/usr/local/lib/python2.7/site-packages'
+
+['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python', '-c', "from distutils.sysconfig import get_config_var, get_python_lib\n\nprint(repr(get_python_lib(plat_specific=1, standard_lib=0, prefix='/usr/local') or ''))"]
+out: '/usr/local/lib/python2.7/site-packages'
+
+'/usr/local/lib/python2.7/site-packages'
+
+----------------------------------------
+Checking for python version
+(2, 7, 10, 'final', 0)
+['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python', '-c', "from distutils.sysconfig import get_config_var, get_python_lib\n\nprint(repr(get_config_var('prefix') or ''))\nprint(repr(get_config_var('SO') or ''))\nprint(repr(get_config_var('LDFLAGS') or ''))\nprint(repr(get_config_var('LIBDIR') or ''))\nprint(repr(get_config_var('LIBPL') or ''))\nprint(repr(get_config_var('INCLUDEPY') or ''))\nprint(repr(get_config_var('Py_ENABLE_SHARED') or ''))\nprint(repr(get_config_var('MACOSX_DEPLOYMENT_TARGET') or ''))\nprint(repr(get_config_var('LDSHARED') or ''))\nprint(repr(get_config_var('CFLAGS') or ''))\nprint(repr(get_config_var('LDVERSION') or ''))"]
+out: '/opt/local/Library/Frameworks/Python.framework/Versions/2.7'
+'.so'
+'-L/opt/local/lib -Wl,-headerpad_max_install_names -L/opt/local/lib/db48 '
+'/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib'
+'/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config'
+'/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7'
+''
+'10.9'
+'/usr/bin/clang -bundle -undefined dynamic_lookup -L/opt/local/lib -Wl,-headerpad_max_install_names -L/opt/local/lib/db48 '
+'-fno-strict-aliasing -fno-common -dynamic -pipe -Os -fwrapv  -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes'
+''
+
+'/opt/local/Library/Frameworks/Python.framework/Versions/2.7'
+'.so'
+'-L/opt/local/lib -Wl,-headerpad_max_install_names -L/opt/local/lib/db48 '
+'/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib'
+'/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config'
+'/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7'
+''
+'10.9'
+'/usr/bin/clang -bundle -undefined dynamic_lookup -L/opt/local/lib -Wl,-headerpad_max_install_names -L/opt/local/lib/db48 '
+'-fno-strict-aliasing -fno-common -dynamic -pipe -Os -fwrapv  -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes'
+''
+
+Configuration returned from ['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python']:
+prefix = '/opt/local/Library/Frameworks/Python.framework/Versions/2.7'
+SO = '.so'
+LDFLAGS = '-L/opt/local/lib -Wl,-headerpad_max_install_names -L/opt/local/lib/db48 '
+LIBDIR = '/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib'
+LIBPL = '/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config'
+INCLUDEPY = '/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7'
+Py_ENABLE_SHARED = ''
+MACOSX_DEPLOYMENT_TARGET = '10.9'
+LDSHARED = '/usr/bin/clang -bundle -undefined dynamic_lookup -L/opt/local/lib -Wl,-headerpad_max_install_names -L/opt/local/lib/db48 '
+CFLAGS = '-fno-strict-aliasing -fno-common -dynamic -pipe -Os -fwrapv  -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes'
+LDVERSION = ''
+
+----------------------------------------
+python-config
+/opt/local/bin/python2.7-config
+find program=['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python-config', 'python2.7-config', 'python-config-2.7', 'python2.7m-config'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='PYTHON_CONFIG' -> ['/opt/local/bin/python2.7-config']
+------------------------------------------------------------------
+Asking python-config for pyembed '--cflags --libs --ldflags' flags
+['/opt/local/bin/python2.7-config', '--cflags', '--libs', '--ldflags']
+out: -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -fno-strict-aliasing -fno-common -dynamic -pipe -Os -fwrapv -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes
+-lpython2.7 -ldl -framework CoreFoundation
+-L/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 -ldl -framework CoreFoundation
+
+yes
+------------------------------------------------------------------
+Getting pyembed flags from python-config
+==>
+
+#include <Python.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+	void Py_Initialize(void);
+	void Py_Finalize(void);
+#ifdef __cplusplus
+}
+#endif
+int main(int argc, char **argv)
+{
+   (void)argc; (void)argv;
+   Py_Initialize();
+   Py_Finalize();
+   return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_5e94514d10ff04920d7ff6a1eff7b9ec/test.cpp[0m
+
+['/usr/bin/clang++', '-fno-strict-aliasing', '-fno-common', '-dynamic', '-fwrapv', '-fwrapv', '-I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/site-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/site-packages"', '-DHAVE_PYEMBED=1', '-DNDEBUG', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_5e94514d10ff04920d7ff6a1eff7b9ec/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_5e94514d10ff04920d7ff6a1eff7b9ec/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_5e94514d10ff04920d7ff6a1eff7b9ec/testbuild/testprog', '-framework', 'CoreFoundation', '-L/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config', '-lpython2.7', '-ldl']
+yes
+------------------------------------------------------------------
+Asking python-config for pyext '--cflags --libs --ldflags' flags
+['/opt/local/bin/python2.7-config', '--cflags', '--libs', '--ldflags']
+out: -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -fno-strict-aliasing -fno-common -dynamic -pipe -Os -fwrapv -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes
+-lpython2.7 -ldl -framework CoreFoundation
+-L/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 -ldl -framework CoreFoundation
+
+yes
+------------------------------------------------------------------
+Getting pyext flags from python-config
+==>
+
+#include <Python.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+	void Py_Initialize(void);
+	void Py_Finalize(void);
+#ifdef __cplusplus
+}
+#endif
+int main(int argc, char **argv)
+{
+   (void)argc; (void)argv;
+   Py_Initialize();
+   Py_Finalize();
+   return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_758b8be407e0446c113b7ef8d4e37acd/test.cpp[0m
+
+['/usr/bin/clang++', '-fPIC', '-fno-strict-aliasing', '-fno-common', '-dynamic', '-fwrapv', '-fwrapv', '-fPIC', '-I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/site-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/site-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DNDEBUG', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_758b8be407e0446c113b7ef8d4e37acd/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_758b8be407e0446c113b7ef8d4e37acd/testbuild/testprog.so[0m
+
+['/usr/bin/clang++', '-bundle', '-undefined', 'dynamic_lookup', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_758b8be407e0446c113b7ef8d4e37acd/testbuild/testprog.so', '-framework', 'CoreFoundation', '-L/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config', '-lpython2.7', '-ldl']
+yes
+------------------------------------------------------------------
+Checking for compilation flag -Wno-array-bounds... support
+==>
+int main() { return 0; }
+<==
+[1/1] Compiling [32mbuild/.conf_check_a84b9cea65ced61e23469a04ab672edb/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/site-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/site-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_a84b9cea65ced61e23469a04ab672edb/testbuild/test.cpp.1.o']
+ok
+------------------------------------------------------------------
+Checking for pybindgen location
+not found
+------------------------------------------------------------------
+Checking for python module 'pybindgen'
+['/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python', '-c', "\nimport pybindgen as current_module\nversion = getattr(current_module, '__version__', None)\nif version is not None:\n\tprint(str(version))\nelse:\n\tprint('unknown version')\n"]
+err: Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+ImportError: No module named pybindgen
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/bindings/python: Could not find the python module 'pybindgen'
+------------------------------------------------------------------
+Checking boost includes
+headers not found, please provide a --boost-includes argument (see help)
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src: The configuration failed
+------------------------------------------------------------------
+Checking boost includes
+headers not found, please provide a --boost-includes argument (see help)
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src: The configuration failed
+------------------------------------------------------------------
+Checking for click location
+not found
+------------------------------------------------------------------
+Checking for program 'pkg-config'
+/Library/Frameworks/GTK+.framework/Resources/bin/pkg-config
+find program=['pkg-config'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='PKGCONFIG' -> ['/Library/Frameworks/GTK+.framework/Resources/bin/pkg-config']
+------------------------------------------------------------------
+Checking for 'gtk+-2.0' >= 2.12
+['/Library/Frameworks/GTK+.framework/Resources/bin/pkg-config', '--atleast-version=2.12', 'gtk+-2.0']
+['/Library/Frameworks/GTK+.framework/Resources/bin/pkg-config', '--cflags', '--libs', 'gtk+-2.0']
+out: -D_REENTRANT -I/Library/Frameworks/GTK+.framework/Resources/include/gtk-2.0 -I/Library/Frameworks/GTK+.framework/Resources/lib/gtk-2.0/include -I/Library/Frameworks/GTK+.framework/Resources/include/atk-1.0 -I/Library/Frameworks/GTK+.framework/Resources/include/cairo -I/Library/Frameworks/GTK+.framework/Resources/include/pango-1.0 -I/Library/Frameworks/GTK+.framework/Resources/include/glib-2.0 -I/Library/Frameworks/GTK+.framework/Resources/lib/glib-2.0/include -I/Library/Frameworks/GTK+.framework/Resources/include/pixman-1 -I/Library/Frameworks/GTK+.framework/Resources/include/freetype2 -I/Library/Frameworks/GTK+.framework/Resources/include -I/Library/Frameworks/GTK+.framework/Resources/include/libpng12  -L/Library/Frameworks/GTK+.framework/Resources/lib -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -lintl  
+
+yes
+------------------------------------------------------------------
+Checking for 'libxml-2.0' >= 2.7
+['/Library/Frameworks/GTK+.framework/Resources/bin/pkg-config', '--atleast-version=2.7', 'libxml-2.0']
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/config-store: The configuration failed
+------------------------------------------------------------------
+Checking for type uint128_t
+==>
+#include <stdint.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	if ((uint128_t *) 0) return 0;
+	if (sizeof (uint128_t)) return 0;
+	return 1;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_b44358d9fb7af582a9db4d583c88eea2/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_b44358d9fb7af582a9db4d583c88eea2/testbuild/test.cpp.1.o']
+err: ../test.cpp:5:7: error: use of undeclared identifier 'uint128_t'
+        if ((uint128_t *) 0) return 0;
+             ^
+../test.cpp:5:18: error: expected expression
+        if ((uint128_t *) 0) return 0;
+                        ^
+../test.cpp:6:14: error: use of undeclared identifier 'uint128_t'
+        if (sizeof (uint128_t)) return 0;
+                    ^
+3 errors generated.
+
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/core: Test does not build: Traceback (most recent call last):
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Configure.py", line 339, in run_build
+    bld.compile()
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Build.py", line 182, in compile
+    raise Errors.BuildError(self.producer.error)
+BuildError: Build failed
+ -> task in 'testprog' failed (exit status 1): 
+	{task 4480625424: cxx test.cpp -> test.cpp.1.o}
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_b44358d9fb7af582a9db4d583c88eea2/testbuild/test.cpp.1.o']
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/core: The configuration failed
+------------------------------------------------------------------
+Checking for type __uint128_t
+==>
+#include <stdint.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	if ((__uint128_t *) 0) return 0;
+	if (sizeof (__uint128_t)) return 0;
+	return 1;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_2e7bc21118ba8f9dca8ef2940f7a5301/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_2e7bc21118ba8f9dca8ef2940f7a5301/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_2e7bc21118ba8f9dca8ef2940f7a5301/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_2e7bc21118ba8f9dca8ef2940f7a5301/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking high precision implementation
+128-bit integer (default)
+------------------------------------------------------------------
+Checking for header stdint.h
+==>
+#include <stdint.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_6fe72d098f4f5f4f961b1934e984a9d0/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_6fe72d098f4f5f4f961b1934e984a9d0/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_6fe72d098f4f5f4f961b1934e984a9d0/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_6fe72d098f4f5f4f961b1934e984a9d0/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header inttypes.h
+==>
+#include <inttypes.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_e3fddb2d0fb540c3792517d8454e4320/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_e3fddb2d0fb540c3792517d8454e4320/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_e3fddb2d0fb540c3792517d8454e4320/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_e3fddb2d0fb540c3792517d8454e4320/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header sys/inttypes.h
+==>
+#include <sys/inttypes.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_9ae7cea6be906b0edc9700ea06251e24/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_9ae7cea6be906b0edc9700ea06251e24/testbuild/test.cpp.1.o']
+err: ../test.cpp:1:10: fatal error: 'sys/inttypes.h' file not found
+#include <sys/inttypes.h>
+         ^
+1 error generated.
+
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/core: Test does not build: Traceback (most recent call last):
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Configure.py", line 339, in run_build
+    bld.compile()
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Build.py", line 182, in compile
+    raise Errors.BuildError(self.producer.error)
+BuildError: Build failed
+ -> task in 'testprog' failed (exit status 1): 
+	{task 4499915024: cxx test.cpp -> test.cpp.1.o}
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_9ae7cea6be906b0edc9700ea06251e24/testbuild/test.cpp.1.o']
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/core: The configuration failed
+------------------------------------------------------------------
+Checking for header sys/types.h
+==>
+#include <sys/types.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_ce143b38e751dd27bae0f4a19ee8c528/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_ce143b38e751dd27bae0f4a19ee8c528/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_ce143b38e751dd27bae0f4a19ee8c528/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_ce143b38e751dd27bae0f4a19ee8c528/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header sys/stat.h
+==>
+#include <sys/stat.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_727ccaa1c6d1c8d9cecffa66595d180f/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_727ccaa1c6d1c8d9cecffa66595d180f/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_727ccaa1c6d1c8d9cecffa66595d180f/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_727ccaa1c6d1c8d9cecffa66595d180f/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header dirent.h
+==>
+#include <dirent.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_13d4721f9f19655cab97a0ef5727f5cf/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_13d4721f9f19655cab97a0ef5727f5cf/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_13d4721f9f19655cab97a0ef5727f5cf/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_13d4721f9f19655cab97a0ef5727f5cf/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header stdlib.h
+==>
+#include <stdlib.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_14c5079ef1be155509f0cf1ddaf0731f/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_14c5079ef1be155509f0cf1ddaf0731f/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_14c5079ef1be155509f0cf1ddaf0731f/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_14c5079ef1be155509f0cf1ddaf0731f/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header signal.h
+==>
+#include <signal.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_d0a5e02d4c22b93c42b1998e90e99cc5/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_d0a5e02d4c22b93c42b1998e90e99cc5/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_d0a5e02d4c22b93c42b1998e90e99cc5/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_d0a5e02d4c22b93c42b1998e90e99cc5/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header pthread.h
+==>
+
+#include <pthread.h>
+int main ()
+{
+   pthread_mutex_t m;
+   pthread_mutex_init (&m, NULL);
+   return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_2c70f8d2fd355af21d190f430786c70c/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_2c70f8d2fd355af21d190f430786c70c/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_2c70f8d2fd355af21d190f430786c70c/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_2c70f8d2fd355af21d190f430786c70c/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header stdint.h
+==>
+#include <stdint.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_6fe72d098f4f5f4f961b1934e984a9d0/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_6fe72d098f4f5f4f961b1934e984a9d0/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_6fe72d098f4f5f4f961b1934e984a9d0/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_6fe72d098f4f5f4f961b1934e984a9d0/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header inttypes.h
+==>
+#include <inttypes.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_e3fddb2d0fb540c3792517d8454e4320/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_e3fddb2d0fb540c3792517d8454e4320/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_e3fddb2d0fb540c3792517d8454e4320/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_e3fddb2d0fb540c3792517d8454e4320/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header sys/inttypes.h
+==>
+#include <sys/inttypes.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_9ae7cea6be906b0edc9700ea06251e24/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_9ae7cea6be906b0edc9700ea06251e24/testbuild/test.cpp.1.o']
+err: ../test.cpp:1:10: fatal error: 'sys/inttypes.h' file not found
+#include <sys/inttypes.h>
+         ^
+1 error generated.
+
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/core: Test does not build: Traceback (most recent call last):
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Configure.py", line 339, in run_build
+    bld.compile()
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Build.py", line 182, in compile
+    raise Errors.BuildError(self.producer.error)
+BuildError: Build failed
+ -> task in 'testprog' failed (exit status 1): 
+	{task 4500006288: cxx test.cpp -> test.cpp.1.o}
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_9ae7cea6be906b0edc9700ea06251e24/testbuild/test.cpp.1.o']
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/core: The configuration failed
+------------------------------------------------------------------
+Checking for library rt
+==>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_9ff3f22cc28f03e2c72cdc8864c8d9ce/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_9ff3f22cc28f03e2c72cdc8864c8d9ce/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_9ff3f22cc28f03e2c72cdc8864c8d9ce/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_9ff3f22cc28f03e2c72cdc8864c8d9ce/testbuild/testprog', '-lrt']
+err: ld: library not found for -lrt
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/core: Test does not build: Traceback (most recent call last):
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Configure.py", line 339, in run_build
+    bld.compile()
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Build.py", line 182, in compile
+    raise Errors.BuildError(self.producer.error)
+BuildError: Build failed
+ -> task in 'testprog' failed (exit status 1): 
+	{task 4499916432: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_9ff3f22cc28f03e2c72cdc8864c8d9ce/testbuild/testprog', '-lrt']
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/core: The configuration failed
+------------------------------------------------------------------
+Checking for header sys/ioctl.h
+==>
+#include <sys/ioctl.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_20b35460bd460d43e4a556f7a9297440/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_20b35460bd460d43e4a556f7a9297440/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_20b35460bd460d43e4a556f7a9297440/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_20b35460bd460d43e4a556f7a9297440/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header net/if.h
+==>
+#include <net/if.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_0e7cb6e367432c5b3cc0a661161e5407/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_0e7cb6e367432c5b3cc0a661161e5407/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_0e7cb6e367432c5b3cc0a661161e5407/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_0e7cb6e367432c5b3cc0a661161e5407/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header net/ethernet.h
+==>
+#include <net/ethernet.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_f20fc7e022eb9f2ceac6c28899ac4e2c/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_f20fc7e022eb9f2ceac6c28899ac4e2c/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_f20fc7e022eb9f2ceac6c28899ac4e2c/testbuild/testprog[0m
+
+['/usr/bin/clang++', 'test.cpp.1.o', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_f20fc7e022eb9f2ceac6c28899ac4e2c/testbuild/testprog']
+yes
+------------------------------------------------------------------
+Checking for header linux/if_tun.h
+==>
+#include <linux/if_tun.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_2b4dea15ca651ee5e37a7cf8cea68dd0/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_2b4dea15ca651ee5e37a7cf8cea68dd0/testbuild/test.cpp.1.o']
+err: ../test.cpp:1:10: fatal error: 'linux/if_tun.h' file not found
+#include <linux/if_tun.h>
+         ^
+1 error generated.
+
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/fd-net-device: Test does not build: Traceback (most recent call last):
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Configure.py", line 339, in run_build
+    bld.compile()
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Build.py", line 182, in compile
+    raise Errors.BuildError(self.producer.error)
+BuildError: Build failed
+ -> task in 'testprog' failed (exit status 1): 
+	{task 4480697936: cxx test.cpp -> test.cpp.1.o}
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_2b4dea15ca651ee5e37a7cf8cea68dd0/testbuild/test.cpp.1.o']
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/fd-net-device: The configuration failed
+------------------------------------------------------------------
+Checking for header netpacket/packet.h
+==>
+#include <netpacket/packet.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_8e803bd2edf769ad85896132ff30c6d4/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_8e803bd2edf769ad85896132ff30c6d4/testbuild/test.cpp.1.o']
+err: ../test.cpp:1:10: fatal error: 'netpacket/packet.h' file not found
+#include <netpacket/packet.h>
+         ^
+1 error generated.
+
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/fd-net-device: Test does not build: Traceback (most recent call last):
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Configure.py", line 339, in run_build
+    bld.compile()
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Build.py", line 182, in compile
+    raise Errors.BuildError(self.producer.error)
+BuildError: Build failed
+ -> task in 'testprog' failed (exit status 1): 
+	{task 4500007888: cxx test.cpp -> test.cpp.1.o}
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_8e803bd2edf769ad85896132ff30c6d4/testbuild/test.cpp.1.o']
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/fd-net-device: The configuration failed
+------------------------------------------------------------------
+Checking for NSC location
+not found
+------------------------------------------------------------------
+Checking for 'sqlite3'
+['/Library/Frameworks/GTK+.framework/Resources/bin/pkg-config', '--cflags', '--libs', 'sqlite3']
+err: Package sqlite3 was not found in the pkg-config search path.
+Perhaps you should add the directory containing `sqlite3.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'sqlite3' found
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/stats: The configuration failed
+------------------------------------------------------------------
+Checking for header linux/if_tun.h
+==>
+#include <linux/if_tun.h>
+
+int main(int argc, char **argv) {
+	(void)argc; (void)argv;
+	return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_2b4dea15ca651ee5e37a7cf8cea68dd0/test.cpp[0m
+
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_2b4dea15ca651ee5e37a7cf8cea68dd0/testbuild/test.cpp.1.o']
+err: ../test.cpp:1:10: fatal error: 'linux/if_tun.h' file not found
+#include <linux/if_tun.h>
+         ^
+1 error generated.
+
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/tap-bridge: Test does not build: Traceback (most recent call last):
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Configure.py", line 339, in run_build
+    bld.compile()
+  File "/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/.waf-1.8.12-f00e5b53f6bbeab1384a38c9cc5d51f7/waflib/Build.py", line 182, in compile
+    raise Errors.BuildError(self.producer.error)
+BuildError: Build failed
+ -> task in 'testprog' failed (exit status 1): 
+	{task 4500075152: cxx test.cpp -> test.cpp.1.o}
+['/usr/bin/clang++', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '../test.cpp', '-c', '-o', '/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build/.conf_check_2b4dea15ca651ee5e37a7cf8cea68dd0/testbuild/test.cpp.1.o']
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/src/tap-bridge: The configuration failed
+------------------------------------------------------------------
+Checking for program 'sudo'
+/usr/bin/sudo
+find program=['sudo'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='SUDO' -> ['/usr/bin/sudo']
+------------------------------------------------------------------
+Checking for program 'valgrind'
+not found
+find program=['valgrind'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='VALGRIND' -> None
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup: Could not find the program ['valgrind']
+------------------------------------------------------------------
+Checking for 'gsl'
+['/Library/Frameworks/GTK+.framework/Resources/bin/pkg-config', '--cflags', '--libs', 'gsl']
+err: Package gsl was not found in the pkg-config search path.
+Perhaps you should add the directory containing `gsl.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'gsl' found
+
+not found
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup: The configuration failed
+------------------------------------------------------------------
+Checking for program 'doxygen'
+not found
+find program=['doxygen'] paths=['/Library/Frameworks/GTK+.framework/Resources/bin', '/Users/letian', '/Users/letian/.rbenv/bin', '/opt/local/bin', '/opt/local/sbin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/Library/Frameworks/Python.framework/Versions/2.7/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin', '/opt/X11/bin', '/Library/TeX/texbin'] var='DOXYGEN' -> None
+from /Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup: Could not find the program ['doxygen']

@@ -1,0 +1,90 @@
+Waf: Entering directory `/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build'
+Waf: Leaving directory `/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build'
+Build commands will be stored in build/compile_commands.json
+'build' finished successfully (0.641s)
+Arp Cache: Adding the pair (00:00:00:00:00:01,192.168.0.1)
+Arp Cache: Adding the pair (00:00:00:00:00:02,192.168.0.2)
+Arp Cache: Adding the pair (00:00:00:00:00:03,192.168.0.3)
+Arp Cache: Adding the pair (00:00:00:00:00:04,192.168.0.4)
+Arp Cache: Adding the pair (00:00:00:00:00:05,192.168.0.5)
+Arp Cache: Adding the pair (00:00:00:00:00:06,192.168.0.6)
+Arp Cache: Adding the pair (00:00:00:00:00:07,192.168.0.7)
+Arp Cache: Adding the pair (00:00:00:00:00:08,192.168.0.8)
+Arp Cache: Adding the pair (00:00:00:00:00:09,192.168.0.9)
+Arp Cache: Adding the pair (00:00:00:00:00:0a,192.168.0.10)
+Arp Cache: Adding the pair (00:00:00:00:00:0b,192.168.0.11)
+Arp Cache: Adding the pair (00:00:00:00:00:0c,192.168.0.12)
+Arp Cache: Adding the pair (00:00:00:00:00:0d,192.168.0.13)
+Arp Cache: Adding the pair (00:00:00:00:00:0e,192.168.0.14)
+Arp Cache: Adding the pair (00:00:00:00:00:0f,192.168.0.15)
+Arp Cache: Adding the pair (00:00:00:00:00:10,192.168.0.16)
+Arp Cache: Adding the pair (00:00:00:00:00:11,192.168.0.17)
+Arp Cache: Adding the pair (00:00:00:00:00:12,192.168.0.18)
+Arp Cache: Adding the pair (00:00:00:00:00:13,192.168.0.19)
+Arp Cache: Adding the pair (00:00:00:00:00:14,192.168.0.20)
+Arp Cache: Adding the pair (00:00:00:00:00:15,192.168.0.21)
+Sta node#0, position = 1019.65:1019.69:0
+Sta node#1, position = 1025.75:1018.92:0
+Sta node#2, position = 998.532:974.237:0
+Sta node#3, position = 1017:964.284:0
+Sta node#4, position = 964.542:1013.79:0
+Sta node#5, position = 1045.07:994.374:0
+Sta node#6, position = 1019.31:965.613:0
+Sta node#7, position = 1012.51:1022.32:0
+Sta node#8, position = 1043.28:986.394:0
+Sta node#9, position = 954.406:1003.46:0
+Sta node#10, position = 983.466:976.595:0
+Sta node#11, position = 999.485:1026.23:0
+Sta node#12, position = 1016.78:970.482:0
+Sta node#13, position = 1046.16:992.037:0
+Sta node#14, position = 996.451:1002.91:0
+Sta node#15, position = 991.938:969.615:0
+Sta node#16, position = 989.383:1015.94:0
+Sta node#17, position = 956.133:991.087:0
+Sta node#18, position = 979.218:957.819:0
+Sta node#19, position = 1004.68:1007.35:0
+AP node, position = 1000:1000:0
+Assoc Finished, AssocNum=20, time = 3000000
+Generate traffic in 0.0443896seconds, station 0
+Generate traffic in 0.00197232seconds, station 1
+Generate traffic in 0.0159716seconds, station 2
+Generate traffic in 0.0206778seconds, station 3
+Generate traffic in 0.0408225seconds, station 4
+Generate traffic in 0.091533seconds, station 5
+Generate traffic in 0.0267313seconds, station 6
+Generate traffic in 0.024646seconds, station 7
+Generate traffic in 0.0619992seconds, station 8
+Generate traffic in 0.0943872seconds, station 9
+Generate traffic in 0.0151994seconds, station 10
+Generate traffic in 0.0246255seconds, station 11
+Generate traffic in 0.00834883seconds, station 12
+Generate traffic in 0.0278923seconds, station 13
+Generate traffic in 0.0887079seconds, station 14
+Generate traffic in 0.0682689seconds, station 15
+Generate traffic in 0.0615828seconds, station 16
+Generate traffic in 0.083765seconds, station 17
+Generate traffic in 0.00112818seconds, station 18
+Generate traffic in 0.0492704seconds, station 19
+1th station, 3 packets remains, 64
+2th station, 1 packets remains, 64
+3th station, 1 packets remains, 64
+4th station, 1 packets remains, 64
+5th station, 5 packets remains, 64
+6th station, 1 packets remains, 64
+7th station, 1 packets remains, 64
+8th station, 1 packets remains, 64
+9th station, 3 packets remains, 64
+10th station, 5 packets remains, 64
+11th station, 4 packets remains, 64
+12th station, 1 packets remains, 64
+13th station, 4 packets remains, 64
+15th station, 1 packets remains, 64
+16th station, 1 packets remains, 64
+17th station, 1 packets remains, 64
+18th station, 3 packets remains, 64
+19th station, 5 packets remains, 64
+there are still packets in the queue
+no packets in the queue, 65
+Simulator start at 4 s, end at 65 s
+DataRate	Throughput
+0.65		0.365048 Mbit/s

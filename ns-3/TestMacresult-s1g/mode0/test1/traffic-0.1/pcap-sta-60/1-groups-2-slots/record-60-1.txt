@@ -1,0 +1,251 @@
+Waf: Entering directory `/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build'
+Waf: Leaving directory `/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build'
+Build commands will be stored in build/compile_commands.json
+'build' finished successfully (0.684s)
+Arp Cache: Adding the pair (00:00:00:00:00:01,192.168.0.1)
+Arp Cache: Adding the pair (00:00:00:00:00:02,192.168.0.2)
+Arp Cache: Adding the pair (00:00:00:00:00:03,192.168.0.3)
+Arp Cache: Adding the pair (00:00:00:00:00:04,192.168.0.4)
+Arp Cache: Adding the pair (00:00:00:00:00:05,192.168.0.5)
+Arp Cache: Adding the pair (00:00:00:00:00:06,192.168.0.6)
+Arp Cache: Adding the pair (00:00:00:00:00:07,192.168.0.7)
+Arp Cache: Adding the pair (00:00:00:00:00:08,192.168.0.8)
+Arp Cache: Adding the pair (00:00:00:00:00:09,192.168.0.9)
+Arp Cache: Adding the pair (00:00:00:00:00:0a,192.168.0.10)
+Arp Cache: Adding the pair (00:00:00:00:00:0b,192.168.0.11)
+Arp Cache: Adding the pair (00:00:00:00:00:0c,192.168.0.12)
+Arp Cache: Adding the pair (00:00:00:00:00:0d,192.168.0.13)
+Arp Cache: Adding the pair (00:00:00:00:00:0e,192.168.0.14)
+Arp Cache: Adding the pair (00:00:00:00:00:0f,192.168.0.15)
+Arp Cache: Adding the pair (00:00:00:00:00:10,192.168.0.16)
+Arp Cache: Adding the pair (00:00:00:00:00:11,192.168.0.17)
+Arp Cache: Adding the pair (00:00:00:00:00:12,192.168.0.18)
+Arp Cache: Adding the pair (00:00:00:00:00:13,192.168.0.19)
+Arp Cache: Adding the pair (00:00:00:00:00:14,192.168.0.20)
+Arp Cache: Adding the pair (00:00:00:00:00:15,192.168.0.21)
+Arp Cache: Adding the pair (00:00:00:00:00:16,192.168.0.22)
+Arp Cache: Adding the pair (00:00:00:00:00:17,192.168.0.23)
+Arp Cache: Adding the pair (00:00:00:00:00:18,192.168.0.24)
+Arp Cache: Adding the pair (00:00:00:00:00:19,192.168.0.25)
+Arp Cache: Adding the pair (00:00:00:00:00:1a,192.168.0.26)
+Arp Cache: Adding the pair (00:00:00:00:00:1b,192.168.0.27)
+Arp Cache: Adding the pair (00:00:00:00:00:1c,192.168.0.28)
+Arp Cache: Adding the pair (00:00:00:00:00:1d,192.168.0.29)
+Arp Cache: Adding the pair (00:00:00:00:00:1e,192.168.0.30)
+Arp Cache: Adding the pair (00:00:00:00:00:1f,192.168.0.31)
+Arp Cache: Adding the pair (00:00:00:00:00:20,192.168.0.32)
+Arp Cache: Adding the pair (00:00:00:00:00:21,192.168.0.33)
+Arp Cache: Adding the pair (00:00:00:00:00:22,192.168.0.34)
+Arp Cache: Adding the pair (00:00:00:00:00:23,192.168.0.35)
+Arp Cache: Adding the pair (00:00:00:00:00:24,192.168.0.36)
+Arp Cache: Adding the pair (00:00:00:00:00:25,192.168.0.37)
+Arp Cache: Adding the pair (00:00:00:00:00:26,192.168.0.38)
+Arp Cache: Adding the pair (00:00:00:00:00:27,192.168.0.39)
+Arp Cache: Adding the pair (00:00:00:00:00:28,192.168.0.40)
+Arp Cache: Adding the pair (00:00:00:00:00:29,192.168.0.41)
+Arp Cache: Adding the pair (00:00:00:00:00:2a,192.168.0.42)
+Arp Cache: Adding the pair (00:00:00:00:00:2b,192.168.0.43)
+Arp Cache: Adding the pair (00:00:00:00:00:2c,192.168.0.44)
+Arp Cache: Adding the pair (00:00:00:00:00:2d,192.168.0.45)
+Arp Cache: Adding the pair (00:00:00:00:00:2e,192.168.0.46)
+Arp Cache: Adding the pair (00:00:00:00:00:2f,192.168.0.47)
+Arp Cache: Adding the pair (00:00:00:00:00:30,192.168.0.48)
+Arp Cache: Adding the pair (00:00:00:00:00:31,192.168.0.49)
+Arp Cache: Adding the pair (00:00:00:00:00:32,192.168.0.50)
+Arp Cache: Adding the pair (00:00:00:00:00:33,192.168.0.51)
+Arp Cache: Adding the pair (00:00:00:00:00:34,192.168.0.52)
+Arp Cache: Adding the pair (00:00:00:00:00:35,192.168.0.53)
+Arp Cache: Adding the pair (00:00:00:00:00:36,192.168.0.54)
+Arp Cache: Adding the pair (00:00:00:00:00:37,192.168.0.55)
+Arp Cache: Adding the pair (00:00:00:00:00:38,192.168.0.56)
+Arp Cache: Adding the pair (00:00:00:00:00:39,192.168.0.57)
+Arp Cache: Adding the pair (00:00:00:00:00:3a,192.168.0.58)
+Arp Cache: Adding the pair (00:00:00:00:00:3b,192.168.0.59)
+Arp Cache: Adding the pair (00:00:00:00:00:3c,192.168.0.60)
+Arp Cache: Adding the pair (00:00:00:00:00:3d,192.168.0.61)
+Sta node#0, position = 1046.13:999.342:0
+Sta node#1, position = 984.681:986.309:0
+Sta node#2, position = 1011.63:963.791:0
+Sta node#3, position = 1041.38:1023.95:0
+Sta node#4, position = 964.056:971.698:0
+Sta node#5, position = 1025.43:968.238:0
+Sta node#6, position = 986.577:982.291:0
+Sta node#7, position = 1008.54:983.744:0
+Sta node#8, position = 1033.84:989.856:0
+Sta node#9, position = 1020.53:984.627:0
+Sta node#10, position = 1017.84:987.772:0
+Sta node#11, position = 1012.2:962.911:0
+Sta node#12, position = 990.975:1030.55:0
+Sta node#13, position = 994.78:1028.13:0
+Sta node#14, position = 995.743:962.114:0
+Sta node#15, position = 962.134:972.274:0
+Sta node#16, position = 990.581:1041.27:0
+Sta node#17, position = 1030.07:1032.97:0
+Sta node#18, position = 1044.79:1003.43:0
+Sta node#19, position = 954.847:1008.29:0
+Sta node#20, position = 970.075:961.991:0
+Sta node#21, position = 1008.26:1017.35:0
+Sta node#22, position = 994.206:991.353:0
+Sta node#23, position = 1019.69:1014.04:0
+Sta node#24, position = 973.099:1008.31:0
+Sta node#25, position = 963.734:973.596:0
+Sta node#26, position = 1015.15:1033.49:0
+Sta node#27, position = 1031.58:1009.34:0
+Sta node#28, position = 964.3:987.885:0
+Sta node#29, position = 976.015:1005.28:0
+Sta node#30, position = 1040.25:1005.64:0
+Sta node#31, position = 963.722:1017.07:0
+Sta node#32, position = 975.372:969.602:0
+Sta node#33, position = 982.763:1026.22:0
+Sta node#34, position = 1043.76:986.48:0
+Sta node#35, position = 1000.3:975.749:0
+Sta node#36, position = 980.652:1031.63:0
+Sta node#37, position = 1028.52:960.232:0
+Sta node#38, position = 1014.3:983.128:0
+Sta node#39, position = 1009.32:970.763:0
+Sta node#40, position = 972.692:980.535:0
+Sta node#41, position = 1019.27:972.37:0
+Sta node#42, position = 1041.59:999.396:0
+Sta node#43, position = 1006.25:995.892:0
+Sta node#44, position = 999.315:1020.76:0
+Sta node#45, position = 989.227:1011.57:0
+Sta node#46, position = 1043.5:1016.92:0
+Sta node#47, position = 956.475:1006.48:0
+Sta node#48, position = 1006.03:1034.88:0
+Sta node#49, position = 1016.13:973.115:0
+Sta node#50, position = 997.663:980.774:0
+Sta node#51, position = 1027.2:1015.71:0
+Sta node#52, position = 977.168:979.033:0
+Sta node#53, position = 1032.96:1015.27:0
+Sta node#54, position = 1007.15:958.142:0
+Sta node#55, position = 959.598:985.556:0
+Sta node#56, position = 980.465:984.358:0
+Sta node#57, position = 1044.25:1010.79:0
+Sta node#58, position = 984.037:980.045:0
+Sta node#59, position = 1017.59:963.999:0
+AP node, position = 1000:1000:0
+Assoc Finished, AssocNum=60, time = 3000000
+Generate traffic in 0.000244813seconds, station 0
+Generate traffic in 0.0185185seconds, station 1
+Generate traffic in 0.0803615seconds, station 2
+Generate traffic in 0.09846seconds, station 3
+Generate traffic in 0.0679087seconds, station 4
+Generate traffic in 0.0704674seconds, station 5
+Generate traffic in 0.0971517seconds, station 6
+Generate traffic in 0.0587968seconds, station 7
+Generate traffic in 0.00850092seconds, station 8
+Generate traffic in 0.0521262seconds, station 9
+Generate traffic in 0.00812971seconds, station 10
+Generate traffic in 0.0497623seconds, station 11
+Generate traffic in 0.0807574seconds, station 12
+Generate traffic in 0.0596832seconds, station 13
+Generate traffic in 0.0439131seconds, station 14
+Generate traffic in 0.0619045seconds, station 15
+Generate traffic in 0.00593169seconds, station 16
+Generate traffic in 0.0471526seconds, station 17
+Generate traffic in 0.0416454seconds, station 18
+Generate traffic in 0.0723215seconds, station 19
+Generate traffic in 0.00652199seconds, station 20
+Generate traffic in 0.00563423seconds, station 21
+Generate traffic in 0.0303336seconds, station 22
+Generate traffic in 0.0435769seconds, station 23
+Generate traffic in 0.0408996seconds, station 24
+Generate traffic in 0.0360139seconds, station 25
+Generate traffic in 0.0014163seconds, station 26
+Generate traffic in 0.0715526seconds, station 27
+Generate traffic in 0.0994109seconds, station 28
+Generate traffic in 0.0160392seconds, station 29
+Generate traffic in 0.000664941seconds, station 30
+Generate traffic in 0.0626829seconds, station 31
+Generate traffic in 0.0597316seconds, station 32
+Generate traffic in 0.0488094seconds, station 33
+Generate traffic in 0.0357347seconds, station 34
+Generate traffic in 0.0724848seconds, station 35
+Generate traffic in 0.0357272seconds, station 36
+Generate traffic in 0.0451173seconds, station 37
+Generate traffic in 0.0353807seconds, station 38
+Generate traffic in 0.00139097seconds, station 39
+Generate traffic in 0.00743033seconds, station 40
+Generate traffic in 0.0634937seconds, station 41
+Generate traffic in 0.0143697seconds, station 42
+Generate traffic in 0.0539671seconds, station 43
+Generate traffic in 0.0525406seconds, station 44
+Generate traffic in 0.0768209seconds, station 45
+Generate traffic in 0.0678296seconds, station 46
+Generate traffic in 0.0958374seconds, station 47
+Generate traffic in 0.0570526seconds, station 48
+Generate traffic in 0.00632171seconds, station 49
+Generate traffic in 0.00415955seconds, station 50
+Generate traffic in 0.0246101seconds, station 51
+Generate traffic in 0.0293908seconds, station 52
+Generate traffic in 0.083611seconds, station 53
+Generate traffic in 0.0571171seconds, station 54
+Generate traffic in 0.0408756seconds, station 55
+Generate traffic in 0.0635681seconds, station 56
+Generate traffic in 0.00727071seconds, station 57
+Generate traffic in 0.0262514seconds, station 58
+Generate traffic in 0.0248822seconds, station 59
+1th station, 5 packets remains, 64
+2th station, 4 packets remains, 64
+3th station, 5 packets remains, 64
+4th station, 5 packets remains, 64
+5th station, 4 packets remains, 64
+6th station, 5 packets remains, 64
+7th station, 5 packets remains, 64
+8th station, 5 packets remains, 64
+9th station, 5 packets remains, 64
+10th station, 5 packets remains, 64
+11th station, 4 packets remains, 64
+12th station, 5 packets remains, 64
+13th station, 5 packets remains, 64
+14th station, 5 packets remains, 64
+15th station, 5 packets remains, 64
+16th station, 5 packets remains, 64
+17th station, 5 packets remains, 64
+18th station, 5 packets remains, 64
+19th station, 5 packets remains, 64
+20th station, 5 packets remains, 64
+21th station, 4 packets remains, 64
+23th station, 4 packets remains, 64
+24th station, 5 packets remains, 64
+25th station, 5 packets remains, 64
+26th station, 5 packets remains, 64
+27th station, 5 packets remains, 64
+28th station, 5 packets remains, 64
+29th station, 5 packets remains, 64
+30th station, 5 packets remains, 64
+31th station, 5 packets remains, 64
+32th station, 5 packets remains, 64
+33th station, 5 packets remains, 64
+34th station, 5 packets remains, 64
+35th station, 5 packets remains, 64
+36th station, 5 packets remains, 64
+37th station, 5 packets remains, 64
+38th station, 5 packets remains, 64
+39th station, 5 packets remains, 64
+40th station, 5 packets remains, 64
+41th station, 5 packets remains, 64
+42th station, 5 packets remains, 64
+43th station, 4 packets remains, 64
+44th station, 5 packets remains, 64
+45th station, 5 packets remains, 64
+46th station, 3 packets remains, 64
+47th station, 5 packets remains, 64
+48th station, 5 packets remains, 64
+49th station, 4 packets remains, 64
+50th station, 5 packets remains, 64
+51th station, 4 packets remains, 64
+52th station, 5 packets remains, 64
+53th station, 4 packets remains, 64
+54th station, 5 packets remains, 64
+55th station, 5 packets remains, 64
+56th station, 5 packets remains, 64
+57th station, 5 packets remains, 64
+58th station, 5 packets remains, 64
+59th station, 1 packets remains, 64
+60th station, 4 packets remains, 64
+there are still packets in the queue
+no packets in the queue, 65
+Simulator start at 4 s, end at 65 s
+DataRate	Throughput
+0.65		0.332481 Mbit/s

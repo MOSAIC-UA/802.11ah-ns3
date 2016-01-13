@@ -1,0 +1,43 @@
+Waf: Entering directory `/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build'
+Waf: Leaving directory `/Users/letian/workspace_le/test/ns-3-dev-backup-0811-power-backup/build'
+Build commands will be stored in build/compile_commands.json
+'build' finished successfully (0.698s)
+Arp Cache: Adding the pair (00:00:00:00:00:01,192.168.0.1)
+Arp Cache: Adding the pair (00:00:00:00:00:02,192.168.0.2)
+Arp Cache: Adding the pair (00:00:00:00:00:03,192.168.0.3)
+Arp Cache: Adding the pair (00:00:00:00:00:04,192.168.0.4)
+Arp Cache: Adding the pair (00:00:00:00:00:05,192.168.0.5)
+Arp Cache: Adding the pair (00:00:00:00:00:06,192.168.0.6)
+Arp Cache: Adding the pair (00:00:00:00:00:07,192.168.0.7)
+Arp Cache: Adding the pair (00:00:00:00:00:08,192.168.0.8)
+Arp Cache: Adding the pair (00:00:00:00:00:09,192.168.0.9)
+Arp Cache: Adding the pair (00:00:00:00:00:0a,192.168.0.10)
+Arp Cache: Adding the pair (00:00:00:00:00:0b,192.168.0.11)
+Sta node#0, position = 1006.31:1027.29:0
+Sta node#1, position = 1025.21:1009.08:0
+Sta node#2, position = 1023.65:1025.14:0
+Sta node#3, position = 1039.25:988.381:0
+Sta node#4, position = 1003.84:1002.6:0
+Sta node#5, position = 1032.38:1004.8:0
+Sta node#6, position = 977.864:965.453:0
+Sta node#7, position = 956.457:997.199:0
+Sta node#8, position = 1013.13:972.922:0
+Sta node#9, position = 956.607:995.967:0
+AP node, position = 1000:1000:0
+Assoc Finished, AssocNum=10, time = 3000000
+Generate traffic in 0.0183232seconds, station 0
+Generate traffic in 0.0421392seconds, station 1
+Generate traffic in 0.0792681seconds, station 2
+Generate traffic in 0.0360841seconds, station 3
+Generate traffic in 0.0826882seconds, station 4
+Generate traffic in 0.0438045seconds, station 5
+Generate traffic in 0.0643739seconds, station 6
+Generate traffic in 0.00116371seconds, station 7
+Generate traffic in 0.0667846seconds, station 8
+Generate traffic in 0.0748828seconds, station 9
+10th station, 1 packets remains, 64
+there are still packets in the queue
+no packets in the queue, 65
+Simulator start at 4 s, end at 65 s
+DataRate	Throughput
+0.65		0.201443 Mbit/s
