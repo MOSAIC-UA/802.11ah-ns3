@@ -18,7 +18,6 @@ NRawSlotNum=$8
 
 simTime=60
 BeaconInterval=100000
-RawDuration=99990
 DataMode="OfdmRate650KbpsBW2MHz"
 datarate=0.65
 bandWidth=2
@@ -81,11 +80,9 @@ folder="./TestMacresult-s1g/mode0/test$trial/traffic-$UdpInterval/"
 touch ./TestMacresult-s1g/mode0/test$trial/traffic-$UdpInterval/mac-sta-$NumSta.txt
 file="./TestMacresult-s1g/mode0/test$trial/traffic-$UdpInterval/mac-sta-$NumSta.txt"
 
-energyfile="./TestMacresult-s1g/mode0/test$trial/traffic-$UdpInterval/pcap-sta-$NumSta/$NGroup-groups-$NRawSlotNum-slots/energy-STA.txt"
-
 echo "Time: $(date) $NGroup $UdpInterval $NumSta" >> TestMacresult-s1g/mode0/test$trial/time-record.txt
 
-./waf --run "Number-of-RAW-groups-allenergy-allstawork-wns3-copy --seed=$seed --simulationTime=$simTime --Nsta=$totalSta --NRawSta=$totalRawstas --NGroup=$NGroup --SlotFormat=$SlotFormat --NRawSlotCount=$NRawSlotCount --NRawSlotNum=$NRawSlotNum --BeaconInterval=$BeaconInterval --RawDuration=$RawDuration --DataMode=$DataMode --datarate=$datarate  --bandWidth=$bandWidth  --UdpInterval=$UdpInterval --rho=$rho --folder=$folder --file=$file --pcapfile=$pcapf --energyfile=$energyfile" > ./TestMacresult-s1g/mode0/test$trial/traffic-$UdpInterval/pcap-sta-$NumSta/$NGroup-groups-$NRawSlotNum-slots/record-$NumSta-$NGroup.txt 2>&1
+./waf --run "s1g-mac-test --seed=$seed --simulationTime=$simTime --payloadSize=256 --Nsta=$totalSta --NRawSta=$totalRawstas --NGroup=$NGroup --SlotFormat=$SlotFormat --NRawSlotCount=$NRawSlotCount --NRawSlotNum=$NRawSlotNum --BeaconInterval=$BeaconInterval --DataMode=$DataMode --datarate=$datarate  --bandWidth=$bandWidth  --UdpInterval=$UdpInterval --rho=$rho --folder=$folder --file=$file --pcapfile=$pcapf" > ./TestMacresult-s1g/mode0/test$trial/traffic-$UdpInterval/pcap-sta-$NumSta/$NGroup-groups-$NRawSlotNum-slots/record-$NumSta-$NGroup.txt 2>&1
 
 
 
