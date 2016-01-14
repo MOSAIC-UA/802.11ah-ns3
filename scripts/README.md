@@ -39,8 +39,12 @@ The parameters include:
   
 3) Usage of script file
 
-Example of using script file is as follows:
-./waf --run "scratch/s1g-mac-test --NRawSta=60 --NGroup=1 --SlotFormat=0 --NRawSlotCount=162 --NRawSlotNum=5 --DataMode="OfdmRate650KbpsBW2MHz" --datarate=0.65 --bandWidth=2 --rho="100" --simulationTime=60 --payloadSize=256 --BeaconInterval=100000 --UdpInterval=0.1 --Nsta=30 --rho="50" --file="./TestMac/mac-sta.txt"  --pcapfile="./TestMac/mac-sta" --seed=1"
+1. Download source code from our github repository.           
+2. Change into 802.11ah-ns3/ns-3 directory.  
+3. Build and run:         
+  ./waf configure           
+  ./waf              
+  ./waf --run "scratch/s1g-mac-test --NRawSta=60 --NGroup=1 --SlotFormat=0 --NRawSlotCount=162 --NRawSlotNum=5 --DataMode="OfdmRate650KbpsBW2MHz" --datarate=0.65 --bandWidth=2 --rho="100" --simulationTime=60 --payloadSize=256 --BeaconInterval=100000 --UdpInterval=0.1 --Nsta=30 --rho="50" --file="./TestMac/mac-sta.txt"  --pcapfile="./TestMac/mac-sta" --seed=1"
 
 Moreover, there're are some parameter which can be changed by users inside script file "s1g-mac-test.cc", some of which are described as follows:
   1.  propagarionsLoss model:
