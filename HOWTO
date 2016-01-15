@@ -39,7 +39,7 @@ The parameters include:
 3) Usage of script file
 
 1. Download source code from our github repository.           
-2. Change into 802.11ah-ns3/ns-3 directory.  
+2. Change into /802.11ah-ns3/ns-3 directory.  
 3. Build and run:         
   ./waf configure           
   ./waf              
