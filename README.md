@@ -17,6 +17,8 @@ If you use our work, please use the following citation to refer to it:
 ./waf  
 ./waf --run "scratch/s1g-mac-test --NRawSta=30 --NGroup=1 --SlotFormat=0 --NRawSlotCount=162 --NRawSlotNum=5 --DataMode="OfdmRate650KbpsBW2MHz" --datarate=0.65 --bandWidth=2 --rho="50" --simulationTime=60 --payloadSize=256 --BeaconInterval=100000 --UdpInterval=0.1 --Nsta=30 --file="./TestMac/mac-sta.txt"  --pcapfile="./TestMac/mac-sta" --seed=1"
 ```
+Note: if error related to nullptr arise when compilies, CXXFLAGS should be included into the "./waf configure" commnand, showns as follows:
+CXXFLAGS="-std=c++0x" ./waf configure --disable-examples --disable-tests
 
 Moreover, there're are some parameter which can be changed by users inside script file "s1g-mac-test.cc", some of which are described below.
 
