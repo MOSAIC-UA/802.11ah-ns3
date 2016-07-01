@@ -192,7 +192,7 @@ void CheckAssoc (uint32_t Nsta, double simulationTime, NodeContainer wifiApNode,
         UdpClientHelper myClient (apNodeInterface.GetAddress (0), 9); //address of remote node
         myClient.SetAttribute ("MaxPackets", UintegerValue (4294967295u));
         myClient.SetAttribute ("Interval", TimeValue (Time (TrafficInterval))); //packets/s
-        myClient.SetAttribute ("PacketSize", UintegerValue (256));
+        myClient.SetAttribute ("PacketSize", UintegerValue (payloadLength));
         for (uint16_t i = 0; i < Nsta; i++)
           {
             double randomStart = m_rv->GetValue (0, randomInterval);
