@@ -1,0 +1,51 @@
+diff --git a/ns-3/src/wifi/model/sta-wifi-mac.cc b/ns-3/src/wifi/model/sta-wifi-mac.cc
+index fc7b70d..2f6f5a5 100644
+--- a/ns-3/src/wifi/model/sta-wifi-mac.cc
++++ b/ns-3/src/wifi/model/sta-wifi-mac.cc
+@@ -447,6 +447,7 @@ StaWifiMac::SendAssociationRequest (void)
+ 
+ if (assocVaule < fastAssocThreshold)
+ {
++  SetState (WAIT_ASSOC_RESP);
+   WifiMacHeader hdr;
+   hdr.SetAssocReq ();
+   hdr.SetAddr1 (GetBssid ());
+@@ -471,7 +472,6 @@ if (assocVaule < fastAssocThreshold)
+   //use the DCF for these regardless of whether we have a QoS
+   //association or not.
+   m_dca->Queue (packet, hdr);
+-}
+ 
+   if (m_assocRequestEvent.IsRunning ())
+     {
+@@ -480,6 +480,7 @@ if (assocVaule < fastAssocThreshold)
+   m_assocRequestEvent = Simulator::Schedule (m_assocRequestTimeout,
+                                            &StaWifiMac::AssocRequestTimeout, this);
+ }
++}
+ 
+ void
+ StaWifiMac::TryToEnsureAssociated (void)
+@@ -774,11 +775,6 @@ StaWifiMac::Receive (Ptr<Packet> packet, const WifiMacHeader *hdr)
+        //SetBssid (beacon.GetSA ());
+        SetBssid (hdr->GetAddr3 ()); //for debug
+      }
+-    if (goodBeacon && m_state == BEACON_MISSED)
+-     {
+-       SetState (WAIT_ASSOC_RESP);
+-       SendAssociationRequest ();
+-     }
+     if (goodBeacon)
+      {
+         UnsetInRAWgroup ();
+@@ -855,6 +851,10 @@ StaWifiMac::Receive (Ptr<Packet> packet, const WifiMacHeader *hdr)
+                fastAssocThreshold = AuthenCtrl.GetThreshold();
+              }
+      }
++    if (goodBeacon && m_state == BEACON_MISSED)
++     {
++       SendAssociationRequest ();
++     }
+     S1gBeaconReceived ();
+     return;
+    }

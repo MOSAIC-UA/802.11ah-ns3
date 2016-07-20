@@ -447,6 +447,7 @@ StaWifiMac::SendAssociationRequest (void)
 
 if (assocVaule < fastAssocThreshold)
 {
+  SetState (WAIT_ASSOC_RESP);
   WifiMacHeader hdr;
   hdr.SetAssocReq ();
   hdr.SetAddr1 (GetBssid ());
@@ -774,11 +775,6 @@ StaWifiMac::Receive (Ptr<Packet> packet, const WifiMacHeader *hdr)
        //SetBssid (beacon.GetSA ());
        SetBssid (hdr->GetAddr3 ()); //for debug
      }
-    if (goodBeacon && m_state == BEACON_MISSED)
-     {
-       SetState (WAIT_ASSOC_RESP);
-       SendAssociationRequest ();
-     }
     if (goodBeacon)
      {
         UnsetInRAWgroup ();
@@ -854,6 +850,10 @@ StaWifiMac::Receive (Ptr<Packet> packet, const WifiMacHeader *hdr)
              {
                fastAssocThreshold = AuthenCtrl.GetThreshold();
              }
+     }
+    if (goodBeacon && m_state == BEACON_MISSED)
+     {
+        SendAssociationRequest ();
      }
     S1gBeaconReceived ();
     return;
