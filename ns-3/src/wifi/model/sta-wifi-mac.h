@@ -219,7 +219,7 @@ private:
   bool m_pagedStaRaw;
   bool m_dataBuffered;
   EventId m_outsideRawEvent;
-
+  EventId m_insideBackoffEvent;
   enum MacState m_state;
   Time m_probeRequestTimeout;
   Time m_assocRequestTimeout;

@@ -345,7 +345,11 @@ StaWifiMac::S1gBeaconReceived (void)
 void
 StaWifiMac::RawSlotStartBackoff (void)
 {
-    Simulator::Schedule(m_slotDuration, &StaWifiMac::InsideBackoff, this);
+    if (m_insideBackoffEvent.IsRunning ())
+     {
+        m_insideBackoffEvent.Cancel ();
+     } //a bug is fixed, prevent previous RAW from disabling current RAW.
+    m_insideBackoffEvent = Simulator::Schedule(m_slotDuration, &StaWifiMac::InsideBackoff, this);
     m_pspollDca->AccessAllowedIfRaw (true);
     m_dca->AccessAllowedIfRaw (true);
     m_edca.find (AC_VO)->second->AccessAllowedIfRaw (true);
