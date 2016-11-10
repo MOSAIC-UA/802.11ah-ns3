@@ -4,7 +4,7 @@ This repository hosts an implementation of the IEEE802.11ah (Wi-Fi HaLow) protoc
 
 If you use our work, please use the following citation to refer to it:
 
-> Le Tian, Jeroen Famaey, Steven Latré. Evaluation of the IEEE 802.11ah Restricted Access Window Mechanism for dense IoT networks. Seventeeth International Symposium on a World of Wireless, Mobile and Multimedia Networks (WoWMoM), Ciombra, Portugal, 2016.
+> Le Tian, Sébastien Deronne, Steven Latré, Jeroen Famaey. Implementation and validation of an IEEE 802.11ah module for NS-3. Workshop on ns-3 (WNS3), Seattle, USA, 2016.
 
 
 # Installation and usage instructions
