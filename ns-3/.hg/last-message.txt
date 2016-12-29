@@ -1,2 +1,2 @@
-clean up some comments
+Update propagation loss model for 802.11ah
 

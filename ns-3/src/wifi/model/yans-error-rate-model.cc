@@ -192,12 +192,6 @@ YansErrorRateModel::GetChunkSuccessRate (WifiMode mode, double snr, uint32_t nbi
         {
           if (mode.GetCodeRate () == WIFI_CODE_RATE_1_2)
             {
-                double ErrorRate = GetFecBpskBer (snr,
-                                                  nbits,
-                                                  mode.GetBandwidth (), //signal spread
-                                                  mode.GetPhyRate (), //phy rate
-                                                  10, //dFree
-                                                  11); //adFree
               return GetFecBpskBer (snr,
                                     nbits,
                                     mode.GetBandwidth (), //signal spread
