@@ -39,7 +39,6 @@
 #include "ns3/node.h"
 #include "ampdu-tag.h"
 #include <cmath>
-#include <random>
 
 namespace ns3 {
 
@@ -108,12 +107,6 @@ YansWifiPhy::GetTypeId (void)
                    DoubleValue (7),
                    MakeDoubleAccessor (&YansWifiPhy::SetRxNoiseFigure,
                                        &YansWifiPhy::GetRxNoiseFigure),
-                   MakeDoubleChecker<double> ())
-    .AddAttribute ("FadingMargin",
-                   "fading margin (db).",
-                   DoubleValue (0.0),
-                   MakeDoubleAccessor (&YansWifiPhy::SetFadingMargin,
-                                       &YansWifiPhy::GetFadingMargin),
                    MakeDoubleChecker<double> ())
     .AddAttribute ("State",
                    "The state of the PHY layer.",
@@ -280,12 +273,6 @@ YansWifiPhy::ConfigureStandard (enum WifiPhyStandard standard)
 }
 
 void
-YansWifiPhy::SetFadingMargin (double FM)
-{
-  m_FMdB = FM;
-}
-    
-void
 YansWifiPhy::SetRxNoiseFigure (double noiseFigureDb)
 {
   NS_LOG_FUNCTION (this << noiseFigureDb);
@@ -357,12 +344,6 @@ void
 YansWifiPhy::SetMobility (Ptr<MobilityModel> mobility)
 {
   m_mobility = mobility;
-}
-    
-double
-YansWifiPhy::GetFadingMargin (void) const
-{
-  return m_FMdB;
 }
 
 double
@@ -609,13 +590,7 @@ YansWifiPhy::StartReceivePreambleAndHeader (Ptr<Packet> packet,
   NS_LOG_FUNCTION (this << packet << rxPowerDbm << txVector.GetMode () << preamble << (uint32_t)packetType);
   AmpduTag ampduTag;
   rxPowerDbm += m_rxGainDb;
-
-  static std::default_random_engine generator;
-  std::normal_distribution<double> distribution(0.0,m_FMdB);
-  double FadingDb = distribution(generator);
-  rxPowerDbm = rxPowerDbm - FadingDb;
   double rxPowerW = DbmToW (rxPowerDbm);
-    
   Time endRx = Simulator::Now () + rxDuration;
   Time preambleAndHeaderDuration = CalculatePlcpPreambleAndHeaderDuration (txVector, preamble);
 

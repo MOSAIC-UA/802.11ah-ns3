@@ -262,7 +262,6 @@ PopulateArpCache ()
 
 int main (int argc, char *argv[])
 {
-  LogComponentEnable ("UdpServer", LOG_INFO);  
   double simulationTime = 10;
   uint32_t seed = 1;
   uint32_t  payloadSize = 100;
@@ -312,7 +311,7 @@ int main (int argc, char *argv[])
   wifiApNode.Create (1);
 
   YansWifiChannelHelper channel = YansWifiChannelHelper ();
-  channel.AddPropagationLoss ("ns3::LogDistancePropagationLossModel","Exponent", DoubleValue(3.67) ,"ReferenceLoss", DoubleValue(8), "ReferenceDistance", DoubleValue(1.0), "Frequency", DoubleValue(868e6));
+  channel.AddPropagationLoss ("ns3::LogDistancePropagationLossModel","Exponent", DoubleValue(3.76) ,"ReferenceLoss", DoubleValue(8.0), "ReferenceDistance", DoubleValue(1.0));
   channel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
         
   YansWifiPhyHelper phy = YansWifiPhyHelper::Default ();
@@ -322,7 +321,6 @@ int main (int argc, char *argv[])
   phy.Set ("ChannelWidth", UintegerValue (bandWidth));
   phy.Set ("EnergyDetectionThreshold", DoubleValue (-116.0));
   phy.Set ("CcaMode1Threshold", DoubleValue (-119.0));
-  phy.Set ("FadingMargin", DoubleValue (0));
   phy.Set ("TxGain", DoubleValue (0.0));
   phy.Set ("RxGain", DoubleValue (0.0));
   phy.Set ("TxPowerLevels", UintegerValue (1));
@@ -360,7 +358,6 @@ int main (int argc, char *argv[])
                  "SlotNum", UintegerValue (NRawSlotNum));
  
   NetDeviceContainer apDevice;
-  phy.Set ("FadingMargin", DoubleValue (0));
   phy.Set ("TxGain", DoubleValue (3.0));
   phy.Set ("RxGain", DoubleValue (3.0));
   phy.Set ("TxPowerLevels", UintegerValue (1));
