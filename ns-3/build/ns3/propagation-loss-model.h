@@ -509,7 +509,7 @@ public:
    * \param referenceDistance reference distance
    * \param referenceLoss reference path loss
    */
-  void SetReference (double referenceDistance, double referenceLoss, double frequency);
+  void SetReference (double referenceDistance, double referenceLoss);
 
 private:
   /**
@@ -537,7 +537,6 @@ private:
    */
   static Ptr<PropagationLossModel> CreateDefaultReference (void);
 
-  double m_frequency;  
   double m_exponent; //!< model exponent
   double m_referenceDistance; //!< reference distance
   double m_referenceLoss; //!< reference loss

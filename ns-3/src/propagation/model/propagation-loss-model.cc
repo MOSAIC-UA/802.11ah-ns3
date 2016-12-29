@@ -474,11 +474,6 @@ LogDistancePropagationLossModel::GetTypeId (void)
                    DoubleValue (46.6777),
                    MakeDoubleAccessor (&LogDistancePropagationLossModel::m_referenceLoss),
                    MakeDoubleChecker<double> ())
-    .AddAttribute ("Frequency",
-                   "Frequency (hz)",
-                   DoubleValue (900e6),
-                   MakeDoubleAccessor (&LogDistancePropagationLossModel::m_frequency),
-                   MakeDoubleChecker<double> ())
   ;
   return tid;
 
@@ -494,11 +489,10 @@ LogDistancePropagationLossModel::SetPathLossExponent (double n)
   m_exponent = n;
 }
 void
-LogDistancePropagationLossModel::SetReference (double referenceDistance, double referenceLoss, double frequency)
+LogDistancePropagationLossModel::SetReference (double referenceDistance, double referenceLoss)
 {
   m_referenceDistance = referenceDistance;
   m_referenceLoss = referenceLoss;
-  m_frequency = frequency;
 }
 double
 LogDistancePropagationLossModel::GetPathLossExponent (void) const
@@ -530,7 +524,7 @@ LogDistancePropagationLossModel::DoCalcRxPower (double txPowerDbm,
    *
    * rx = rx0(tx) - 10 * n * log (d/d0)
    */
-  double pathLossDb = 10 * m_exponent * std::log10 (distance / m_referenceDistance) + 21 * std::log10 (m_frequency / 900e6);
+  double pathLossDb = 10 * m_exponent * std::log10 (distance / m_referenceDistance);
   double rxc = -m_referenceLoss - pathLossDb;
   NS_LOG_DEBUG ("distance="<<distance<<"m, reference-attenuation="<< -m_referenceLoss<<"dB, "<<
                 "attenuation coefficient="<<rxc<<"db");
