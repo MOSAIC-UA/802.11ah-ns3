@@ -129,7 +129,7 @@ public:
                            WifiPreamble preamble,
                            uint8_t packetType,
                            Ptr<InterferenceHelper::Event> event);
-
+  void SetFadingMargin (double FMdb);
   /**
    * Sets the RX loss (dB) in the Signal-to-Noise-Ratio due to non-idealities in the receiver.
    *
@@ -207,6 +207,7 @@ public:
    * \param mobility the mobility model this PHY is associated with
    */
   void SetMobility (Ptr<MobilityModel> mobility);
+  double GetFadingMargin (void) const;
   /**
    * Return the RX noise figure (dBm).
    *
@@ -544,6 +545,7 @@ void Configure80211ah (void);
   uint16_t             m_channelNumber;  //!< Operating channel number
   Ptr<NetDevice>       m_device;         //!< Pointer to the device
   Ptr<MobilityModel>   m_mobility;       //!< Pointer to the mobility model
+  double m_FMdB;
 
   uint32_t m_numberOfTransmitters;  //!< Number of transmitters
   uint32_t m_numberOfReceivers;     //!< Number of receivers
