@@ -1005,7 +1005,7 @@ EdcaTxopN::RawStart (void)
   m_AccessQuest_record (Simulator::Now ().GetMicroSeconds (), newdata);
     
   m_dcf->RawStart ();
-  m_stationManager->RawStart ();
+  //m_stationManager->RawStart ();
   m_dcf->StartBackoffNow (m_rng->GetNext (0, m_dcf->GetCw ()));
     if ((!m_queue->IsEmpty () || m_baManager->HasPackets ()) && AccessIfRaw)
       {
@@ -1023,7 +1023,7 @@ EdcaTxopN::OutsideRawStart ()
     
   AccessAllowedIfRaw (true);
   m_dcf-> OutsideRawStart ();
-  m_stationManager->OutsideRawStart ();
+  //m_stationManager->OutsideRawStart ();
   m_dcf->StartBackoffNow (m_dcf->GetBackoffSlots());
   StartAccessIfNeededRaw ();
 
