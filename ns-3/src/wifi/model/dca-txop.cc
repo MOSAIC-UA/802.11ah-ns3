@@ -342,7 +342,7 @@ DcaTxop::RawStart (void)
 {
   NS_LOG_FUNCTION (this);
   m_dcf->RawStart ();
-  m_stationManager->RawStart ();
+  //m_stationManager->RawStart ();
   m_dcf->StartBackoffNow (m_rng->GetNext (0, m_dcf->GetCw ()));
   StartAccessIfNeededRaw (); //how about remove it?
 }
@@ -353,7 +353,7 @@ DcaTxop::OutsideRawStart ()
   NS_LOG_FUNCTION (this);
   AccessAllowedIfRaw (true);
   m_dcf->OutsideRawStart ();
-  m_stationManager->OutsideRawStart ();
+  //m_stationManager->OutsideRawStart ();
   m_dcf->StartBackoffNow (m_dcf->GetBackoffSlots());
   StartAccessIfNeededRaw (); //how about remove it?
 }
