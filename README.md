@@ -1,4 +1,4 @@
-# !!!WARNING: THIS IS AN OLD VERSION OF THE 802.11AH MODULE, VISIT https://github.com/imec-idlab/IEEE-802.11ah-ns-3 FOR THE LATEST RELEASE!!!
+# !!!WARNING: THIS IS AN OLD VERSION OF OUR 802.11AH MODULE, VISIT https://github.com/imec-idlab/IEEE-802.11ah-ns-3 FOR THE LATEST RELEASE!!!
 
 # IEEE 802.11ah simulation module for NS-3
 
