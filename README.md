@@ -1,3 +1,5 @@
+# !!!WARNING: THIS IS AN OLD VERSION OF THE 802.11AH MODULE, VISIT https://github.com/imec-idlab/IEEE-802.11ah-ns-3 FOR THE LATEST RELEASE!!!
+
 # IEEE 802.11ah simulation module for NS-3
 
 This repository hosts an implementation of the IEEE802.11ah (Wi-Fi HaLow) protocol for the NS-3 network simulator. It comes pre-packaged with NS-3 version 3.23 and an example showing how to use and configure it. For more details about our implementation and supported features, please visit [our webpage](https://www.uantwerpen.be/en/rg/mosaic/projects/ieee-802-11ah/). If you have questions or want to contribute, plese send us an [email](mailto:80211ah@mosaic.uantwerpen.be).
